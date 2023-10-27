@@ -6,7 +6,7 @@
 class PlayerBullet : public sf::Drawable, public sf::Transformable
 {
 public:
-    float speed = 500.f;
+    float speed = 700.f;
     sf::Vector2f position;
     sf::Vector2f velocity;
 
@@ -14,12 +14,12 @@ public:
 	{
         playerBullet.setPrimitiveType(sf::Triangles);
 
-        playerBullet.append(sf::Vertex(sf::Vector2f(-15.f, -8.f), sf::Color(0xFF, 0xF9, 0xEE)));
-        playerBullet.append(sf::Vertex(sf::Vector2f(-15.f, 8.f), sf::Color(0xFF, 0xF9, 0xEE)));
-        playerBullet.append(sf::Vertex(sf::Vector2f(15.f, 8.f), sf::Color(0xFF, 0xF9, 0xEE)));
-        playerBullet.append(sf::Vertex(sf::Vector2f(-15.f, -8.f), sf::Color(0xFF, 0xF9, 0xEE)));
-        playerBullet.append(sf::Vertex(sf::Vector2f(15.f, -8.f), sf::Color(0xFF, 0xF9, 0xEE)));
-        playerBullet.append(sf::Vertex(sf::Vector2f(15.f, 8.f), sf::Color(0xFF, 0xF9, 0xEE)));
+        playerBullet.append(sf::Vertex(sf::Vector2f(-15.f, -5.f), sf::Color(0xFF, 0xF9, 0xEE)));
+        playerBullet.append(sf::Vertex(sf::Vector2f(-15.f, 5.f), sf::Color(0xFF, 0xF9, 0xEE)));
+        playerBullet.append(sf::Vertex(sf::Vector2f(15.f, 5.f), sf::Color(0xFF, 0xF9, 0xEE)));
+        playerBullet.append(sf::Vertex(sf::Vector2f(-15.f, -5.f), sf::Color(0xFF, 0xF9, 0xEE)));
+        playerBullet.append(sf::Vertex(sf::Vector2f(15.f, -5.f), sf::Color(0xFF, 0xF9, 0xEE)));
+        playerBullet.append(sf::Vertex(sf::Vector2f(15.f, 5.f), sf::Color(0xFF, 0xF9, 0xEE)));
     }
 
 private:
@@ -120,6 +120,5 @@ struct Bullets
     std::vector<PlayerBullet> playerBullets;
 };
 
-//void onMouseMove(const sf::Event::MouseMoveEvent& event, sf::Vector2f& mousePosition);
 void updatePlayer(sf::RenderWindow& window, Player& player, Data& data);
 void updateBullets(Data& data, Bullets& bullets, const float& deltaTime);

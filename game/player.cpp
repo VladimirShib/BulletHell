@@ -3,13 +3,6 @@
 #include <algorithm>
 #include "player.h"
 
-/*
-void onMouseMove(const sf::Event::MouseMoveEvent& event, sf::Vector2f& mousePosition)
-{
-    mousePosition = {float(event.x), float(event.y)};
-}
-*/
-
 float toDegrees(float radians)
 {
     return float(double(radians) * 180.0 / M_PI);
