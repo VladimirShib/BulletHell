@@ -1,4 +1,6 @@
 #include <SFML/System.hpp>
+#include <iostream>
+#include "menu.h"
 #include "levels.h"
 #include "player.h"
 
@@ -17,7 +19,7 @@ void createWindow(sf::RenderWindow& window)
     window.setFramerateLimit(MAX_FPS);
 }
 
-void pollEvents(sf::RenderWindow& window, GameState& gameState, sf::Clock& clock)
+void pollEvents(sf::RenderWindow& window, GameState& gameState, Menu& menu, sf::Clock& clock)
 {
     sf::Event event;
     while (window.pollEvent(event))
@@ -30,20 +32,43 @@ void pollEvents(sf::RenderWindow& window, GameState& gameState, sf::Clock& clock
         switch (gameState.state)
         {
         case GameWindow::MENU:
-            if (event.type == sf::Event::KeyPressed)
+            switch (event.type)
             {
-                if (event.key.code == sf::Keyboard::Q)
+            case sf::Event::KeyPressed:
+                switch (event.key.code)
                 {
-                    gameState.level = 1;
-                    gameState.state = GameWindow::GAME; // start the game at level one
-                    clock.restart();
+                case sf::Keyboard::Up:
+                    menu.MoveUp();
+                    break;
+                case sf::Keyboard::Down:
+                    menu.MoveDown();
+                    break;
+                case sf::Keyboard::Return:
+                    switch (menu.getPressedItem())
+                    {
+                    case 0:
+                    {
+                        gameState.level = 1;
+                        gameState.state = GameWindow::GAME; // start the game at level one
+                        clock.restart();
+                    }
+                        break;
+                    case 1:
+                        std::cout << "Select level button pressed\n";
+                        // gameState.state = GameWindow::SELECTION; // go to level selection menu
+                        break;
+                    case 2:
+                        window.close();
+                        break;
+                    default:
+                        break;
+                    }
+                default:
+                    break;
                 }
-                else if (event.key.code == sf::Keyboard::L)
-                {
-                    gameState.state = GameWindow::SELECTION; // go to level selection menu
-                }
+            default:
+                break;
             }
-            break;
         case GameWindow::SELECTION:
             if (event.type == sf::Event::KeyPressed)
             {
@@ -98,12 +123,15 @@ void update(sf::RenderWindow& window, GameState& gameState, Player& player, Data
     }
 }
 
-void render(sf::RenderWindow& window, GameState& gameState, const Player& player, const Bullets& bullets)
+void render(sf::RenderWindow& window, GameState& gameState, Menu& menu, const Player& player, const Bullets& bullets)
 {
     window.clear(sf::Color(0xC7, 0xC3, 0x9B));
 
     switch (gameState.state)
     {
+    case GameWindow::MENU:
+        window.draw(menu);
+        break;
     case GameWindow::PAUSE:
     case GameWindow::GAME:
     {
@@ -130,6 +158,8 @@ int main()
     gameState.state = GameWindow::MENU;
     gameState.level = 0;
 
+    Menu menu;
+
     Player player;
     player.setPosition(sf::Vector2f(400, 300));
 
@@ -139,8 +169,8 @@ int main()
     sf::Clock clock;
     while (window.isOpen())
     {
-        pollEvents(window, gameState, clock);
+        pollEvents(window, gameState, menu, clock);
         update(window, gameState, player, data, bullets, clock);
-        render(window, gameState, player, bullets);
+        render(window, gameState, menu, player, bullets);
     }
 }
