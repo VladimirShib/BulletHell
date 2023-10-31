@@ -1,6 +1,5 @@
-#include <SFML/System.hpp>
-#include <iostream>
-#include "menu.h"
+#include "headers.h"
+#include "screens.h"
 #include "levels.h"
 #include "player.h"
 
@@ -15,11 +14,11 @@ void createWindow(sf::RenderWindow& window)
     settings.antialiasingLevel = ANTIALIASING_LEVEL;
     window.create(
         sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT),
-        "YoRHa Game", sf::Style::Default, settings);
+        "YoRHa Game", sf::Style::Titlebar | sf::Style::Close, settings);
     window.setFramerateLimit(MAX_FPS);
 }
 
-void pollEvents(sf::RenderWindow& window, GameState& gameState, Menu& menu, sf::Clock& clock)
+void pollEvents(sf::RenderWindow& window, GameState& gameState, Screens& screens, sf::Clock& clock)
 {
     sf::Event event;
     while (window.pollEvent(event))
@@ -38,19 +37,23 @@ void pollEvents(sf::RenderWindow& window, GameState& gameState, Menu& menu, sf::
                 switch (event.key.code)
                 {
                 case sf::Keyboard::Up:
-                    menu.MoveUp();
+                case sf::Keyboard::W:
+                    screens.menu.MoveUp();
                     break;
                 case sf::Keyboard::Down:
-                    menu.MoveDown();
+                case sf::Keyboard::S:
+                    screens.menu.MoveDown();
                     break;
                 case sf::Keyboard::Return:
-                    switch (menu.getPressedItem())
+                case sf::Keyboard::Space:
+                    switch (screens.menu.getPressedItem())
                     {
                     case 0:
                     {
+                        gameState.state = GameWindow::FADING_FROM_MENU;
                         gameState.level = 1;
-                        gameState.state = GameWindow::GAME; // start the game at level one
-                        clock.restart();
+                        screens.transition.fading = true;
+                        //gameState.state = GameWindow::GAME; // start the game at level one
                     }
                         break;
                     case 1:
@@ -91,14 +94,25 @@ void pollEvents(sf::RenderWindow& window, GameState& gameState, Menu& menu, sf::
             }
             break;
         case GameWindow::PAUSE:
-            if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
+            switch (event.type)
             {
-                gameState.state = GameWindow::GAME;
-                clock.restart();
-            }
-            else if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::M)
-            {
-                gameState.state = GameWindow::MENU;
+            case sf::Event::KeyPressed:
+                switch (event.key.code)
+                {
+                case sf::Keyboard::Escape:
+                {
+                    gameState.state = GameWindow::GAME;
+                    clock.restart();
+                }
+                    break;
+                case sf::Keyboard::Q:
+                    gameState.state = GameWindow::MENU;
+                    break;
+                default:
+                    break;
+                }
+            default:
+                break;
             }
             break;
         default:
@@ -107,15 +121,19 @@ void pollEvents(sf::RenderWindow& window, GameState& gameState, Menu& menu, sf::
     }
 }
 
-void update(sf::RenderWindow& window, GameState& gameState, Player& player, Data& data, Bullets& bullets, sf::Clock& clock)
+void update(sf::RenderWindow& window, GameState& gameState, Screens& screens, Player& player, Bullets& bullets, sf::Clock& clock)
 {
     switch (gameState.state)
     {
+    case GameWindow::FADING_FROM_MENU:
+    case GameWindow::FADING_TO_GAME:
+        screens.transition.ToGame(gameState, clock);
+        break;
     case GameWindow::GAME:
     {
         const float deltaTime = clock.restart().asSeconds();
-        updatePlayer(window, player, data);
-        updateBullets(data, bullets, deltaTime);
+        updatePlayer(window, player);
+        updateBullets(player, bullets, deltaTime);
     }
         break;
     default:
@@ -123,16 +141,27 @@ void update(sf::RenderWindow& window, GameState& gameState, Player& player, Data
     }
 }
 
-void render(sf::RenderWindow& window, GameState& gameState, Menu& menu, const Player& player, const Bullets& bullets)
+void render(sf::RenderWindow& window, GameState& gameState, Screens& screens, const Player& player, const Bullets& bullets)
 {
     window.clear(sf::Color(0xC7, 0xC3, 0x9B));
 
     switch (gameState.state)
     {
     case GameWindow::MENU:
-        window.draw(menu);
+        window.draw(screens.menu);
         break;
-    case GameWindow::PAUSE:
+    case GameWindow::FADING_FROM_MENU:
+    {
+        window.draw(screens.menu);
+        window.draw(screens.transition);
+    }
+        break;
+    case GameWindow::FADING_TO_GAME:
+    {
+        window.draw(player);
+        window.draw(screens.transition);
+    }
+        break;
     case GameWindow::GAME:
     {
         window.draw(player);
@@ -142,6 +171,16 @@ void render(sf::RenderWindow& window, GameState& gameState, Menu& menu, const Pl
         }
     }
         break;
+    case GameWindow::PAUSE:
+    {
+        window.draw(player);
+        for (auto& bullet : bullets.playerBullets)
+        {
+            window.draw(bullet);
+        }
+        window.draw(screens.pause);
+        break;
+    }
     default:
         break;
     }
@@ -158,19 +197,18 @@ int main()
     gameState.state = GameWindow::MENU;
     gameState.level = 0;
 
-    Menu menu;
+    Screens screens;
 
     Player player;
     player.setPosition(sf::Vector2f(400, 300));
 
-    Data data;
     Bullets bullets;
 
     sf::Clock clock;
     while (window.isOpen())
     {
-        pollEvents(window, gameState, menu, clock);
-        update(window, gameState, player, data, bullets, clock);
-        render(window, gameState, menu, player, bullets);
+        pollEvents(window, gameState, screens, clock);
+        update(window, gameState, screens, player, bullets, clock);
+        render(window, gameState, screens, player, bullets);
     }
 }
