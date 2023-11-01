@@ -5,33 +5,56 @@ PlayerBullet::PlayerBullet()
 {
     playerBullet.setPrimitiveType(sf::TriangleStrip);
 
-    playerBullet.append(sf::Vertex(sf::Vector2f(-15.f, 5.f), sf::Color(0xFF, 0xF9, 0xEE)));
-    playerBullet.append(sf::Vertex(sf::Vector2f(-15.f, -5.f), sf::Color(0xFF, 0xF9, 0xEE)));
-    playerBullet.append(sf::Vertex(sf::Vector2f(15.f, 5.f), sf::Color(0xFF, 0xF9, 0xEE)));
-    playerBullet.append(sf::Vertex(sf::Vector2f(15.f, -5.f), sf::Color(0xFF, 0xF9, 0xEE)));
+    // playerBullet.append(sf::Vertex(sf::Vector2f(-15.f, 5.f), sf::Color(0xFF, 0xF9, 0xEE)));
+    // playerBullet.append(sf::Vertex(sf::Vector2f(-15.f, -5.f), sf::Color(0xFF, 0xF9, 0xEE)));
+    // playerBullet.append(sf::Vertex(sf::Vector2f(15.f, 5.f), sf::Color(0xFF, 0xF9, 0xEE)));
+    // playerBullet.append(sf::Vertex(sf::Vector2f(15.f, -5.f), sf::Color(0xFF, 0xF9, 0xEE)));
+
+    playerBullet.append(sf::Vertex(sf::Vector2f(-15.f, 5.f), sf::Color(0xFF, 0xFC, 0xF9)));
+    playerBullet.append(sf::Vertex(sf::Vector2f(-15.f, -5.f), sf::Color(0xFF, 0xFC, 0xF9)));
+    playerBullet.append(sf::Vertex(sf::Vector2f(15.f, 5.f), sf::Color(0xFF, 0xFC, 0xF9)));
+    playerBullet.append(sf::Vertex(sf::Vector2f(15.f, -5.f), sf::Color(0xFF, 0xFC, 0xF9)));
 }
 
 Player::Player()
 {
     ship.setPrimitiveType(sf::Quads);
 
+    // // left shield
+    // ship.append(sf::Vertex(sf::Vector2f(-16.f, -1.f), sf::Color(0xF7, 0xF3, 0xCA)));
+    // ship.append(sf::Vertex(sf::Vector2f(2.f, -13.f), sf::Color(0xF7, 0xF3, 0xCA)));
+    // ship.append(sf::Vertex(sf::Vector2f(6.f, -11.5f), sf::Color(0xF7, 0xF3, 0xCA)));
+    // ship.append(sf::Vertex(sf::Vector2f(0.f, -1.f), sf::Color(0xF7, 0xF3, 0xCA)));
+
+    // // right shield
+    // ship.append(sf::Vertex(sf::Vector2f(-16.f, 1.f), sf::Color(0xF7, 0xF3, 0xCA)));
+    // ship.append(sf::Vertex(sf::Vector2f(0.f, 1.f), sf::Color(0xF7, 0xF3, 0xCA)));
+    // ship.append(sf::Vertex(sf::Vector2f(6.f, 11.5f), sf::Color(0xF7, 0xF3, 0xCA)));
+    // ship.append(sf::Vertex(sf::Vector2f(2.f, 13.f), sf::Color(0xF7, 0xF3, 0xCA)));
+
+    // // ship
+    // ship.append(sf::Vertex(sf::Vector2f(2.f, 0.f), sf::Color(0xF7, 0xF3, 0xCA)));
+    // ship.append(sf::Vertex(sf::Vector2f(8.f, -11.f), sf::Color(0xF7, 0xF3, 0xCA)));
+    // ship.append(sf::Vertex(sf::Vector2f(37.f, 0.f), sf::Color(0xF7, 0xF3, 0xCA)));
+    // ship.append(sf::Vertex(sf::Vector2f(8.f, 11.f), sf::Color(0xF7, 0xF3, 0xCA)));
+
     // left shield
-    ship.append(sf::Vertex(sf::Vector2f(-16.f, -1.f), sf::Color(0xF7, 0xF3, 0xCA)));
-    ship.append(sf::Vertex(sf::Vector2f(2.f, -13.f), sf::Color(0xF7, 0xF3, 0xCA)));
-    ship.append(sf::Vertex(sf::Vector2f(6.f, -11.5f), sf::Color(0xF7, 0xF3, 0xCA)));
-    ship.append(sf::Vertex(sf::Vector2f(0.f, -1.f), sf::Color(0xF7, 0xF3, 0xCA)));
+    ship.append(sf::Vertex(sf::Vector2f(-16.f, -1.f), sf::Color(0xFF, 0xFC, 0xD9)));
+    ship.append(sf::Vertex(sf::Vector2f(2.f, -13.f), sf::Color(0xFF, 0xFC, 0xD9)));
+    ship.append(sf::Vertex(sf::Vector2f(6.f, -11.5f), sf::Color(0xFF, 0xFC, 0xD9)));
+    ship.append(sf::Vertex(sf::Vector2f(0.f, -1.f), sf::Color(0xFF, 0xFC, 0xD9)));
 
     // right shield
-    ship.append(sf::Vertex(sf::Vector2f(-16.f, 1.f), sf::Color(0xF7, 0xF3, 0xCA)));
-    ship.append(sf::Vertex(sf::Vector2f(0.f, 1.f), sf::Color(0xF7, 0xF3, 0xCA)));
-    ship.append(sf::Vertex(sf::Vector2f(6.f, 11.5f), sf::Color(0xF7, 0xF3, 0xCA)));
-    ship.append(sf::Vertex(sf::Vector2f(2.f, 13.f), sf::Color(0xF7, 0xF3, 0xCA)));
+    ship.append(sf::Vertex(sf::Vector2f(-16.f, 1.f), sf::Color(0xFF, 0xFC, 0xD9)));
+    ship.append(sf::Vertex(sf::Vector2f(0.f, 1.f), sf::Color(0xFF, 0xFC, 0xD9)));
+    ship.append(sf::Vertex(sf::Vector2f(6.f, 11.5f), sf::Color(0xFF, 0xFC, 0xD9)));
+    ship.append(sf::Vertex(sf::Vector2f(2.f, 13.f), sf::Color(0xFF, 0xFC, 0xD9)));
 
     // ship
-    ship.append(sf::Vertex(sf::Vector2f(2.f, 0.f), sf::Color(0xF7, 0xF3, 0xCA)));
-    ship.append(sf::Vertex(sf::Vector2f(8.f, -11.f), sf::Color(0xF7, 0xF3, 0xCA)));
-    ship.append(sf::Vertex(sf::Vector2f(37.f, 0.f), sf::Color(0xF7, 0xF3, 0xCA)));
-    ship.append(sf::Vertex(sf::Vector2f(8.f, 11.f), sf::Color(0xF7, 0xF3, 0xCA)));
+    ship.append(sf::Vertex(sf::Vector2f(2.f, 0.f), sf::Color(0xFF, 0xFC, 0xD9)));
+    ship.append(sf::Vertex(sf::Vector2f(8.f, -11.f), sf::Color(0xFF, 0xFC, 0xD9)));
+    ship.append(sf::Vertex(sf::Vector2f(37.f, 0.f), sf::Color(0xFF, 0xFC, 0xD9)));
+    ship.append(sf::Vertex(sf::Vector2f(8.f, 11.f), sf::Color(0xFF, 0xFC, 0xD9)));
 
     // core
     ship.append(sf::Vertex(sf::Vector2f(0.f, -5.f), sf::Color(0x50, 0x4E, 0x48)));
