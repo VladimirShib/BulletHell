@@ -53,7 +53,6 @@ void pollEvents(sf::RenderWindow& window, GameState& gameState, Screens& screens
                         gameState.state = GameWindow::FADING_FROM_MENU;
                         gameState.level = 1;
                         screens.transition.fading = true;
-                        //gameState.state = GameWindow::GAME; // start the game at level one
                     }
                         break;
                     case 1:
@@ -106,7 +105,10 @@ void pollEvents(sf::RenderWindow& window, GameState& gameState, Screens& screens
                 }
                     break;
                 case sf::Keyboard::Q:
-                    gameState.state = GameWindow::MENU;
+                {
+                    gameState.state = GameWindow::FADING_FROM_GAME;
+                    screens.transition.fading = true;
+                }
                     break;
                 default:
                     break;
@@ -135,6 +137,10 @@ void update(sf::RenderWindow& window, GameState& gameState, Screens& screens, Pl
         updatePlayer(window, player);
         updateBullets(player, bullets, deltaTime);
     }
+        break;
+    case GameWindow::FADING_FROM_GAME:
+    case GameWindow::FADING_TO_MENU:
+        screens.transition.ToMenu(gameState);
         break;
     default:
         break;
@@ -181,6 +187,23 @@ void render(sf::RenderWindow& window, GameState& gameState, Screens& screens, co
         window.draw(screens.pause);
         break;
     }
+    case GameWindow::FADING_FROM_GAME:
+    {
+        window.draw(player);
+        for (auto& bullet : bullets.playerBullets)
+        {
+            window.draw(bullet);
+        }
+        window.draw(screens.pause);
+        window.draw(screens.transition);
+    }
+        break;
+    case GameWindow::FADING_TO_MENU:
+    {
+        window.draw(screens.menu);
+        window.draw(screens.transition);
+    }
+        break;
     default:
         break;
     }

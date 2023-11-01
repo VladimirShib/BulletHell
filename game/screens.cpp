@@ -141,6 +141,34 @@ void Transition::ToGame(GameState& gameState, sf::Clock& clock)
     }
 }
 
+void Transition::ToMenu(GameState& gameState)
+{
+    if (fading)
+    {
+        alpha += 7;
+        if (alpha >= 255)
+        {
+            alpha = 255;
+            gameState.state = GameWindow::FADING_TO_MENU;
+            fading = false;
+        }
+    }
+    else
+    {
+        alpha -= 7;
+        if (alpha <= 0)
+        {
+            alpha = 0;
+            gameState.state = GameWindow::MENU;
+        }
+    }
+
+    for (int i = 0; i < 4; ++i)
+    {
+        rectangle[i].color = sf::Color(0, 0, 0, alpha);
+    }
+}
+
 Pause::Pause()
 {
     background.setPrimitiveType(sf::Quads);

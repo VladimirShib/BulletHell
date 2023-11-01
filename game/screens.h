@@ -57,7 +57,7 @@ public:
     bool fading = false;
     float alpha;
     void ToGame(GameState& gameState, sf::Clock& clock);
-    // void ToMenu();
+    void ToMenu(GameState& gameState);
 
 private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
