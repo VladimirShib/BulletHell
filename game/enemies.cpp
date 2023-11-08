@@ -47,7 +47,7 @@ Level0Enemy::Level0Enemy()
     amplitude = 5.f;
     period = 3.f;
     isOrange = true;
-    shootingDelay = 1.f;
+    shootingDelay = 0.8f;
     timeSinceLastShot = 0.f;
     enemy.setPrimitiveType(sf::TriangleFan);
 
