@@ -1,14 +1,13 @@
 #pragma once
 
 #include "headers.h"
-#include "levels.h"
 
 constexpr int MAX_MAIN_MENU_ITEMS = 3;
 
-class MenuSelectedBg : public sf::Drawable, public sf::Transformable
+class MenuSelectedItem : public sf::Drawable, public sf::Transformable
 {
 public:
-    MenuSelectedBg();
+    MenuSelectedItem();
 
 private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -25,26 +24,39 @@ class Menu : public sf::Drawable
 public:
     Menu();
 
+    void PollEvents(sf::RenderWindow& window, sf::Event& event, bool& isTransitioning, int& level);
     void MoveUp();
     void MoveDown();
-    int getPressedItem() { return selectedItemIndex; }
+    int GetPressedItem() { return selectedItemIndex; }
 
 private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
     {
-        target.draw(menuAllBg, states);
-        target.draw(menuSelectedBg, states);
+        target.draw(background, states);
+        target.draw(menuSelectedItem, states);
+        target.draw(titleShadow, states);
+        target.draw(title, states);
         for (int i = 0; i < MAX_MAIN_MENU_ITEMS; ++i)
         {
-            target.draw(menu[i], states);
+            target.draw(menuItem[i], states);
         }
+        target.draw(select, states);
+        target.draw(selectButtons, states);
+        target.draw(confirm, states);
+        target.draw(confirmButton, states);
     }
 
     int selectedItemIndex;
     sf::Font font;
-    sf::Text menu[MAX_MAIN_MENU_ITEMS];
-    sf::VertexArray menuAllBg;
-    MenuSelectedBg menuSelectedBg;
+    sf::Text title;
+    sf::Text titleShadow;
+    sf::Text menuItem[MAX_MAIN_MENU_ITEMS];
+    sf::Text select;
+    sf::Text selectButtons;
+    sf::Text confirm;
+    sf::Text confirmButton;
+    sf::VertexArray background;
+    MenuSelectedItem menuSelectedItem;
 
     sf::Vector2f menuPositions[MAX_MAIN_MENU_ITEMS];
 };
@@ -54,10 +66,12 @@ class Transition : public sf::Drawable
 public:
     Transition();
 
-    bool fading = false;
-    float alpha;
-    void ToGame(GameState& gameState, sf::Clock& clock);
-    void ToMenu(GameState& gameState);
+    void FadingIn();
+    void FadingOut();
+
+public:
+    bool isTransitioning;
+    bool screenOff;
 
 private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -66,6 +80,8 @@ private:
     }
 
     sf::VertexArray rectangle;
+    int alpha;
+    int transitionSpeed;
 };
 
 class Pause : public sf::Drawable
@@ -77,21 +93,18 @@ private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
     {
         target.draw(background, states);
-        target.draw(textCenter, states);
-        target.draw(buttons, states);
-        target.draw(actions, states);
+        target.draw(paused, states);
+        target.draw(resumeText, states);
+        target.draw(resumeButton, states);
+        target.draw(exitText, states);
+        target.draw(exitButton, states);
     }
 
     sf::Font font;
-    sf::Text textCenter;
-    sf::Text buttons;
-    sf::Text actions;
+    sf::Text paused;
+    sf::Text resumeText;
+    sf::Text resumeButton;
+    sf::Text exitText;
+    sf::Text exitButton;
     sf::VertexArray background;
-};
-
-struct Screens
-{
-    Menu menu;
-    Transition transition;
-    Pause pause;
 };

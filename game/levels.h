@@ -1,21 +1,7 @@
 #pragma once
 
 #include "headers.h"
+#include "screens.h"
+#include "maps.h"
 
-enum struct GameWindow
-{
-    MENU,
-    SELECTION,
-    FADING_FROM_MENU,
-    FADING_TO_GAME,
-    GAME,
-    PAUSE,
-    FADING_FROM_GAME,
-    FADING_TO_MENU
-};
-
-struct GameState
-{
-    GameWindow state;
-    int level;
-};
+int playLevel0(sf::RenderWindow& window, sf::Event& event, sf::Clock& clock, Transition& transition, const Pause& pause);

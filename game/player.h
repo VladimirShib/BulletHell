@@ -2,21 +2,20 @@
 
 #include "headers.h"
 
-struct Data
+struct Walls
 {
-    sf::Vector2f playerPosition;
-    sf::Vector2f mousePosition;
-    sf::Vector2f delta;
-    float angleRad;
-    float angleDeg;
+    float top;
+    float right;
+    float bottom;
+    float left;
 };
 
-class PlayerBullet : public sf::Drawable, public sf::Transformable
+class Bullet : public sf::Drawable, public sf::Transformable
 {
 public:
-    PlayerBullet();
+    Bullet();
 
-    float speed = 700.f;
+    float speed;
     sf::Vector2f position;
     sf::Vector2f velocity;
 
@@ -24,26 +23,30 @@ private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
     {
         states.transform *= getTransform();
-        target.draw(playerBullet, states);
+        target.draw(bullet, states);
     }
 
-    sf::VertexArray playerBullet;
-};
-
-struct Bullets
-{
-    sf::Clock clock;
-    const float shootingDelay = 0.1f;
-    std::vector<PlayerBullet> playerBullets;
+    sf::VertexArray bullet;
 };
 
 class Player : public sf::Drawable, public sf::Transformable
 {
 public:
     // Define the shapes for the player
-    Player();
+    Player(float top, float right, float bottom, float left);
 
-    Data data;
+    void Update(sf::RenderWindow& window, const float& deltaTime);
+    void UpdateBullets(const float& deltaTime);
+    void Fire();
+
+public:
+    sf::Vector2f playerPosition;
+    sf::Vector2f mousePosition;
+    sf::Vector2f delta; // distance between mouse cursor and player
+    float angleRad;
+    float angleDeg;
+    std::vector<Bullet> bullets;
+    Walls walls;
 
 private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -53,10 +56,15 @@ private:
 
         // Draw the vertex array
         target.draw(ship, states);
+
+        for (const Bullet& bullet : bullets)
+        {
+            target.draw(bullet);
+        }
     }
 
+    sf::Vertex vertices[20];
     sf::VertexArray ship;
+    float shootingDelay;
+    float timeSinceLastShot;
 };
-
-void updatePlayer(sf::RenderWindow& window, Player& player);
-void updateBullets(Player& player, Bullets& bullets, const float& deltaTime);

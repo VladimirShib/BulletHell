@@ -1,70 +1,72 @@
-#include "headers.h"
 #include "player.h"
 
-PlayerBullet::PlayerBullet()
+Bullet::Bullet()
 {
-    playerBullet.setPrimitiveType(sf::TriangleStrip);
+    speed = 700.f;
+    bullet.setPrimitiveType(sf::TriangleStrip);
 
-    // playerBullet.append(sf::Vertex(sf::Vector2f(-15.f, 5.f), sf::Color(0xFF, 0xF9, 0xEE)));
-    // playerBullet.append(sf::Vertex(sf::Vector2f(-15.f, -5.f), sf::Color(0xFF, 0xF9, 0xEE)));
-    // playerBullet.append(sf::Vertex(sf::Vector2f(15.f, 5.f), sf::Color(0xFF, 0xF9, 0xEE)));
-    // playerBullet.append(sf::Vertex(sf::Vector2f(15.f, -5.f), sf::Color(0xFF, 0xF9, 0xEE)));
-
-    playerBullet.append(sf::Vertex(sf::Vector2f(-15.f, 5.f), sf::Color(0xFF, 0xFC, 0xF9)));
-    playerBullet.append(sf::Vertex(sf::Vector2f(-15.f, -5.f), sf::Color(0xFF, 0xFC, 0xF9)));
-    playerBullet.append(sf::Vertex(sf::Vector2f(15.f, 5.f), sf::Color(0xFF, 0xFC, 0xF9)));
-    playerBullet.append(sf::Vertex(sf::Vector2f(15.f, -5.f), sf::Color(0xFF, 0xFC, 0xF9)));
+    bullet.append(sf::Vertex(sf::Vector2f(-15.f, 5.f), sf::Color(0xFF, 0xFC, 0xF9)));
+    bullet.append(sf::Vertex(sf::Vector2f(-15.f, -5.f), sf::Color(0xFF, 0xFC, 0xF9)));
+    bullet.append(sf::Vertex(sf::Vector2f(15.f, 5.f), sf::Color(0xFF, 0xFC, 0xF9)));
+    bullet.append(sf::Vertex(sf::Vector2f(15.f, -5.f), sf::Color(0xFF, 0xFC, 0xF9)));
 }
 
-Player::Player()
+Player::Player(float top, float right, float bottom, float left)
 {
+    shootingDelay = 0.1f;
+    timeSinceLastShot = 1.f;
+    walls.top = top;
+    walls.right = right;
+    walls.bottom = bottom;
+    walls.left = left;
+
+    vertices[0].position = sf::Vector2f(-16.f, -1.f);
+    vertices[0].color = sf::Color(0xFF, 0xFC, 0xD9);
+    vertices[1].position = sf::Vector2f(2.f, -13.f);
+    vertices[1].color = sf::Color(0xFF, 0xFC, 0xD9);
+    vertices[2].position = sf::Vector2f(6.f, -11.5f);
+    vertices[2].color = sf::Color(0xFF, 0xFC, 0xD9);
+    vertices[3].position = sf::Vector2f(0.f, -1.f);
+    vertices[3].color = sf::Color(0xFF, 0xFC, 0xD9);
+    vertices[4].position = sf::Vector2f(-16.f, 1.f);
+    vertices[4].color = sf::Color(0xFF, 0xFC, 0xD9);
+    vertices[5].position = sf::Vector2f(0.f, 1.f);
+    vertices[5].color = sf::Color(0xFF, 0xFC, 0xD9);
+    vertices[6].position = sf::Vector2f(6.f, 11.5f);
+    vertices[6].color = sf::Color(0xFF, 0xFC, 0xD9);
+    vertices[7].position = sf::Vector2f(2.f, 13.f);
+    vertices[7].color = sf::Color(0xFF, 0xFC, 0xD9);
+    vertices[8].position = sf::Vector2f(2.f, 0.f);
+    vertices[8].color = sf::Color(0xFF, 0xFC, 0xD9);
+    vertices[9].position = sf::Vector2f(8.f, -11.f);
+    vertices[9].color = sf::Color(0xFF, 0xFC, 0xD9);
+    vertices[10].position = sf::Vector2f(37.f, 0.f);
+    vertices[10].color = sf::Color(0xFF, 0xFC, 0xD9);
+    vertices[11].position = sf::Vector2f(8.f, 11.f);
+    vertices[11].color = sf::Color(0xFF, 0xFC, 0xD9);
+    vertices[12].position = sf::Vector2f(0.f, -5.f);
+    vertices[12].color = sf::Color(0x50, 0x4E, 0x48);
+    vertices[13].position = sf::Vector2f(5.f, 0.f);
+    vertices[13].color = sf::Color(0x50, 0x4E, 0x48);
+    vertices[14].position = sf::Vector2f(0.f, 5.f);
+    vertices[14].color = sf::Color(0x50, 0x4E, 0x48);
+    vertices[15].position = sf::Vector2f(-5.f, 0.f);
+    vertices[15].color = sf::Color(0x50, 0x4E, 0x48);
+    vertices[16].position = sf::Vector2f(3.5f, -3.5f);
+    vertices[16].color = sf::Color(0x50, 0x4E, 0x48);
+    vertices[17].position = sf::Vector2f(3.5f, 3.5f);
+    vertices[17].color = sf::Color(0x50, 0x4E, 0x48);
+    vertices[18].position = sf::Vector2f(-3.5f, 3.5f);
+    vertices[18].color = sf::Color(0x50, 0x4E, 0x48);
+    vertices[19].position = sf::Vector2f(-3.5f, -3.5f);
+    vertices[19].color = sf::Color(0x50, 0x4E, 0x48);
+
     ship.setPrimitiveType(sf::Quads);
 
-    // // left shield
-    // ship.append(sf::Vertex(sf::Vector2f(-16.f, -1.f), sf::Color(0xF7, 0xF3, 0xCA)));
-    // ship.append(sf::Vertex(sf::Vector2f(2.f, -13.f), sf::Color(0xF7, 0xF3, 0xCA)));
-    // ship.append(sf::Vertex(sf::Vector2f(6.f, -11.5f), sf::Color(0xF7, 0xF3, 0xCA)));
-    // ship.append(sf::Vertex(sf::Vector2f(0.f, -1.f), sf::Color(0xF7, 0xF3, 0xCA)));
-
-    // // right shield
-    // ship.append(sf::Vertex(sf::Vector2f(-16.f, 1.f), sf::Color(0xF7, 0xF3, 0xCA)));
-    // ship.append(sf::Vertex(sf::Vector2f(0.f, 1.f), sf::Color(0xF7, 0xF3, 0xCA)));
-    // ship.append(sf::Vertex(sf::Vector2f(6.f, 11.5f), sf::Color(0xF7, 0xF3, 0xCA)));
-    // ship.append(sf::Vertex(sf::Vector2f(2.f, 13.f), sf::Color(0xF7, 0xF3, 0xCA)));
-
-    // // ship
-    // ship.append(sf::Vertex(sf::Vector2f(2.f, 0.f), sf::Color(0xF7, 0xF3, 0xCA)));
-    // ship.append(sf::Vertex(sf::Vector2f(8.f, -11.f), sf::Color(0xF7, 0xF3, 0xCA)));
-    // ship.append(sf::Vertex(sf::Vector2f(37.f, 0.f), sf::Color(0xF7, 0xF3, 0xCA)));
-    // ship.append(sf::Vertex(sf::Vector2f(8.f, 11.f), sf::Color(0xF7, 0xF3, 0xCA)));
-
-    // left shield
-    ship.append(sf::Vertex(sf::Vector2f(-16.f, -1.f), sf::Color(0xFF, 0xFC, 0xD9)));
-    ship.append(sf::Vertex(sf::Vector2f(2.f, -13.f), sf::Color(0xFF, 0xFC, 0xD9)));
-    ship.append(sf::Vertex(sf::Vector2f(6.f, -11.5f), sf::Color(0xFF, 0xFC, 0xD9)));
-    ship.append(sf::Vertex(sf::Vector2f(0.f, -1.f), sf::Color(0xFF, 0xFC, 0xD9)));
-
-    // right shield
-    ship.append(sf::Vertex(sf::Vector2f(-16.f, 1.f), sf::Color(0xFF, 0xFC, 0xD9)));
-    ship.append(sf::Vertex(sf::Vector2f(0.f, 1.f), sf::Color(0xFF, 0xFC, 0xD9)));
-    ship.append(sf::Vertex(sf::Vector2f(6.f, 11.5f), sf::Color(0xFF, 0xFC, 0xD9)));
-    ship.append(sf::Vertex(sf::Vector2f(2.f, 13.f), sf::Color(0xFF, 0xFC, 0xD9)));
-
-    // ship
-    ship.append(sf::Vertex(sf::Vector2f(2.f, 0.f), sf::Color(0xFF, 0xFC, 0xD9)));
-    ship.append(sf::Vertex(sf::Vector2f(8.f, -11.f), sf::Color(0xFF, 0xFC, 0xD9)));
-    ship.append(sf::Vertex(sf::Vector2f(37.f, 0.f), sf::Color(0xFF, 0xFC, 0xD9)));
-    ship.append(sf::Vertex(sf::Vector2f(8.f, 11.f), sf::Color(0xFF, 0xFC, 0xD9)));
-
-    // core
-    ship.append(sf::Vertex(sf::Vector2f(0.f, -5.f), sf::Color(0x50, 0x4E, 0x48)));
-    ship.append(sf::Vertex(sf::Vector2f(5.f, 0.f), sf::Color(0x50, 0x4E, 0x48)));
-    ship.append(sf::Vertex(sf::Vector2f(0.f, 5.f), sf::Color(0x50, 0x4E, 0x48)));
-    ship.append(sf::Vertex(sf::Vector2f(-5.f, 0.f), sf::Color(0x50, 0x4E, 0x48)));
-    ship.append(sf::Vertex(sf::Vector2f(3.5f, -3.5f), sf::Color(0x50, 0x4E, 0x48)));
-    ship.append(sf::Vertex(sf::Vector2f(3.5f, 3.5f), sf::Color(0x50, 0x4E, 0x48)));
-    ship.append(sf::Vertex(sf::Vector2f(-3.5f, 3.5f), sf::Color(0x50, 0x4E, 0x48)));
-    ship.append(sf::Vertex(sf::Vector2f(-3.5f, -3.5f), sf::Color(0x50, 0x4E, 0x48)));
+    for (int i = 0; i < 20; ++i)
+    {
+        ship.append(vertices[i]);
+    }
 }
 
 float toDegrees(float radians)
@@ -72,73 +74,75 @@ float toDegrees(float radians)
     return float(double(radians) * 180.0 / M_PI);
 }
 
-void updatePlayer(sf::RenderWindow& window, Player& player)
+void Player::Update(sf::RenderWindow& window, const float& deltaTime)
 {
+    sf::Vector2f movement(0.f, 0.f);
+
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
     {
-        player.move(0.f, -5.f);
+		if (playerPosition.y - 20.f > walls.top)
+		{
+			movement.y = -5.f;
+		}
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
     {
-        player.move(-5.f, 0.f);
+        if (playerPosition.x - 20.f > walls.left)
+        {
+            movement.x = -5.f;
+        }
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
     {
-        player.move(0.f, 5.f);
+        if (playerPosition.y + 20.f < walls.bottom)
+        {
+            movement.y = 5.f;
+        }
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
     {
-        player.move(5.f, 0.f);
-    }
-    
-    player.data.playerPosition = player.getPosition();
-    player.data.mousePosition = sf::Vector2f(sf::Mouse::getPosition(window));
-    player.data.delta = player.data.mousePosition - player.data.playerPosition;
-    player.data.angleRad = atan2(player.data.delta.y, player.data.delta.x);
-    player.data.angleDeg = toDegrees(player.data.angleRad);
-    player.setRotation(player.data.angleDeg);
-}
-
-void fire(Player& player, Bullets& bullets)
-{
-    PlayerBullet bullet;
-    bullet.position = player.data.playerPosition;
-    bullet.velocity = {
-        std::cos(player.data.angleRad) * bullet.speed,
-        std::sin(player.data.angleRad) * bullet.speed
-    };
-    bullet.setPosition(bullet.position);
-    bullet.setRotation(player.data.angleDeg);
-    bullets.playerBullets.push_back(bullet);
-}
-
-bool isToBeRemoved(const PlayerBullet& bullet)
-{
-    return (bullet.position.x >= 800 || bullet.position.x <= 0 || bullet.position.y >= 600 || bullet.position.y <= 0);
-}
-
-void eraseBullets(std::vector<PlayerBullet>& bullets)
-{
-    auto newEnd = std::remove_if(bullets.begin(), bullets.end(), isToBeRemoved);
-    bullets.erase(newEnd, bullets.end());
-}
-
-void updateBullets(Player& player, Bullets& bullets, const float& deltaTime)
-{
-    if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-    {
-        const float delay = bullets.clock.getElapsedTime().asSeconds();
-        if (delay > bullets.shootingDelay)
+        if (playerPosition.x + 20.f < walls.right)
         {
-            fire(player, bullets);
-            bullets.clock.restart();
+            movement.x = 5.f;
         }
     }
 
-    for (auto& bullet : bullets.playerBullets)
+    playerPosition = playerPosition + movement;
+    this->setPosition(playerPosition);
+    mousePosition = sf::Vector2f(sf::Mouse::getPosition(window));
+    delta = mousePosition - playerPosition;
+    angleRad = atan2(delta.y, delta.x);
+    angleDeg = toDegrees(angleRad);
+    this->setRotation(angleDeg);
+
+    UpdateBullets(deltaTime);
+}
+
+void Player::UpdateBullets(const float& deltaTime)
+{
+    timeSinceLastShot += deltaTime;
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && timeSinceLastShot > shootingDelay)
+    {
+        Fire();
+        timeSinceLastShot = 0.f;
+    }
+
+    for (Bullet& bullet : bullets)
     {
         bullet.position += bullet.velocity * deltaTime;
         bullet.setPosition(bullet.position);
     }
-    eraseBullets(bullets.playerBullets);
+}
+
+void Player::Fire()
+{
+    Bullet bullet;
+    bullet.position = playerPosition;
+    bullet.velocity = {
+        std::cos(angleRad) * bullet.speed,
+        std::sin(angleRad) * bullet.speed
+    };
+    bullet.setPosition(bullet.position);
+    bullet.setRotation(angleDeg);
+    bullets.push_back(bullet);
 }
