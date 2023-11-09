@@ -344,10 +344,7 @@ Pause::Pause()
     paused.setString("Paused");
     paused.setCharacterSize(40);
     paused.setPosition(sf::Vector2f(433, 324));
-    // paused.setFillColor(sf::Color(0xC6, 0xC2, 0xA5));
     paused.setFillColor(sf::Color(0xE6, 0xE4, 0xC4));
-    //paused.setOutlineColor(sf::Color(0, 0, 0, 0xAA));
-    //paused.setOutlineThickness(2);
 
     resumeButton.setFont(font);
     resumeButton.setString("Esc");

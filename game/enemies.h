@@ -7,10 +7,13 @@ class OrangeBullet : public sf::Drawable, public sf::Transformable
 public:
     OrangeBullet();
 
+    sf::FloatRect GetBounds();
+
 public:
-    float speed = 400.f;
+    float speed;
     sf::Vector2f position;
     sf::Vector2f velocity;
+    bool hit;
 
 private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -28,9 +31,10 @@ public:
     PurpleBullet();
 
 public:
-    float speed = 300.f;
+    float speed;
     sf::Vector2f position;
     sf::Vector2f velocity;
+    bool hit;
 
 private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -51,8 +55,8 @@ public:
     void UpdateBullets(const float& deltaTime, const sf::Vector2f& playerPosition);
 
 public:
-    sf::Vector2f enemyPosition;
     int health;
+    sf::Vector2f enemyPosition;
     std::vector<OrangeBullet> orangeBullets;
     std::vector<PurpleBullet> purpleBullets;
 

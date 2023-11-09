@@ -2,6 +2,8 @@
 
 OrangeBullet::OrangeBullet()
 {
+    speed = 300.f;
+    hit = false;
     bullet.setPrimitiveType(sf::TriangleFan);
 
     bullet.append(sf::Vertex(sf::Vector2f(0.f, 0.f), sf::Color(0xF9, 0x7F, 0x1B)));
@@ -20,8 +22,15 @@ OrangeBullet::OrangeBullet()
     bullet.append(sf::Vertex(sf::Vector2f(15.f, 0.f), sf::Color(0xF9, 0x7F, 0x1B)));
 }
 
+sf::FloatRect OrangeBullet::GetBounds()
+{
+    return getTransform().transformRect(bullet.getBounds());
+}
+
 PurpleBullet::PurpleBullet()
 {
+    speed = 300.f;
+    hit = false;
     bullet.setPrimitiveType(sf::TriangleFan);
 
     bullet.append(sf::Vertex(sf::Vector2f(0.f, 0.f), sf::Color(0x3E, 0x02, 0x5C)));

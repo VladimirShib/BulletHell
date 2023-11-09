@@ -22,8 +22,14 @@ private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
     {
         target.draw(map, states);
-        target.draw(enemy, states);
-        target.draw(player, states);
+        if (enemy.health > 0)
+        {
+            target.draw(enemy, states);
+        }
+        if (player.health > 0)
+        {
+            target.draw(player, states);
+        }
     }
 
     sf::VertexArray map;

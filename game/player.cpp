@@ -3,6 +3,7 @@
 Bullet::Bullet()
 {
     speed = 700.f;
+    hit = false;
     bullet.setPrimitiveType(sf::TriangleStrip);
 
     bullet.append(sf::Vertex(sf::Vector2f(-15.f, 5.f), sf::Color(0xFF, 0xFC, 0xF9)));
@@ -11,8 +12,14 @@ Bullet::Bullet()
     bullet.append(sf::Vertex(sf::Vector2f(15.f, -5.f), sf::Color(0xFF, 0xFC, 0xF9)));
 }
 
+sf::FloatRect Bullet::GetBounds()
+{
+    return getTransform().transformRect(bullet.getBounds());
+}
+
 Player::Player(float top, float right, float bottom, float left)
 {
+    health = 3;
     shootingDelay = 0.1f;
     timeSinceLastShot = 1.f;
     walls.top = top;

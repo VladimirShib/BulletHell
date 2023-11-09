@@ -15,9 +15,13 @@ class Bullet : public sf::Drawable, public sf::Transformable
 public:
     Bullet();
 
+    sf::FloatRect GetBounds();
+
+public:
     float speed;
     sf::Vector2f position;
     sf::Vector2f velocity;
+    bool hit;
 
 private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -40,6 +44,7 @@ public:
     void Fire();
 
 public:
+    int health;
     sf::Vector2f playerPosition;
     sf::Vector2f mousePosition;
     sf::Vector2f delta; // distance between mouse cursor and player
