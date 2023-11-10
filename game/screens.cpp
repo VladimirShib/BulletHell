@@ -341,9 +341,9 @@ Pause::Pause()
     background.append(sf::Vertex(sf::Vector2f(893, 670), sf::Color(0xC6, 0xC2, 0xA5)));
 
     paused.setFont(font);
-    paused.setString("Paused");
+    paused.setString("PAUSED");
     paused.setCharacterSize(40);
-    paused.setPosition(sf::Vector2f(433, 324));
+    paused.setPosition(sf::Vector2f(419, 275));
     paused.setFillColor(sf::Color(0xE6, 0xE4, 0xC4));
 
     resumeButton.setFont(font);
@@ -369,4 +369,148 @@ Pause::Pause()
     exitText.setCharacterSize(22);
     exitText.setPosition(sf::Vector2f(919, 646));
     exitText.setFillColor(sf::Color(0xC6, 0xC2, 0xA5));
+}
+
+Complete::Complete()
+{
+    isNotVisible = true;
+    alphaDark = 0;
+    alphaLight = 0;
+    transitionSpeedDark = 5;
+    transitionSpeedLight = 2;
+    if (!font.loadFromFile("arial.ttf"))
+    {
+        perror("Couldn't load font \"arial\".");
+    }
+    background.setPrimitiveType(sf::Quads);
+
+    // 1/10 of screen height
+    background.append(sf::Vertex(sf::Vector2f(0, 0), sf::Color(0, 0, 0, 0)));
+    background.append(sf::Vertex(sf::Vector2f(1000, 0), sf::Color(0, 0, 0, 0)));
+    background.append(sf::Vertex(sf::Vector2f(1000, 70), sf::Color(0, 0, 0, 0)));
+    background.append(sf::Vertex(sf::Vector2f(0, 70), sf::Color(0, 0, 0, 0)));
+
+    background.append(sf::Vertex(sf::Vector2f(0, 70), sf::Color(0, 0, 0, 0)));
+    background.append(sf::Vertex(sf::Vector2f(1000, 70), sf::Color(0, 0, 0, 0)));
+    background.append(sf::Vertex(sf::Vector2f(1000, 630), sf::Color(0, 0, 0, 0)));
+    background.append(sf::Vertex(sf::Vector2f(0, 630), sf::Color(0, 0, 0, 0)));
+
+    background.append(sf::Vertex(sf::Vector2f(0, 630), sf::Color(0, 0, 0, 0)));
+    background.append(sf::Vertex(sf::Vector2f(1000, 630), sf::Color(0, 0, 0, 0)));
+    background.append(sf::Vertex(sf::Vector2f(1000, 700), sf::Color(0, 0, 0, 0)));
+    background.append(sf::Vertex(sf::Vector2f(0, 700), sf::Color(0, 0, 0, 0)));
+
+    levelComplete.setFont(font);
+    levelComplete.setString("LEVEL COMPLETE");
+    levelComplete.setCharacterSize(40);
+    levelComplete.setPosition(sf::Vector2f(322, 275));
+    levelComplete.setFillColor(sf::Color(0xE6, 0xE4, 0xC4));
+}
+
+void Complete::FadingIn()
+{
+    if (alphaDark < 170)
+    {
+        alphaDark += transitionSpeedDark;
+        if (alphaDark >= 170)
+        {
+            alphaDark = 170;
+            isNotVisible = false;
+        }
+        alphaLight += transitionSpeedLight;
+        if (alphaLight >= 64)
+        {
+            alphaLight = 64;
+        }
+    }
+
+    for (int i = 0; i < 4; ++i)
+    {
+        background[i].color = sf::Color(0, 0, 0, alphaDark);
+        background[i + 4].color = sf::Color(0, 0, 0, alphaLight);
+        background[i + 8].color = sf::Color(0, 0, 0, alphaDark);
+    }
+}
+
+void Complete::Reset()
+{
+    isNotVisible = true;
+    alphaDark = 0;
+    alphaLight = 0;
+    for (int i = 0; i < 12; ++i)
+    {
+        background[i].color = sf::Color(0, 0, 0, 0);
+    }
+}
+
+Failed::Failed()
+{
+    isNotVisible = true;
+    alphaDark = 0;
+    alphaLight = 0;
+    transitionSpeedDark = 5;
+    transitionSpeedLight = 2;
+    if (!font.loadFromFile("arial.ttf"))
+    {
+        perror("Couldn't load font \"arial\".");
+    }
+    background.setPrimitiveType(sf::Quads);
+
+    // 1/10 of screen height
+    background.append(sf::Vertex(sf::Vector2f(0, 0), sf::Color(0, 0, 0, 0)));
+    background.append(sf::Vertex(sf::Vector2f(1000, 0), sf::Color(0, 0, 0, 0)));
+    background.append(sf::Vertex(sf::Vector2f(1000, 70), sf::Color(0, 0, 0, 0)));
+    background.append(sf::Vertex(sf::Vector2f(0, 70), sf::Color(0, 0, 0, 0)));
+
+    background.append(sf::Vertex(sf::Vector2f(0, 70), sf::Color(0, 0, 0, 0)));
+    background.append(sf::Vertex(sf::Vector2f(1000, 70), sf::Color(0, 0, 0, 0)));
+    background.append(sf::Vertex(sf::Vector2f(1000, 630), sf::Color(0, 0, 0, 0)));
+    background.append(sf::Vertex(sf::Vector2f(0, 630), sf::Color(0, 0, 0, 0)));
+
+    background.append(sf::Vertex(sf::Vector2f(0, 630), sf::Color(0, 0, 0, 0)));
+    background.append(sf::Vertex(sf::Vector2f(1000, 630), sf::Color(0, 0, 0, 0)));
+    background.append(sf::Vertex(sf::Vector2f(1000, 700), sf::Color(0, 0, 0, 0)));
+    background.append(sf::Vertex(sf::Vector2f(0, 700), sf::Color(0, 0, 0, 0)));
+
+    levelFailed.setFont(font);
+    levelFailed.setString("LEVEL FAILED");
+    levelFailed.setCharacterSize(40);
+    levelFailed.setPosition(sf::Vector2f(363, 275));
+    levelFailed.setFillColor(sf::Color(0xE6, 0xE4, 0xC4));
+}
+
+void Failed::FadingIn()
+{
+    if (alphaDark < 170)
+    {
+        alphaDark += transitionSpeedDark;
+        if (alphaDark >= 170)
+        {
+            alphaDark = 170;
+            isNotVisible = false;
+        }
+        alphaLight += transitionSpeedLight;
+        if (alphaLight >= 64)
+        {
+            alphaLight = 64;
+        }
+    }
+
+    for (int i = 0; i < 4; ++i)
+    {
+        background[i].color = sf::Color(0, 0, 0, alphaDark);
+        background[i + 4].color = sf::Color(0, 0, 0, alphaLight);
+        background[i + 8].color = sf::Color(0, 0, 0, alphaDark);
+    }
+}
+
+void Failed::Reset()
+{
+    isNotVisible = true;
+    alphaDark = 0;
+    alphaLight = 0;
+    for (int i = 0; i < 12; ++i)
+    {
+        background[i].color = sf::Color(0, 0, 0, 0);
+    }
 }

@@ -22,7 +22,7 @@ public:
     Game();
     void Run();
     void ManageMainMenu(Transition& transition);
-    void ManageGame(Transition& transition, const Pause& pause);
+    void ManageGame(Screens& screens);
 
 public:
     sf::Event event;
@@ -31,5 +31,6 @@ public:
 
 private:
     sf::RenderWindow window;
+    sf::View view;
     GameState state;
 };

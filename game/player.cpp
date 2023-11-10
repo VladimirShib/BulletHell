@@ -17,15 +17,18 @@ sf::FloatRect Bullet::GetBounds()
     return getTransform().transformRect(bullet.getBounds());
 }
 
-Player::Player(float top, float right, float bottom, float left)
+Player::Player(float left, float top, float size)
 {
     health = 3;
+    lastGotHit = 1.f;
     shootingDelay = 0.1f;
     timeSinceLastShot = 1.f;
-    walls.top = top;
-    walls.right = right;
-    walls.bottom = bottom;
-    walls.left = left;
+    invulnerable = 1.f;
+
+    playingField.left = left;
+    playingField.top = top;
+    playingField.width = size;
+    playingField.height = size;
 
     vertices[0].position = sf::Vector2f(-16.f, -1.f);
     vertices[0].color = sf::Color(0xFF, 0xFC, 0xD9);
@@ -81,34 +84,34 @@ float toDegrees(float radians)
     return float(double(radians) * 180.0 / M_PI);
 }
 
-void Player::Update(sf::RenderWindow& window, const float& deltaTime)
+void Player::Update(sf::RenderWindow& window, sf::View& view, const float& deltaTime)
 {
     sf::Vector2f movement(0.f, 0.f);
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
     {
-		if (playerPosition.y - 20.f > walls.top)
+		if (playerPosition.y - 20.f > playingField.top)
 		{
 			movement.y = -5.f;
 		}
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
     {
-        if (playerPosition.x - 20.f > walls.left)
+        if (playerPosition.x - 20.f > playingField.left)
         {
             movement.x = -5.f;
         }
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
     {
-        if (playerPosition.y + 20.f < walls.bottom)
+        if (playerPosition.y + 20.f < playingField.top + playingField.height)
         {
             movement.y = 5.f;
         }
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
     {
-        if (playerPosition.x + 20.f < walls.right)
+        if (playerPosition.x + 20.f < playingField.left + playingField.width)
         {
             movement.x = 5.f;
         }
@@ -116,12 +119,15 @@ void Player::Update(sf::RenderWindow& window, const float& deltaTime)
 
     playerPosition = playerPosition + movement;
     this->setPosition(playerPosition);
-    mousePosition = sf::Vector2f(sf::Mouse::getPosition(window));
-    delta = mousePosition - playerPosition;
+    view.setCenter(playerPosition);
+    mousePositionWindow = sf::Vector2i(sf::Mouse::getPosition(window));
+    mousePositionView = window.mapPixelToCoords(mousePositionWindow);
+    delta = mousePositionView - playerPosition;
     angleRad = atan2(delta.y, delta.x);
     angleDeg = toDegrees(angleRad);
     this->setRotation(angleDeg);
 
+    lastGotHit += deltaTime;
     UpdateBullets(deltaTime);
 }
 
@@ -152,4 +158,50 @@ void Player::Fire()
     bullet.setPosition(bullet.position);
     bullet.setRotation(angleDeg);
     bullets.push_back(bullet);
+}
+
+void Player::GotHit()
+{
+    if (lastGotHit > invulnerable)
+    {
+        switch (health)
+        {
+        case 3:
+            GotHitOnce();
+            break;
+        case 2:
+            GotHitTwice();
+            break;
+        default:
+            break;
+        }
+    
+        health--;
+        lastGotHit = 0.f;
+    }
+}
+
+void Player::GotHitOnce()
+{
+    ship.clear();
+
+    for (int i = 4; i < 20; ++i)
+    {
+        ship.append(vertices[i]);
+    }
+}
+
+void Player::GotHitTwice()
+{
+    ship.clear();
+
+    for (int i = 8; i < 20; ++i)
+    {
+        ship.append(vertices[i]);
+    }
+}
+
+sf::FloatRect Player::GetBounds()
+{
+    return getTransform().transformRect(ship.getBounds());
 }

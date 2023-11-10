@@ -2,13 +2,13 @@
 
 #include "headers.h"
 
-struct Walls
-{
-    float top;
-    float right;
-    float bottom;
-    float left;
-};
+// struct Walls
+// {
+//     float top;
+//     float right;
+//     float bottom;
+//     float left;
+// };
 
 class Bullet : public sf::Drawable, public sf::Transformable
 {
@@ -37,21 +37,27 @@ class Player : public sf::Drawable, public sf::Transformable
 {
 public:
     // Define the shapes for the player
-    Player(float top, float right, float bottom, float left);
+    Player(float left, float top, float size);
 
-    void Update(sf::RenderWindow& window, const float& deltaTime);
+    void Update(sf::RenderWindow& window, sf::View& view, const float& deltaTime);
     void UpdateBullets(const float& deltaTime);
     void Fire();
+    void GotHit();
+    void GotHitOnce();
+    void GotHitTwice();
+    sf::FloatRect GetBounds();
 
 public:
     int health;
+    float lastGotHit;
     sf::Vector2f playerPosition;
-    sf::Vector2f mousePosition;
+    sf::Vector2i mousePositionWindow;
+    sf::Vector2f mousePositionView;
     sf::Vector2f delta; // distance between mouse cursor and player
     float angleRad;
     float angleDeg;
     std::vector<Bullet> bullets;
-    Walls walls;
+    sf::FloatRect playingField;
 
 private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -72,4 +78,5 @@ private:
     sf::VertexArray ship;
     float shootingDelay;
     float timeSinceLastShot;
+    float invulnerable;
 };

@@ -108,3 +108,71 @@ private:
     sf::Text exitButton;
     sf::VertexArray background;
 };
+
+class Complete : public sf::Drawable
+{
+public:
+    Complete();
+
+    void FadingIn();
+    void Reset();
+
+public:
+    bool isNotVisible;
+
+private:
+    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
+    {
+        target.draw(background, states);
+        if (!isNotVisible)
+        {
+            target.draw(levelComplete, states);
+        }
+    }
+
+    sf::Font font;
+    sf::Text levelComplete;
+    sf::VertexArray background;
+    int alphaDark;
+    int alphaLight;
+    int transitionSpeedDark;
+    int transitionSpeedLight;
+};
+
+class Failed : public sf::Drawable
+{
+public:
+    Failed();
+
+    void FadingIn();
+    void Reset();
+
+public:
+    bool isNotVisible;
+
+private:
+    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
+    {
+        target.draw(background, states);
+        if (!isNotVisible)
+        {
+            target.draw(levelFailed, states);
+        }
+    }
+
+    sf::Font font;
+    sf::Text levelFailed;
+    sf::VertexArray background;
+    int alphaDark;
+    int alphaLight;
+    int transitionSpeedDark;
+    int transitionSpeedLight;
+};
+
+struct Screens
+{
+    Transition transition;
+    Pause pause;
+    Complete complete;
+    Failed failed;
+};
