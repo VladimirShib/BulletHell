@@ -2,9 +2,21 @@
 
 Menu::Menu()
 {
-    if (!font.loadFromFile("arial.ttf"))
+    if (!selectBuffer.loadFromFile("game/sounds/sfx/button_select.wav"))
     {
-        perror("Couldn't load font \"arial\".");
+        std::cout << "Couldn't load sound \"button_select\".";
+    }
+    selectSound.setBuffer(selectBuffer);
+    
+    if (!pressBuffer.loadFromFile("game/sounds/sfx/button_press.wav"))
+    {
+        std::cout << "Couldn't load sound \"button_press\".";
+    }
+    pressSound.setBuffer(pressBuffer);
+
+    if (!font.loadFromFile("game/fonts/arial.ttf"))
+    {
+        std::cout << "Couldn't load font \"arial\".";
     }
 
     title.setFont(font);
@@ -202,11 +214,15 @@ void Menu::PollEvents(sf::RenderWindow& window, sf::Event& event, bool& isTransi
                 {
                     level = 0;
                     isTransitioning = true;
+                    pressSound.play();
                 }
                     break;
                 case 1:
+                {
                     // level select
+                    pressSound.play();
                     std::cout << "Select level button pressed\n";
+                }
                     break;
                 case 2:
                     window.close();
@@ -238,6 +254,7 @@ void Menu::MoveUp()
     }
     menuItem[selectedItemIndex].setFillColor(sf::Color(0xC6, 0xC2, 0xA5));
     menuSelectedItem.setPosition(menuPositions[selectedItemIndex]);
+    selectSound.play();
 }
 
 void Menu::MoveDown()
@@ -253,6 +270,7 @@ void Menu::MoveDown()
     }
     menuItem[selectedItemIndex].setFillColor(sf::Color(0xC6, 0xC2, 0xA5));
     menuSelectedItem.setPosition(menuPositions[selectedItemIndex]);
+    selectSound.play();
 }
 
 Transition::Transition()
@@ -308,9 +326,9 @@ void Transition::FadingOut()
 
 Pause::Pause()
 {
-    if (!font.loadFromFile("arial.ttf"))
+    if (!font.loadFromFile("game/fonts/arial.ttf"))
     {
-        perror("Couldn't load font \"arial\".");
+        std::cout << "Couldn't load font \"arial\".";
     }
     background.setPrimitiveType(sf::Quads);
 
@@ -378,9 +396,9 @@ Complete::Complete()
     alphaLight = 0;
     transitionSpeedDark = 5;
     transitionSpeedLight = 2;
-    if (!font.loadFromFile("arial.ttf"))
+    if (!font.loadFromFile("game/fonts/arial.ttf"))
     {
-        perror("Couldn't load font \"arial\".");
+        std::cout << "Couldn't load font \"arial\".";
     }
     background.setPrimitiveType(sf::Quads);
 
@@ -450,9 +468,9 @@ Failed::Failed()
     alphaLight = 0;
     transitionSpeedDark = 5;
     transitionSpeedLight = 2;
-    if (!font.loadFromFile("arial.ttf"))
+    if (!font.loadFromFile("game/fonts/arial.ttf"))
     {
-        perror("Couldn't load font \"arial\".");
+        std::cout << "Couldn't load font \"arial\".";
     }
     background.setPrimitiveType(sf::Quads);
 

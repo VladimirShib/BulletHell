@@ -57,6 +57,10 @@ private:
     sf::Text confirmButton;
     sf::VertexArray background;
     MenuSelectedItem menuSelectedItem;
+    sf::SoundBuffer selectBuffer;
+    sf::SoundBuffer pressBuffer;
+    sf::Sound selectSound;
+    sf::Sound pressSound;
 
     sf::Vector2f menuPositions[MAX_MAIN_MENU_ITEMS];
 };
