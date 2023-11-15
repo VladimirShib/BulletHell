@@ -1,5 +1,49 @@
 #include "maps.h"
 
+namespace
+{
+    struct Sounds
+    {
+        sf::SoundBuffer playerBulletWallBuffer;
+        sf::Sound playerBulletWall;
+        sf::SoundBuffer enemyBulletWallBuffer;
+        sf::Sound enemyBulletWall;
+        sf::SoundBuffer enemyHitBuffer;
+        sf::Sound enemyHit;
+        sf::SoundBuffer enemyExplodeBuffer;
+        sf::Sound enemyExplode;
+
+        Sounds()
+        {
+            if (!playerBulletWallBuffer.loadFromFile("game/sounds/sfx/player_bullet_hit_wall.wav"))
+            {
+                std::cout << "Couldn't load sound \"player_bullet_hit_wall\".";
+            }
+            playerBulletWall.setBuffer(playerBulletWallBuffer);
+
+            if (!enemyBulletWallBuffer.loadFromFile("game/sounds/sfx/enemy_bullet_hit_wall.wav"))
+            {
+                std::cout << "Couldn't load sound \"enemy_bullet_hit_wall\".";
+            }
+            enemyBulletWall.setBuffer(enemyBulletWallBuffer);
+
+            if (!enemyHitBuffer.loadFromFile("game/sounds/sfx/enemy_hit.wav"))
+            {
+                std::cout << "Couldn't load sound \"enemy_hit\".";
+            }
+            enemyHit.setBuffer(enemyHitBuffer);
+
+            if (!enemyExplodeBuffer.loadFromFile("game/sounds/sfx/enemy_explode.wav"))
+            {
+                std::cout << "Couldn't load sound \"enemy_explode\".";
+            }
+            enemyExplode.setBuffer(enemyExplodeBuffer);
+        }
+    };
+
+    Sounds sounds;
+}
+
 template <typename EnemyType>
 void checkPlayerBulletsWithOrange(Player& player, EnemyType& enemy)
 {
@@ -10,6 +54,7 @@ void checkPlayerBulletsWithOrange(Player& player, EnemyType& enemy)
         if (!player.playingField.contains(playerBullet.position))
         {
             playerBullet.hit = true;
+            sounds.playerBulletWall.play();
         }
         else
         {
@@ -19,6 +64,14 @@ void checkPlayerBulletsWithOrange(Player& player, EnemyType& enemy)
             {
                 playerBullet.hit = true;
                 enemy.health--;
+                if (enemy.health > 0)
+                {
+                    sounds.enemyHit.play();
+                }
+                else
+                {
+                    sounds.enemyExplode.play();
+                }
             }
             else
             {
@@ -47,6 +100,7 @@ void checkPlayerBullets(Player& player, EnemyType& enemy)
         if (!player.playingField.contains(playerBullet.position))
         {
             playerBullet.hit = true;
+            sounds.playerBulletWall.play();
         }
         else
         {
@@ -56,6 +110,14 @@ void checkPlayerBullets(Player& player, EnemyType& enemy)
             {
                 playerBullet.hit = true;
                 enemy.health--;
+                if (enemy.health > 0)
+                {
+                    sounds.enemyHit.play();
+                }
+                else
+                {
+                    sounds.enemyExplode.play();
+                }
             }
         }
     }
@@ -69,6 +131,7 @@ void checkOrangeBullets(Player& player, sf::FloatRect& playerBounds, EnemyType& 
         if (!player.playingField.contains(orangeBullet.position))
         {
             orangeBullet.hit = true;
+            sounds.enemyBulletWall.play();
         }
         else if (playerBounds.contains(orangeBullet.position))
         {
@@ -86,6 +149,7 @@ void checkPurpleBullets(Player& player, sf::FloatRect& playerBounds, EnemyType& 
         if (!player.playingField.contains(purpleBullet.position))
         {
             purpleBullet.hit = true;
+            sounds.enemyBulletWall.play();
         }
         else if (playerBounds.contains(purpleBullet.position))
         {

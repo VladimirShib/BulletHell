@@ -1,8 +1,44 @@
 #include "player.h"
 
+namespace
+{
+    struct PlayerSounds
+    {
+        sf::SoundBuffer shootBuffer;
+        sf::Sound shoot;
+        sf::SoundBuffer hitBuffer;
+        sf::Sound hit;
+        sf::SoundBuffer explodeBuffer;
+        sf::Sound explode;
+
+        PlayerSounds()
+        {
+            if (!shootBuffer.loadFromFile("game/sounds/sfx/player_shoot.wav"))
+            {
+                std::cout << "Couldn't load sound \"player_shoot\".";
+            }
+            shoot.setBuffer(shootBuffer);
+
+            if (!hitBuffer.loadFromFile("game/sounds/sfx/player_hit.wav"))
+            {
+                std::cout << "Couldn't load sound \"player_hit\".";
+            }
+            hit.setBuffer(hitBuffer);
+
+            if (!explodeBuffer.loadFromFile("game/sounds/sfx/player_explode.wav"))
+            {
+                std::cout << "Couldn't load sound \"player_explode\".";
+            }
+            explode.setBuffer(explodeBuffer);
+        }
+    };
+
+    PlayerSounds playerSounds;
+}
+
 Bullet::Bullet()
 {
-    speed = 700.f;
+    speed = 550.f;
     hit = false;
     bullet.setPrimitiveType(sf::TriangleStrip);
 
@@ -158,6 +194,8 @@ void Player::Fire()
     bullet.setPosition(bullet.position);
     bullet.setRotation(angleDeg);
     bullets.push_back(bullet);
+
+    playerSounds.shoot.play();
 }
 
 void Player::GotHit()
@@ -172,10 +210,13 @@ void Player::GotHit()
         case 2:
             GotHitTwice();
             break;
+        case 1:
+            playerSounds.explode.play();
+            break;
         default:
             break;
         }
-    
+        
         health--;
         lastGotHit = 0.f;
     }
@@ -184,6 +225,7 @@ void Player::GotHit()
 void Player::GotHitOnce()
 {
     ship.clear();
+    playerSounds.hit.play();
 
     for (int i = 4; i < 20; ++i)
     {
@@ -194,6 +236,7 @@ void Player::GotHitOnce()
 void Player::GotHitTwice()
 {
     ship.clear();
+    playerSounds.hit.play();
 
     for (int i = 8; i < 20; ++i)
     {

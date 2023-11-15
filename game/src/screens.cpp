@@ -2,18 +2,6 @@
 
 Menu::Menu()
 {
-    if (!selectBuffer.loadFromFile("game/sounds/sfx/button_select.wav"))
-    {
-        std::cout << "Couldn't load sound \"button_select\".";
-    }
-    selectSound.setBuffer(selectBuffer);
-    
-    if (!pressBuffer.loadFromFile("game/sounds/sfx/button_press.wav"))
-    {
-        std::cout << "Couldn't load sound \"button_press\".";
-    }
-    pressSound.setBuffer(pressBuffer);
-
     if (!font.loadFromFile("game/fonts/arial.ttf"))
     {
         std::cout << "Couldn't load font \"arial\".";
@@ -189,7 +177,7 @@ MenuSelectedItem::MenuSelectedItem()
     background.append(sf::Vertex(sf::Vector2f(-21, 22), sf::Color(0xD9, 0xD5, 0xB3)));
 }
 
-void Menu::PollEvents(sf::RenderWindow& window, sf::Event& event, bool& isTransitioning, int& level)
+void Menu::PollEvents(sf::RenderWindow& window, sf::Event& event, bool& isTransitioning, int& level, MusicManager& sounds)
 {
     while (window.pollEvent(event))
     {
@@ -200,11 +188,11 @@ void Menu::PollEvents(sf::RenderWindow& window, sf::Event& event, bool& isTransi
             {
             case sf::Keyboard::Up:
             case sf::Keyboard::W:
-                this->MoveUp();
+                this->MoveUp(sounds);
                 break;
             case sf::Keyboard::Down:
             case sf::Keyboard::S:
-                this->MoveDown();
+                this->MoveDown(sounds);
                 break;
             case sf::Keyboard::Return:
             case sf::Keyboard::Space:
@@ -214,18 +202,21 @@ void Menu::PollEvents(sf::RenderWindow& window, sf::Event& event, bool& isTransi
                 {
                     level = 0;
                     isTransitioning = true;
-                    pressSound.play();
+                    sounds.pressSound.play();
                 }
                     break;
                 case 1:
                 {
                     // level select
-                    pressSound.play();
+                    sounds.pressSound.play();
                     std::cout << "Select level button pressed\n";
                 }
                     break;
                 case 2:
+                {
+                    sounds.StopMusic();
                     window.close();
+                }
                     break;
                 default:
                     break;
@@ -241,7 +232,7 @@ void Menu::PollEvents(sf::RenderWindow& window, sf::Event& event, bool& isTransi
     }
 }
 
-void Menu::MoveUp()
+void Menu::MoveUp(MusicManager& sounds)
 {
     menuItem[selectedItemIndex].setFillColor(sf::Color(0x50, 0x4E, 0x48));
     if (selectedItemIndex == 0)
@@ -254,10 +245,10 @@ void Menu::MoveUp()
     }
     menuItem[selectedItemIndex].setFillColor(sf::Color(0xC6, 0xC2, 0xA5));
     menuSelectedItem.setPosition(menuPositions[selectedItemIndex]);
-    selectSound.play();
+    sounds.selectSound.play();
 }
 
-void Menu::MoveDown()
+void Menu::MoveDown(MusicManager& sounds)
 {
     menuItem[selectedItemIndex].setFillColor(sf::Color(0x50, 0x4E, 0x48));
     if (selectedItemIndex == 2)
@@ -270,7 +261,7 @@ void Menu::MoveDown()
     }
     menuItem[selectedItemIndex].setFillColor(sf::Color(0xC6, 0xC2, 0xA5));
     menuSelectedItem.setPosition(menuPositions[selectedItemIndex]);
-    selectSound.play();
+    sounds.selectSound.play();
 }
 
 Transition::Transition()

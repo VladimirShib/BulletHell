@@ -15,13 +15,15 @@ Game::Game() : window(
 void Game::Run()
 {
     Screens screens;
+    MusicManager sounds;
+    sounds.TurnOnMenuMusic();
 
     while (window.isOpen())
     {
         switch (state)
         {
         case GameState::MENU:
-            ManageMainMenu(screens.transition);
+            ManageMainMenu(screens.transition, sounds);
             break;
         case GameState::GAME:
             ManageGame(screens);
@@ -32,7 +34,7 @@ void Game::Run()
     }
 }
 
-void Game::ManageMainMenu(Transition& transition)
+void Game::ManageMainMenu(Transition& transition, MusicManager& sounds)
 {
     Menu menu;
 
@@ -48,7 +50,7 @@ void Game::ManageMainMenu(Transition& transition)
 
     while (window.isOpen())
     {
-        menu.PollEvents(window, event, transition.isTransitioning, currentLevel);
+        menu.PollEvents(window, event, transition.isTransitioning, currentLevel, sounds);
         window.clear(sf::Color(0xC6, 0xC2, 0xA5));
         window.draw(menu);
         if (transition.isTransitioning)

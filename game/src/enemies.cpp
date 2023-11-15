@@ -1,5 +1,25 @@
 #include "enemies.h"
 
+namespace
+{
+    struct EnemyShootSound
+    {
+        sf::SoundBuffer buffer;
+        sf::Sound sound;
+
+        EnemyShootSound()
+        {
+            if (!buffer.loadFromFile("game/sounds/sfx/enemy_shoot.wav"))
+            {
+                std::cout << "Couldn't load sound \"enemy_shoot\".";
+            }
+            sound.setBuffer(buffer);
+        }
+    };
+
+    EnemyShootSound enemyShoot;
+}
+
 OrangeBullet::OrangeBullet()
 {
     speed = 300.f;
@@ -123,6 +143,8 @@ void Level0Enemy::UpdateBullets(const float& deltaTime, const sf::Vector2f& play
         }
         timeSinceLastShot = 0.f;
         isOrange = !isOrange;
+
+        enemyShoot.sound.play();
     }
 
     for (OrangeBullet& bullet : orangeBullets)
@@ -220,6 +242,8 @@ void Level1Enemy::UpdateBullets(const float& deltaTime, const sf::Vector2f& play
         purpleBullets.push_back(bullet3);
 
         timeSinceLastShot = 0.f;
+
+        enemyShoot.sound.play();
     }
 
     for (PurpleBullet& bullet : purpleBullets)

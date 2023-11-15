@@ -1,6 +1,7 @@
 #pragma once
 
 #include "headers.h"
+#include "sound.h"
 
 constexpr int MAX_MAIN_MENU_ITEMS = 3;
 
@@ -24,9 +25,9 @@ class Menu : public sf::Drawable
 public:
     Menu();
 
-    void PollEvents(sf::RenderWindow& window, sf::Event& event, bool& isTransitioning, int& level);
-    void MoveUp();
-    void MoveDown();
+    void PollEvents(sf::RenderWindow& window, sf::Event& event, bool& isTransitioning, int& level, MusicManager& sounds);
+    void MoveUp(MusicManager& sounds);
+    void MoveDown(MusicManager& sounds);
     int GetPressedItem() { return selectedItemIndex; }
 
 private:
@@ -57,10 +58,6 @@ private:
     sf::Text confirmButton;
     sf::VertexArray background;
     MenuSelectedItem menuSelectedItem;
-    sf::SoundBuffer selectBuffer;
-    sf::SoundBuffer pressBuffer;
-    sf::Sound selectSound;
-    sf::Sound pressSound;
 
     sf::Vector2f menuPositions[MAX_MAIN_MENU_ITEMS];
 };

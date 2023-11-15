@@ -24,6 +24,8 @@ ${CMAKE_CURRENT_SOURCE_DIR}/game/src/player.cpp
 ${CMAKE_CURRENT_SOURCE_DIR}/game/src/enemies.h
 ${CMAKE_CURRENT_SOURCE_DIR}/game/src/enemies.cpp
 ${CMAKE_CURRENT_SOURCE_DIR}/game/src/collision.cpp
+${CMAKE_CURRENT_SOURCE_DIR}/game/src/sound.h
+${CMAKE_CURRENT_SOURCE_DIR}/game/src/sound.cpp
 )
 
 target_include_directories(app PRIVATE ${SFML_INCLUDE_DIR})

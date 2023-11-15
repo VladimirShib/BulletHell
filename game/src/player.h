@@ -2,14 +2,6 @@
 
 #include "headers.h"
 
-// struct Walls
-// {
-//     float top;
-//     float right;
-//     float bottom;
-//     float left;
-// };
-
 class Bullet : public sf::Drawable, public sf::Transformable
 {
 public:
