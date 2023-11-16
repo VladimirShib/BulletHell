@@ -1,6 +1,6 @@
 #include "levels.h"
 
-void checkForEscPress(sf::RenderWindow& window, sf::Event& event, sf::Clock& clock, bool& isPaused)
+void checkForEscPress(sf::RenderWindow& window, sf::Event& event, sf::Clock& clock, bool& isPaused, MusicManager& sounds)
 {
     while (window.pollEvent(event))
     {
@@ -9,13 +9,15 @@ void checkForEscPress(sf::RenderWindow& window, sf::Event& event, sf::Clock& clo
             if (event.key.code == sf::Keyboard::Escape)
             {
                 isPaused = true;
+                sounds.pauseSound.play();
+                sounds.TurnDown();
             }
         }
     }
 }
 
 template <typename Level>
-void handlePause(sf::RenderWindow& window, sf::View& view, sf::Event& event, sf::Clock& clock, Screens& screens, Level& level, bool& isPaused)
+void handlePause(sf::RenderWindow& window, sf::View& view, sf::Event& event, sf::Clock& clock, Screens& screens, Level& level, bool& isPaused, MusicManager& sounds)
 {
     window.setView(window.getDefaultView());
     window.draw(screens.pause);
@@ -29,12 +31,15 @@ void handlePause(sf::RenderWindow& window, sf::View& view, sf::Event& event, sf:
                 if (event.key.code == sf::Keyboard::Escape)
                 {
                     isPaused = false;
+                    sounds.pressSound.play();
+                    sounds.TurnUp();
                     clock.restart();
                     return;
                 }
                 else if (event.key.code == sf::Keyboard::Q)
                 {
                     screens.transition.isTransitioning = true;
+                    sounds.pressSound.play();
                     while (screens.transition.isTransitioning)
                     {
                         screens.transition.FadingIn();
@@ -58,7 +63,7 @@ void handlePause(sf::RenderWindow& window, sf::View& view, sf::Event& event, sf:
 }
 
 template <typename Level>
-void showCompleteScreen(sf::RenderWindow& window, sf::View& view, sf::Clock& clock, Screens& screens, Level& level)
+void showCompleteScreen(sf::RenderWindow& window, sf::View& view, sf::Clock& clock, Screens& screens, Level& level, MusicManager& sounds)
 {
     float waitTime = 0.f;
     while (window.isOpen())
@@ -76,6 +81,7 @@ void showCompleteScreen(sf::RenderWindow& window, sf::View& view, sf::Clock& clo
         {
             screens.transition.FadingIn();
             window.draw(screens.transition);
+            sounds.FadeOut();
             if (screens.transition.screenOff)
             {
                 screens.complete.Reset();
@@ -89,7 +95,7 @@ void showCompleteScreen(sf::RenderWindow& window, sf::View& view, sf::Clock& clo
 }
 
 template <typename Level>
-void showFailedScreen(sf::RenderWindow& window, sf::View& view, sf::Clock& clock, Screens& screens, Level& level)
+void showFailedScreen(sf::RenderWindow& window, sf::View& view, sf::Clock& clock, Screens& screens, Level& level, MusicManager& sounds)
 {
     float waitTime = 0.f;
     while (window.isOpen())
@@ -107,6 +113,7 @@ void showFailedScreen(sf::RenderWindow& window, sf::View& view, sf::Clock& clock
         {
             screens.transition.FadingIn();
             window.draw(screens.transition);
+            sounds.FadeOut();
             if (screens.transition.screenOff)
             {
                 screens.failed.Reset();
@@ -119,11 +126,12 @@ void showFailedScreen(sf::RenderWindow& window, sf::View& view, sf::Clock& clock
     }
 }
 
-int playLevel0(sf::RenderWindow& window, sf::View& view, sf::Event& event, sf::Clock& clock, Screens& screens)
+int playLevel0(sf::RenderWindow& window, sf::View& view, sf::Event& event, sf::Clock& clock, Screens& screens, MusicManager& sounds)
 {
     Level0 level;
     bool isPaused = false;
 
+    sounds.TurnOnNewSong();
     view.setCenter(level.player.playerPosition);
     while (screens.transition.isTransitioning)
     {
@@ -134,7 +142,9 @@ int playLevel0(sf::RenderWindow& window, sf::View& view, sf::Event& event, sf::C
         window.setView(window.getDefaultView());
         window.draw(screens.transition);
         window.display();
+        sounds.FadeOut();
     }
+    sounds.TracksChanged();
     clock.restart();
     while (window.isOpen() && level.levelStatus == 0)
     {
@@ -143,20 +153,20 @@ int playLevel0(sf::RenderWindow& window, sf::View& view, sf::Event& event, sf::C
         window.setView(view);
         window.draw(level);
         window.display();
-        checkForEscPress(window, event, clock, isPaused);
+        checkForEscPress(window, event, clock, isPaused, sounds);
         if (isPaused)
         {
-            handlePause(window, view, event, clock, screens, level, isPaused);
+            handlePause(window, view, event, clock, screens, level, isPaused, sounds);
         }
     }
 
     switch (level.levelStatus)
     {
     case 1:
-        showCompleteScreen(window, view, clock, screens, level);
+        showCompleteScreen(window, view, clock, screens, level, sounds);
         break;
     case 2:
-        showFailedScreen(window, view, clock, screens, level);
+        showFailedScreen(window, view, clock, screens, level, sounds);
         break;
     default:
         break;
@@ -165,11 +175,12 @@ int playLevel0(sf::RenderWindow& window, sf::View& view, sf::Event& event, sf::C
     return level.levelStatus;
 }
 
-int playLevel1(sf::RenderWindow& window, sf::View& view, sf::Event& event, sf::Clock& clock, Screens& screens)
+int playLevel1(sf::RenderWindow& window, sf::View& view, sf::Event& event, sf::Clock& clock, Screens& screens, MusicManager& sounds)
 {
     Level1 level;
     bool isPaused = false;
 
+    sounds.TurnOnNewSong();
     view.setCenter(level.player.playerPosition);
     while (screens.transition.isTransitioning)
     {
@@ -180,7 +191,9 @@ int playLevel1(sf::RenderWindow& window, sf::View& view, sf::Event& event, sf::C
         window.setView(window.getDefaultView());
         window.draw(screens.transition);
         window.display();
+        sounds.FadeOut();
     }
+    sounds.TracksChanged();
     clock.restart();
     while (window.isOpen() && level.levelStatus == 0)
     {
@@ -189,20 +202,20 @@ int playLevel1(sf::RenderWindow& window, sf::View& view, sf::Event& event, sf::C
         window.setView(view);
         window.draw(level);
         window.display();
-        checkForEscPress(window, event, clock, isPaused);
+        checkForEscPress(window, event, clock, isPaused, sounds);
         if (isPaused)
         {
-            handlePause(window, view, event, clock, screens, level, isPaused);
+            handlePause(window, view, event, clock, screens, level, isPaused, sounds);
         }
     }
 
     switch (level.levelStatus)
     {
     case 1:
-        showCompleteScreen(window, view, clock, screens, level);
+        showCompleteScreen(window, view, clock, screens, level, sounds);
         break;
     case 2:
-        showFailedScreen(window, view, clock, screens, level);
+        showFailedScreen(window, view, clock, screens, level, sounds);
         break;
     default:
         break;

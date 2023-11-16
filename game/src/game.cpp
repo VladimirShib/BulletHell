@@ -16,7 +16,6 @@ void Game::Run()
 {
     Screens screens;
     MusicManager sounds;
-    sounds.TurnOnMenuMusic();
 
     while (window.isOpen())
     {
@@ -26,7 +25,7 @@ void Game::Run()
             ManageMainMenu(screens.transition, sounds);
             break;
         case GameState::GAME:
-            ManageGame(screens);
+            ManageGame(screens, sounds);
             break;
         default:
             break;
@@ -46,7 +45,9 @@ void Game::ManageMainMenu(Transition& transition, MusicManager& sounds)
         window.draw(menu);
         window.draw(transition);
         window.display();
+        sounds.FadeOut();
     }
+    sounds.TurnOnMenuMusic();
 
     while (window.isOpen())
     {
@@ -57,6 +58,7 @@ void Game::ManageMainMenu(Transition& transition, MusicManager& sounds)
         {
             transition.FadingIn();
             window.draw(transition);
+            sounds.FadeOut();
             if (transition.screenOff)
             {
                 state = GameState::GAME;
@@ -67,7 +69,7 @@ void Game::ManageMainMenu(Transition& transition, MusicManager& sounds)
     }
 }
 
-void Game::ManageGame(Screens& screens)
+void Game::ManageGame(Screens& screens, MusicManager& sounds)
 {
     int levelStatus;
     while (window.isOpen())
@@ -76,7 +78,7 @@ void Game::ManageGame(Screens& screens)
         {
         case 0:
         {
-            levelStatus = playLevel0(window, view, event, clock, screens);
+            levelStatus = playLevel0(window, view, event, clock, screens, sounds);
             switch (levelStatus)
             {
             case 1: // level completed
@@ -93,7 +95,7 @@ void Game::ManageGame(Screens& screens)
             break;
         case 1:
         {
-            levelStatus = playLevel1(window, view, event, clock, screens);
+            levelStatus = playLevel1(window, view, event, clock, screens, sounds);
             switch (levelStatus)
             {
             case 1:

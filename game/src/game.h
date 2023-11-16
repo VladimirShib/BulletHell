@@ -22,7 +22,7 @@ public:
     Game();
     void Run();
     void ManageMainMenu(Transition& transition, MusicManager& sounds);
-    void ManageGame(Screens& screens);
+    void ManageGame(Screens& screens, MusicManager& sounds);
 
 public:
     sf::Event event;
