@@ -4,13 +4,6 @@ namespace
 {
     struct PlayerSounds
     {
-        sf::SoundBuffer shootBuffer;
-        sf::Sound shoot;
-        sf::SoundBuffer hitBuffer;
-        sf::Sound hit;
-        sf::SoundBuffer explodeBuffer;
-        sf::Sound explode;
-
         PlayerSounds()
         {
             if (!shootBuffer.loadFromFile("game/sounds/sfx/player_shoot.wav"))
@@ -31,6 +24,13 @@ namespace
             }
             explode.setBuffer(explodeBuffer);
         }
+
+        sf::SoundBuffer shootBuffer;
+        sf::Sound shoot;
+        sf::SoundBuffer hitBuffer;
+        sf::Sound hit;
+        sf::SoundBuffer explodeBuffer;
+        sf::Sound explode;
     };
 
     PlayerSounds playerSounds;
@@ -60,6 +60,8 @@ Player::Player(float left, float top, float size)
     shootingDelay = 0.1f;
     timeSinceLastShot = 1.f;
     invulnerable = 1.f;
+    isAnimatingHit = false;
+    isAnimatingExplode = false;
 
     playingField.left = left;
     playingField.top = top;
@@ -122,8 +124,17 @@ float toDegrees(float radians)
 
 void Player::Update(sf::RenderWindow& window, sf::View& view, const float& deltaTime)
 {
-    sf::Vector2f movement(0.f, 0.f);
+    if (isAnimatingExplode)
+    {
+        currentFrame++;
+        if (currentFrame == 30)
+        {
+            health--;
+        }
+        return;
+    }
 
+    sf::Vector2f movement;
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
     {
 		if (playerPosition.y - 20.f > playingField.top)
@@ -164,6 +175,15 @@ void Player::Update(sf::RenderWindow& window, sf::View& view, const float& delta
     this->setRotation(angleDeg);
 
     lastGotHit += deltaTime;
+    if (isAnimatingHit)
+    {
+        currentFrame++;
+        if (currentFrame == 18)
+        {
+            isAnimatingHit = false;
+            health--;
+        }
+    }
     UpdateBullets(deltaTime);
 }
 
@@ -211,14 +231,18 @@ void Player::GotHit()
             GotHitTwice();
             break;
         case 1:
+        {
             playerSounds.explode.play();
+            isAnimatingExplode = true;
+            bullets.clear();
+        }
             break;
         default:
             break;
         }
         
-        health--;
         lastGotHit = 0.f;
+        currentFrame = 0;
     }
 }
 
@@ -226,6 +250,7 @@ void Player::GotHitOnce()
 {
     ship.clear();
     playerSounds.hit.play();
+    isAnimatingHit = true;
 
     for (int i = 4; i < 20; ++i)
     {
@@ -237,6 +262,7 @@ void Player::GotHitTwice()
 {
     ship.clear();
     playerSounds.hit.play();
+    isAnimatingHit = true;
 
     for (int i = 8; i < 20; ++i)
     {

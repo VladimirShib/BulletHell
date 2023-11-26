@@ -2,22 +2,38 @@
 
 namespace
 {
-    struct EnemyShootSound
+    struct EnemySounds
     {
-        sf::SoundBuffer buffer;
-        sf::Sound sound;
-
-        EnemyShootSound()
+        EnemySounds()
         {
-            if (!buffer.loadFromFile("game/sounds/sfx/enemy_shoot.wav"))
+            if (!shootBuffer.loadFromFile("game/sounds/sfx/enemy_shoot.wav"))
             {
                 std::cout << "Couldn't load sound \"enemy_shoot\".";
             }
-            sound.setBuffer(buffer);
+            shoot.setBuffer(shootBuffer);
+
+            if (!hitBuffer.loadFromFile("game/sounds/sfx/enemy_hit.wav"))
+            {
+                std::cout << "Couldn't load sound \"enemy_hit\".";
+            }
+            hit.setBuffer(hitBuffer);
+
+            if (!explodeBuffer.loadFromFile("game/sounds/sfx/enemy_explode.wav"))
+            {
+                std::cout << "Couldn't load sound \"enemy_explode\".";
+            }
+            explode.setBuffer(explodeBuffer);
         }
+
+        sf::SoundBuffer shootBuffer;
+        sf::Sound shoot;
+        sf::SoundBuffer hitBuffer;
+        sf::Sound hit;
+        sf::SoundBuffer explodeBuffer;
+        sf::Sound explode;
     };
 
-    EnemyShootSound enemyShoot;
+    EnemySounds enemySounds;
 }
 
 OrangeBullet::OrangeBullet()
@@ -76,13 +92,15 @@ sf::FloatRect PurpleBullet::GetBounds()
 
 Level0Enemy::Level0Enemy()
 {
-    health = 15;
+    health = 10;
     elapsedTime = 0.f;
     amplitude = 5.f;
     period = 3.f;
     isOrange = true;
     shootingDelay = 0.5f;
     timeSinceLastShot = 0.f;
+    isAnimatingHit = false;
+    isAnimatingExplode = false;
     enemy.setPrimitiveType(sf::TriangleFan);
 
     enemy.append(sf::Vertex(sf::Vector2f(0.f, 0.f), sf::Color(0x50, 0x4E, 0x48)));
@@ -103,12 +121,29 @@ Level0Enemy::Level0Enemy()
 
 void Level0Enemy::Update(const float& deltaTime, const sf::Vector2f& playerPosition)
 {
+    if (isAnimatingExplode)
+    {
+        currentFrame++;
+        if (currentFrame == 30)
+        {
+            health--;
+        }
+        return;
+    }
     elapsedTime += deltaTime;
     wavePhase = elapsedTime * (1.5f * M_PI);
     enemyPosition.x += amplitude * std::cos(wavePhase / period);
-
     this->setPosition(enemyPosition);
 
+    if (isAnimatingHit)
+    {
+        currentFrame++;
+        if (currentFrame == 12)
+        {
+            isAnimatingHit = false;
+            health--;
+        }
+    }
     UpdateBullets(deltaTime, playerPosition);
 }
 
@@ -144,7 +179,7 @@ void Level0Enemy::UpdateBullets(const float& deltaTime, const sf::Vector2f& play
         timeSinceLastShot = 0.f;
         isOrange = !isOrange;
 
-        enemyShoot.sound.play();
+        enemySounds.shoot.play();
     }
 
     for (OrangeBullet& bullet : orangeBullets)
@@ -160,6 +195,26 @@ void Level0Enemy::UpdateBullets(const float& deltaTime, const sf::Vector2f& play
     }
 }
 
+void Level0Enemy::GotHit()
+{
+    if (!isAnimatingHit)
+    {
+        if (health > 1)
+        {
+            enemySounds.hit.play();
+            isAnimatingHit = true;
+        }
+        else
+        {
+            enemySounds.explode.play();
+            isAnimatingExplode = true;
+            orangeBullets.clear();
+            purpleBullets.clear();
+        }
+        currentFrame = 0;
+    }
+}
+
 sf::FloatRect Level0Enemy::GetBounds()
 {
     return getTransform().transformRect(enemy.getBounds());
@@ -167,12 +222,14 @@ sf::FloatRect Level0Enemy::GetBounds()
 
 Level1Enemy::Level1Enemy()
 {
-    health = 15;
+    health = 10;
     elapsedTime = 0.f;
     speedX = 7.f;
     speedY = 3.5f;
     shootingDelay = 1.f;
     timeSinceLastShot = 0.f;
+    isAnimatingHit = false;
+    isAnimatingExplode = false;
     enemy.setPrimitiveType(sf::TriangleFan);
 
     enemy.append(sf::Vertex(sf::Vector2f(0.f, 0.f), sf::Color(0x50, 0x4E, 0x48)));
@@ -193,13 +250,30 @@ Level1Enemy::Level1Enemy()
 
 void Level1Enemy::Update(const float& deltaTime, const sf::Vector2f& playerPosition)
 {
+    if (isAnimatingExplode)
+    {
+        currentFrame++;
+        if (currentFrame == 30)
+        {
+            health--;
+        }
+        return;
+    }
     elapsedTime += deltaTime;
     wavePhase = elapsedTime * (5.f * M_PI);
     enemyPosition.x += speedX * std::cos(wavePhase / speedX);
     enemyPosition.y += speedY * std::cos(wavePhase / speedY);
-
     this->setPosition(enemyPosition);
 
+    if (isAnimatingHit)
+    {
+        currentFrame++;
+        if (currentFrame == 12)
+        {
+            isAnimatingHit = false;
+            health--;
+        }
+    }
     UpdateBullets(deltaTime, playerPosition);
 }
 
@@ -243,13 +317,32 @@ void Level1Enemy::UpdateBullets(const float& deltaTime, const sf::Vector2f& play
 
         timeSinceLastShot = 0.f;
 
-        enemyShoot.sound.play();
+        enemySounds.shoot.play();
     }
 
     for (PurpleBullet& bullet : purpleBullets)
     {
         bullet.position += bullet.velocity * deltaTime;
         bullet.setPosition(bullet.position);
+    }
+}
+
+void Level1Enemy::GotHit()
+{
+    if (!isAnimatingHit)
+    {
+        if (health > 1)
+        {
+            enemySounds.hit.play();
+            isAnimatingHit = true;
+        }
+        else
+        {
+            enemySounds.explode.play();
+            isAnimatingExplode = true;
+            purpleBullets.clear();
+        }
+        currentFrame = 0;
     }
 }
 
