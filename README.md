@@ -9,9 +9,11 @@ This game can be classified as a top-down shooter with bullet hell elements.
 - The player controls a small ship that can move freely in all directions and shoot a continuous stream of bullets.
 - The game consists of progressively harder levels.
 - To advance to the next level, player must destroy all enemies on the current level while dodging their attacks.
-- Player can take up to two hits before their ship is destroyed.
-- If the player's ship is destroyed, the player can start the level again.
-- Player can press ESC at any time to pause the game. In the menu there are options to restart the current level, reset the progress of levels and start from the first one or exit the game.
+- Player can take up to two hits before the ship is destroyed.
+- The game ends if the player's ship is destroyed.
+- Player can press ESC at any time to pause the game. From the pause screen it is possible to exit to the main menu.
+- In the main menu player can start the game from the first level, go to the level selection screen or exit the game.
+- All levels are available on the level selection screen. Player can start the game from any level.
 
 **3. Details**
 
@@ -25,11 +27,11 @@ There are different types of enemies: some move in set paths and shoot randomly 
 
 - *Damage*
 
-The player's ship can take two hits, the third one destroys the ship. Damage can be taken from enemy shots, from direct collision with an enemy or with certain obstacles on the game field. Taking damage prevents the possibility of taking new damage for a short time, to avoid situations with instant destruction from multiple bullets flying together.
+The player's ship can take two hits, the third one destroys the ship. Damage can be taken from enemy shots or from collision with certain obstacles on the game field. Taking damage prevents the possibility of taking new damage for a short time, to avoid situations with instant destruction from multiple bullets flying together.
 
 - *Level progression*
 
-Transitions between levels are without pause, with a short splash screen. The difficulty of the game increases with each level, which is reflected in the increased number of enemies and projectiles flying around. The goal of the game is to pass as many levels as possible.
+Transitions between levels are without pause, with a short splash screen. The difficulty of the game increases with each level, which is reflected in the increased number of enemies and projectiles flying around. The goal of the game is to complete as many levels as possible.
 <br/><br/><br/><br/><br/>
 **1. Жанр**
 
@@ -39,9 +41,11 @@ Transitions between levels are without pause, with a short splash screen. The di
 - Игрок управляет небольшим кораблем, который может свободно перемещаться во всех направлениях и стрелять непрерывным потоком пуль.
 - Игра состоит из постепенно усложняющихся уровней.
 - Для перехода на следующий уровень нужно уничтожить всех врагов на текущем уровне, параллельно уклоняясь от их выстрелов.
-- Игрок может получить до двух ударов, преждем чем его корабль разрушится.
-- Если корабль игрока уничтожен, игрок может начать уровень заново.
-- В любой момент можно нажать ESC, что поставит игру на паузу. В меню можно перезапустить текущий уровень, сбросить прогресс уровней и начать с первого либо завершить игру.
+- Игрок может получить до двух ударов прежде чем его корабль разрушится.
+- Если корабль игрока уничтожен, игра заканчивается.
+- В любой момент можно нажать ESC, что поставит игру на паузу. Из меню паузы можно выйти в главное меню.
+- В главном меню можно начать игру с первого уровня, перейти на экран выбора уровней или выйти из игры.
+- На экране выбора уровней доступны все уровни. Можно начать игру с любого.
 
 **3. Подробности**
 
@@ -55,7 +59,7 @@ W, A, S, D для передвижения, мышь для вращения к�
 
 - *Урон*
 
-Корабль игрока может выдержать два удара, на третий корабль уничтожается. Урон можно получить от выстрелов противника, от непосредственно столкновения с противником либо с определенными препятствиями на игровом поле. Получение урона на короткое время предотвращает возможность получения нового, чтобы избежать ситуаций с мгновенным уничтожением от нескольких снарядов, летящих вместе.
+Корабль игрока может выдержать два удара, на третий корабль уничтожается. Урон можно получить от выстрелов противника либо от столкновения с определенными препятствиями на игровом поле. Получение урона на короткое время предотвращает возможность получения нового, чтобы избежать ситуаций с мгновенным уничтожением от нескольких снарядов, летящих вместе.
 
 - *Продвижение по уровням*
 

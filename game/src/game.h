@@ -25,12 +25,12 @@ public:
     void ManageGame(Screens& screens, MusicManager& sounds);
 
 public:
-    sf::Event event;
-    sf::Clock clock;
-    int currentLevel;
-
-private:
     sf::RenderWindow window;
     sf::View view;
+    sf::Event event;
+    sf::Clock clock;
+
+private:
     GameState state;
+    int currentLevel;
 };
