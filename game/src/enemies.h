@@ -228,3 +228,62 @@ private:
     int currentFrame;
     bool isAnimatingHit;
 };
+
+class Level2Enemy : public sf::Drawable, public sf::Transformable
+{
+public:
+    Level2Enemy();
+
+    void Update(const float& deltaTime, const sf::Vector2f& playerPosition);
+    void UpdateBullets(const float& deltaTime, const sf::Vector2f& playerPosition);
+    void GotHit();
+    sf::FloatRect GetBounds();
+
+public:
+    int health;
+    sf::Vector2f enemyPosition;
+    std::vector<PurpleBullet> purpleBullets;
+    bool isAnimatingExplode;
+
+private:
+    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
+    {
+        states.transform *= getTransform();
+        for (const PurpleBullet& bullet : purpleBullets)
+        {
+            target.draw(bullet);
+        }
+
+        if (!isAnimatingExplode)
+        {
+            target.draw(enemy, states);
+        }
+        else
+        {
+            enemyAnimations.explodeSprites[currentFrame].setPosition(enemyPosition);
+            target.draw(enemyAnimations.explodeSprites[currentFrame]);
+        }
+
+        if (isAnimatingHit)
+        {
+            enemyAnimations.hitSprites[currentFrame].setPosition(enemyPosition);
+            target.draw(enemyAnimations.hitSprites[currentFrame]);
+        }
+    }
+
+    sf::VertexArray enemy;
+    float elapsedTime;
+    sf::Vector2f center;
+    sf::Vector2f offset;
+    float radius;
+    float speed;
+    float shootingDelay;
+    float timeSinceLastShot;
+    sf::Vector2f delta;
+    float angleRad;
+    float leftOffsetAngle;
+    float rightOffsetAngle;
+    float backOffsetAngle;
+    int currentFrame;
+    bool isAnimatingHit;
+};

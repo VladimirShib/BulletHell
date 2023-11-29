@@ -4,11 +4,39 @@
 #include "sound.h"
 
 constexpr int MAX_MAIN_MENU_ITEMS = 3;
+constexpr int MAX_SELECTION_MENU_ITEMS = 8;
 
-class MenuSelectedItem : public sf::Drawable, public sf::Transformable
+class Menu : public sf::Drawable
 {
 public:
-    MenuSelectedItem();
+    Menu();
+
+private:
+    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
+    {
+        target.draw(background, states);
+        target.draw(titleShadow, states);
+        target.draw(title, states);
+        target.draw(select, states);
+        target.draw(selectButtons, states);
+        target.draw(confirm, states);
+        target.draw(confirmButton, states);
+    }
+
+    sf::Font font;
+    sf::Text title;
+    sf::Text titleShadow;
+    sf::Text select;
+    sf::Text selectButtons;
+    sf::Text confirm;
+    sf::Text confirmButton;
+    sf::VertexArray background;
+};
+
+class MainMenuSelectedItem : public sf::Drawable, public sf::Transformable
+{
+public:
+    MainMenuSelectedItem();
 
 private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -20,46 +48,91 @@ private:
     sf::VertexArray background;
 };
 
-class Menu : public sf::Drawable
+class MainMenu : public sf::Drawable
 {
 public:
-    Menu();
+    MainMenu();
 
     void PollEvents(sf::RenderWindow& window, sf::Event& event, bool& isTransitioning, int& level, MusicManager& sounds);
     void MoveUp(MusicManager& sounds);
     void MoveDown(MusicManager& sounds);
     int GetPressedItem() { return selectedItemIndex; }
 
+public:
+    bool toSelection;
+
 private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
     {
         target.draw(background, states);
-        target.draw(menuSelectedItem, states);
-        target.draw(titleShadow, states);
-        target.draw(title, states);
+        target.draw(selectedItem, states);
         for (int i = 0; i < MAX_MAIN_MENU_ITEMS; ++i)
         {
             target.draw(menuItem[i], states);
         }
-        target.draw(select, states);
-        target.draw(selectButtons, states);
-        target.draw(confirm, states);
-        target.draw(confirmButton, states);
     }
 
     int selectedItemIndex;
     sf::Font font;
-    sf::Text title;
-    sf::Text titleShadow;
     sf::Text menuItem[MAX_MAIN_MENU_ITEMS];
-    sf::Text select;
-    sf::Text selectButtons;
-    sf::Text confirm;
-    sf::Text confirmButton;
     sf::VertexArray background;
-    MenuSelectedItem menuSelectedItem;
+    MainMenuSelectedItem selectedItem;
 
     sf::Vector2f menuPositions[MAX_MAIN_MENU_ITEMS];
+};
+
+class SelectionMenuSelectedItem : public sf::Drawable, public sf::Transformable
+{
+public:
+    SelectionMenuSelectedItem();
+
+private:
+    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
+    {
+        states.transform *= getTransform();
+        target.draw(background, states);
+    }
+
+    sf::VertexArray background;
+};
+
+class Selection : public sf::Drawable
+{
+public:
+    Selection();
+
+    void PollEvents(sf::RenderWindow& window, sf::Event& event, bool& isTransitioning, int& level, MusicManager& sounds);
+    void MoveUp(MusicManager& sounds);
+    void MoveDown(MusicManager& sounds);
+    int GetPressedItem() { return selectedItemIndex; }
+
+public:
+    bool toMainMenu;
+
+private:
+    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
+    {
+        target.draw(background, states);
+        target.draw(selectedItem, states);
+        for (int i = 0; i < MAX_SELECTION_MENU_ITEMS; ++i)
+        {
+            target.draw(menuItem[i], states);
+        }
+        target.draw(hintText, states);
+        target.draw(backButton, states);
+        target.draw(backText, states);
+    }
+
+    int selectedItemIndex;
+    sf::Font font;
+    sf::Text menuItem[MAX_SELECTION_MENU_ITEMS];
+    sf::Text hintText;
+    sf::Text backButton;
+    sf::Text backText;
+    sf::VertexArray background;
+    SelectionMenuSelectedItem selectedItem;
+
+    sf::Vector2f menuPositions[MAX_SELECTION_MENU_ITEMS];
 };
 
 class Transition : public sf::Drawable

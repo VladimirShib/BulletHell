@@ -33,6 +33,7 @@ The player's ship can take two hits, the third one destroys the ship. Damage can
 
 Transitions between levels are without pause, with a short splash screen. The difficulty of the game increases with each level, which is reflected in the increased number of enemies and projectiles flying around. The goal of the game is to complete as many levels as possible.
 <br/><br/><br/><br/><br/>
+
 **1. Жанр**
 
 Игру можно классифицировать как шутер с видом сверху с элементами bullet hell.

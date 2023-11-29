@@ -21,7 +21,9 @@ class Game
 public:
     Game();
     void Run();
-    void ManageMainMenu(Transition& transition, MusicManager& sounds);
+    void ManageMenu(Transition& transition, MusicManager& sounds);
+    void ManageMainMenu(const Menu& menu, Transition& transition, MusicManager& sounds);
+    void ManageSelectionMenu(const Menu& menu, Transition& transition, MusicManager& sounds);
     void ManageGame(Screens& screens, MusicManager& sounds);
 
 public:

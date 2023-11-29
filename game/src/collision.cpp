@@ -178,3 +178,12 @@ void Level1::CheckCollision()
 
     erasePlayerAndPurpleBullets(player, enemy);
 }
+
+void Level2::CheckCollision()
+{
+    sf::FloatRect playerBounds = player.GetBounds();
+    checkPlayerBullets(player, enemy);
+    checkPurpleBullets(player, playerBounds, enemy);
+
+    erasePlayerAndPurpleBullets(player, enemy);
+}
