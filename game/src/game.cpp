@@ -177,6 +177,23 @@ void Game::ManageGame(Screens& screens, MusicManager& sounds)
             switch (levelStatus)
             {
             case 1:
+                currentLevel++;
+                break;
+            case 2:
+            case 3:
+                state = GameState::MENU;
+                return;
+            default:
+                break;
+            }
+        }
+            break;
+        case 3:
+        {
+            levelStatus = playLevel3(window, view, event, clock, screens, sounds);
+            switch (levelStatus)
+            {
+            case 1:
                 // currentLevel++;
                 // break;
             case 2:

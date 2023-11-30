@@ -272,3 +272,52 @@ int playLevel2(sf::RenderWindow& window, sf::View& view, sf::Event& event, sf::C
 
     return level.levelStatus;
 }
+
+int playLevel3(sf::RenderWindow& window, sf::View& view, sf::Event& event, sf::Clock& clock, Screens& screens, MusicManager& sounds)
+{
+    Level3 level;
+    bool isPaused = false;
+
+    sounds.TurnOnNewSong();
+    view.setCenter(level.player.playerPosition);
+    while (screens.transition.isTransitioning)
+    {
+        screens.transition.FadingOut();
+        window.clear(sf::Color(0xC6, 0xC2, 0xA5));
+        window.setView(view);
+        window.draw(level);
+        window.setView(window.getDefaultView());
+        window.draw(screens.transition);
+        window.display();
+        sounds.FadeOut();
+    }
+    sounds.TracksChanged();
+    clock.restart();
+    while (window.isOpen() && level.levelStatus == 0)
+    {
+        level.Update(window, view, clock);
+        window.clear(sf::Color(0xC6, 0xC2, 0xA5));
+        window.setView(view);
+        window.draw(level);
+        window.display();
+        checkForEscPress(window, event, clock, isPaused, sounds);
+        if (isPaused)
+        {
+            handlePause(window, view, event, clock, screens, level, isPaused, sounds);
+        }
+    }
+
+    switch (level.levelStatus)
+    {
+    case 1:
+        showCompleteScreen(window, view, clock, screens, level, sounds);
+        break;
+    case 2:
+        showFailedScreen(window, view, clock, screens, level, sounds);
+        break;
+    default:
+        break;
+    }
+
+    return level.levelStatus;
+}

@@ -96,3 +96,34 @@ private:
 
     sf::VertexArray map;
 };
+
+class Level3 : public sf::Drawable
+{
+public:
+    Level3();
+
+    void Update(sf::RenderWindow& window, sf::View& view, sf::Clock& clock);
+    void CheckCollision();
+
+public:
+    Player player;
+    Level3Enemy enemy;
+    float deltaTime;
+    int levelStatus;
+
+private:
+    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
+    {
+        target.draw(map, states);
+        if (enemy.health > 0)
+        {
+            target.draw(enemy, states);
+        }
+        if (player.health > 0)
+        {
+            target.draw(player, states);
+        }
+    }
+
+    sf::VertexArray map;
+};

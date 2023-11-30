@@ -492,3 +492,225 @@ sf::FloatRect Level2Enemy::GetBounds()
 {
     return getTransform().transformRect(enemy.getBounds());
 }
+
+Level3Enemy::Level3Enemy()
+{
+    health = 10;
+    speed = sf::Vector2f(-500.f, 150.f);
+    shootingDelay = 1.f;
+    timeSinceLastShot = 0.f;
+    isOrange = true;
+    isAnimatingHit = false;
+    isAnimatingExplode = false;
+    enemy.setPrimitiveType(sf::TriangleFan);
+
+    enemy.append(sf::Vertex(sf::Vector2f(0.f, 0.f), sf::Color(0x50, 0x4E, 0x48)));
+    enemy.append(sf::Vertex(sf::Vector2f(25.f, 0.f), sf::Color(0x50, 0x4E, 0x48)));
+    enemy.append(sf::Vertex(sf::Vector2f(21.6f, 12.5f), sf::Color(0x50, 0x4E, 0x48)));
+    enemy.append(sf::Vertex(sf::Vector2f(12.5f, 21.6f), sf::Color(0x50, 0x4E, 0x48)));
+    enemy.append(sf::Vertex(sf::Vector2f(0.f, 25.0f), sf::Color(0x50, 0x4E, 0x48)));
+    enemy.append(sf::Vertex(sf::Vector2f(-12.5f, 21.6f), sf::Color(0x50, 0x4E, 0x48)));
+    enemy.append(sf::Vertex(sf::Vector2f(-21.6f, 12.5f), sf::Color(0x50, 0x4E, 0x48)));
+    enemy.append(sf::Vertex(sf::Vector2f(-25.f, 0.f), sf::Color(0x50, 0x4E, 0x48)));
+    enemy.append(sf::Vertex(sf::Vector2f(-21.6f, -12.5f), sf::Color(0x50, 0x4E, 0x48)));
+    enemy.append(sf::Vertex(sf::Vector2f(-12.5f, -21.6f), sf::Color(0x50, 0x4E, 0x48)));
+    enemy.append(sf::Vertex(sf::Vector2f(0.f, -25.0f), sf::Color(0x50, 0x4E, 0x48)));
+    enemy.append(sf::Vertex(sf::Vector2f(12.5f, -21.6f), sf::Color(0x50, 0x4E, 0x48)));
+    enemy.append(sf::Vertex(sf::Vector2f(21.6f, -12.5f), sf::Color(0x50, 0x4E, 0x48)));
+    enemy.append(sf::Vertex(sf::Vector2f(25.f, 0.f), sf::Color(0x50, 0x4E, 0x48)));
+}
+
+void Level3Enemy::Update(const float& deltaTime, const sf::Vector2f& playerPosition)
+{
+    if (isAnimatingExplode)
+    {
+        currentFrame++;
+        if (currentFrame == 30)
+        {
+            health--;
+        }
+        return;
+    }
+    enemyPosition += speed * deltaTime;
+    if ((enemyPosition.x >= 700.f) && (speed.x > 0))
+    {
+        speed.x = -speed.x;
+    }
+    if ((enemyPosition.x <= 300.f) && (speed.x < 0))
+    {
+        speed.x = -speed.x;
+    }
+    if ((enemyPosition.y >= 550.f) && (speed.y > 0))
+    {
+        speed.y = -speed.y;
+    }
+    if ((enemyPosition.y <= 150.f) && (speed.y < 0))
+    {
+        speed.y = -speed.y;
+    }
+    this->setPosition(enemyPosition);
+
+    if (isAnimatingHit)
+    {
+        currentFrame++;
+        if (currentFrame == 12)
+        {
+            isAnimatingHit = false;
+            health--;
+        }
+    }
+    UpdateBullets(deltaTime, playerPosition);
+}
+
+void Level3Enemy::UpdateBullets(const float& deltaTime, const sf::Vector2f& playerPosition)
+{
+    timeSinceLastShot += deltaTime;
+    if (timeSinceLastShot > shootingDelay)
+    {
+        delta = playerPosition - enemyPosition;
+        angleRad = atan2(delta.y, delta.x);
+        left1OffsetAngle = angleRad - (M_PI / 4.0f);
+        left2OffsetAngle = angleRad - (M_PI / 2.0f);
+        right1OffsetAngle = angleRad + (M_PI / 4.0f);
+        right2OffsetAngle = angleRad + (M_PI / 2.0f);
+
+        if (isOrange)
+        {
+            OrangeBullet bullet1;
+            bullet1.position = enemyPosition;
+            bullet1.velocity = {
+                std::cos(angleRad) * bullet1.speed,
+                std::sin(angleRad) * bullet1.speed
+            };
+            bullet1.setPosition(bullet1.position);
+
+            OrangeBullet bullet2;
+            bullet2.position = enemyPosition;
+            bullet2.velocity = {
+                std::cos(left1OffsetAngle) * bullet2.speed,
+                std::sin(left1OffsetAngle) * bullet2.speed
+            };
+            bullet2.setPosition(bullet2.position);
+
+            OrangeBullet bullet3;
+            bullet3.position = enemyPosition;
+            bullet3.velocity = {
+                std::cos(left2OffsetAngle) * bullet3.speed,
+                std::sin(left2OffsetAngle) * bullet3.speed
+            };
+            bullet3.setPosition(bullet3.position);
+
+            OrangeBullet bullet4;
+            bullet4.position = enemyPosition;
+            bullet4.velocity = {
+                std::cos(right1OffsetAngle) * bullet4.speed,
+                std::sin(right1OffsetAngle) * bullet4.speed
+            };
+            bullet4.setPosition(bullet4.position);
+
+            OrangeBullet bullet5;
+            bullet5.position = enemyPosition;
+            bullet5.velocity = {
+                std::cos(right2OffsetAngle) * bullet5.speed,
+                std::sin(right2OffsetAngle) * bullet5.speed
+            };
+            bullet5.setPosition(bullet5.position);
+
+            orangeBullets.push_back(bullet1);
+            orangeBullets.push_back(bullet2);
+            orangeBullets.push_back(bullet3);
+            orangeBullets.push_back(bullet4);
+            orangeBullets.push_back(bullet5);
+        }
+        else
+        {
+            PurpleBullet bullet1;
+            bullet1.position = enemyPosition;
+            bullet1.velocity = {
+                std::cos(angleRad) * bullet1.speed,
+                std::sin(angleRad) * bullet1.speed
+            };
+            bullet1.setPosition(bullet1.position);
+
+            PurpleBullet bullet2;
+            bullet2.position = enemyPosition;
+            bullet2.velocity = {
+                std::cos(left1OffsetAngle) * bullet2.speed,
+                std::sin(left1OffsetAngle) * bullet2.speed
+            };
+            bullet2.setPosition(bullet2.position);
+
+            PurpleBullet bullet3;
+            bullet3.position = enemyPosition;
+            bullet3.velocity = {
+                std::cos(left2OffsetAngle) * bullet3.speed,
+                std::sin(left2OffsetAngle) * bullet3.speed
+            };
+            bullet3.setPosition(bullet3.position);
+
+            PurpleBullet bullet4;
+            bullet4.position = enemyPosition;
+            bullet4.velocity = {
+                std::cos(right1OffsetAngle) * bullet4.speed,
+                std::sin(right1OffsetAngle) * bullet4.speed
+            };
+            bullet4.setPosition(bullet4.position);
+
+            PurpleBullet bullet5;
+            bullet5.position = enemyPosition;
+            bullet5.velocity = {
+                std::cos(right2OffsetAngle) * bullet5.speed,
+                std::sin(right2OffsetAngle) * bullet5.speed
+            };
+            bullet5.setPosition(bullet5.position);
+
+            purpleBullets.push_back(bullet1);
+            purpleBullets.push_back(bullet2);
+            purpleBullets.push_back(bullet3);
+            purpleBullets.push_back(bullet4);
+            purpleBullets.push_back(bullet5);
+        }
+        timeSinceLastShot = 0.f;
+        isOrange = !isOrange;
+
+
+        enemySounds.shoot.play();
+    }
+
+    for (OrangeBullet& bullet : orangeBullets)
+    {
+        bullet.position += bullet.velocity * deltaTime;
+        bullet.setPosition(bullet.position);
+    }
+
+    for (PurpleBullet& bullet : purpleBullets)
+    {
+        bullet.position += bullet.velocity * deltaTime;
+        bullet.setPosition(bullet.position);
+    }
+}
+
+void Level3Enemy::GotHit()
+{
+    if (!isAnimatingHit)
+    {
+        if (health > 1)
+        {
+            enemySounds.hit.play();
+            isAnimatingHit = true;
+        }
+        else
+        {
+            enemySounds.explode.play();
+            isAnimatingExplode = true;
+            orangeBullets.clear();
+            purpleBullets.clear();
+        }
+        currentFrame = 0;
+    }
+}
+
+sf::FloatRect Level3Enemy::GetBounds()
+{
+    return getTransform().transformRect(enemy.getBounds());
+}
