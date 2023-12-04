@@ -194,6 +194,40 @@ void Game::ManageGame(Screens& screens, MusicManager& sounds)
             switch (levelStatus)
             {
             case 1:
+                currentLevel++;
+                break;
+            case 2:
+            case 3:
+                state = GameState::MENU;
+                return;
+            default:
+                break;
+            }
+        }
+            break;
+        case 4:
+        {
+            levelStatus = playLevel4(window, view, event, clock, screens, sounds);
+            switch (levelStatus)
+            {
+            case 1:
+                currentLevel++;
+                break;
+            case 2:
+            case 3:
+                state = GameState::MENU;
+                return;
+            default:
+                break;
+            }
+        }
+            break;
+        case 5:
+        {
+            levelStatus = playLevel5(window, view, event, clock, screens, sounds);
+            switch (levelStatus)
+            {
+            case 1:
                 // currentLevel++;
                 // break;
             case 2:

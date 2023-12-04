@@ -198,3 +198,25 @@ void Level3::CheckCollision()
     erasePlayerAndPurpleBullets(player, enemy);
     eraseOrangeBullets(enemy);
 }
+
+void Level4::CheckCollision()
+{
+    sf::FloatRect playerBounds = player.GetBounds();
+    checkPlayerBulletsWithOrange(player, enemy);
+    checkOrangeBullets(player, playerBounds, enemy);
+    checkPurpleBullets(player, playerBounds, enemy);
+
+    erasePlayerAndPurpleBullets(player, enemy);
+    eraseOrangeBullets(enemy);
+}
+
+void Level5::CheckCollision()
+{
+    sf::FloatRect playerBounds = player.GetBounds();
+    checkPlayerBulletsWithOrange(player, enemy);
+    checkOrangeBullets(player, playerBounds, enemy);
+    checkPurpleBullets(player, playerBounds, enemy);
+
+    erasePlayerAndPurpleBullets(player, enemy);
+    eraseOrangeBullets(enemy);
+}

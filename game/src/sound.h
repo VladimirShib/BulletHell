@@ -25,10 +25,10 @@ public:
 private:
     std::mt19937 rng;
     std::uniform_int_distribution<int> distribution;
+    int currentSongNumber;
     int randomNumber;
     float volume;
     float speed;
-    bool inProcess;
     sf::SoundBuffer selectBuffer;
     sf::SoundBuffer pressBuffer;
     sf::SoundBuffer pauseBuffer;

@@ -5,10 +5,10 @@ MusicManager::MusicManager()
     const unsigned seed = unsigned(std::time(nullptr));
     rng.seed(seed);
     distribution = std::uniform_int_distribution(1, 10);
+    randomNumber = distribution(rng);
 
     volume = 100.f;
     speed = 2.f;
-    inProcess = true;
     currentSong = nullptr;
 
     if (!selectBuffer.loadFromFile("game/sounds/sfx/button_select.wav"))
@@ -122,7 +122,13 @@ void MusicManager::TurnOnMenuMusic()
 
 void MusicManager::TurnOnNewSong()
 {
-    randomNumber = distribution(rng);
+    currentSongNumber = randomNumber;
+    do
+    {
+        randomNumber = distribution(rng);
+    }
+    while (randomNumber == currentSongNumber);
+    
     if (randomNumber < songs.size())
     {
         nextSong = songs[randomNumber];
