@@ -1,10 +1,10 @@
 #pragma once
 
-#include "headers.h"
-#include "sound.h"
+#include "headers.hpp"
+#include "sound.hpp"
 
 constexpr int MAX_MAIN_MENU_ITEMS = 3;
-constexpr int MAX_SELECTION_MENU_ITEMS = 8;
+constexpr int MAX_SELECTION_MENU_ITEMS = 16;
 
 class Menu : public sf::Drawable
 {
@@ -104,6 +104,8 @@ public:
     void PollEvents(sf::RenderWindow& window, sf::Event& event, bool& isTransitioning, int& level, MusicManager& sounds);
     void MoveUp(MusicManager& sounds);
     void MoveDown(MusicManager& sounds);
+    void MoveLeft(MusicManager& sounds);
+    void MoveRight(MusicManager& sounds);
     int GetPressedItem() { return selectedItemIndex; }
 
 public:

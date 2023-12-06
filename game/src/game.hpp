@@ -1,8 +1,8 @@
 #pragma once
 
-#include "headers.h"
-#include "screens.h"
-#include "levels.h"
+#include "headers.hpp"
+#include "screens.hpp"
+#include "levels.hpp"
 
 constexpr unsigned ANTIALIASING_LEVEL = 8;
 constexpr unsigned WINDOW_WIDTH = 1000;

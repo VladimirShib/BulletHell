@@ -1,4 +1,4 @@
-#include "maps.h"
+#include "maps.hpp"
 
 namespace
 {
@@ -219,4 +219,24 @@ void Level5::CheckCollision()
 
     erasePlayerAndPurpleBullets(player, enemy);
     eraseOrangeBullets(enemy);
+}
+
+void Level6::CheckCollision()
+{
+    sf::FloatRect playerBounds = player.GetBounds();
+    checkPlayerBulletsWithOrange(player, enemy);
+    checkOrangeBullets(player, playerBounds, enemy);
+    checkPurpleBullets(player, playerBounds, enemy);
+
+    erasePlayerAndPurpleBullets(player, enemy);
+    eraseOrangeBullets(enemy);
+}
+
+void Level7::CheckCollision()
+{
+    sf::FloatRect playerBounds = player.GetBounds();
+    checkPlayerBullets(player, enemy);
+    checkPurpleBullets(player, playerBounds, enemy);
+
+    erasePlayerAndPurpleBullets(player, enemy);
 }

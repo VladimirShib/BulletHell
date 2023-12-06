@@ -9,22 +9,22 @@ find_package(JPEG REQUIRED)
 find_package(SFML 2 COMPONENTS window graphics audio system REQUIRED)
 
 add_executable(app
-${CMAKE_CURRENT_SOURCE_DIR}/game/src/headers.h
+${CMAKE_CURRENT_SOURCE_DIR}/game/src/headers.hpp
 ${CMAKE_CURRENT_SOURCE_DIR}/game/src/main.cpp
-${CMAKE_CURRENT_SOURCE_DIR}/game/src/game.h
+${CMAKE_CURRENT_SOURCE_DIR}/game/src/game.hpp
 ${CMAKE_CURRENT_SOURCE_DIR}/game/src/game.cpp
-${CMAKE_CURRENT_SOURCE_DIR}/game/src/screens.h
+${CMAKE_CURRENT_SOURCE_DIR}/game/src/screens.hpp
 ${CMAKE_CURRENT_SOURCE_DIR}/game/src/screens.cpp
-${CMAKE_CURRENT_SOURCE_DIR}/game/src/levels.h
+${CMAKE_CURRENT_SOURCE_DIR}/game/src/levels.hpp
 ${CMAKE_CURRENT_SOURCE_DIR}/game/src/levels.cpp
-${CMAKE_CURRENT_SOURCE_DIR}/game/src/maps.h
+${CMAKE_CURRENT_SOURCE_DIR}/game/src/maps.hpp
 ${CMAKE_CURRENT_SOURCE_DIR}/game/src/maps.cpp
-${CMAKE_CURRENT_SOURCE_DIR}/game/src/player.h
+${CMAKE_CURRENT_SOURCE_DIR}/game/src/player.hpp
 ${CMAKE_CURRENT_SOURCE_DIR}/game/src/player.cpp
-${CMAKE_CURRENT_SOURCE_DIR}/game/src/enemies.h
+${CMAKE_CURRENT_SOURCE_DIR}/game/src/enemies.hpp
 ${CMAKE_CURRENT_SOURCE_DIR}/game/src/enemies.cpp
 ${CMAKE_CURRENT_SOURCE_DIR}/game/src/collision.cpp
-${CMAKE_CURRENT_SOURCE_DIR}/game/src/sound.h
+${CMAKE_CURRENT_SOURCE_DIR}/game/src/sound.hpp
 ${CMAKE_CURRENT_SOURCE_DIR}/game/src/sound.cpp
 )
 

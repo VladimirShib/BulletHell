@@ -1,4 +1,4 @@
-#include "screens.h"
+#include "screens.hpp"
 
 Menu::Menu()
 {
@@ -295,6 +295,15 @@ Selection::Selection()
     menuPositions[6] = sf::Vector2f(114.f, 440.f);
     menuPositions[7] = sf::Vector2f(114.f, 492.f);
 
+    menuPositions[8] = sf::Vector2f(284.f, 128.f);
+    menuPositions[9] = sf::Vector2f(284.f, 180.f);
+    menuPositions[10] = sf::Vector2f(284.f, 232.f);
+    menuPositions[11] = sf::Vector2f(284.f, 284.f);
+    menuPositions[12] = sf::Vector2f(284.f, 336.f);
+    menuPositions[13] = sf::Vector2f(284.f, 388.f);
+    menuPositions[14] = sf::Vector2f(284.f, 440.f);
+    menuPositions[15] = sf::Vector2f(284.f, 492.f);
+
     menuItem[0].setFont(font);
     menuItem[0].setString("Level 1");
     menuItem[0].setCharacterSize(22);
@@ -317,14 +326,23 @@ Selection::Selection()
 
     // menu items bg
     const std::vector<sf::Vector2f> itemPoints = {
-        {85.f, 126.f}, {245.f, 126.f}, {245.f, 158.f}, {85.f, 158.f}, // first
-        {85.f, 178.f}, {245.f, 178.f}, {245.f, 210.f}, {85.f, 210.f}, // second...
-        {85.f, 230.f}, {245.f, 230.f}, {245.f, 262.f}, {85.f, 262.f},
-        {85.f, 282.f}, {245.f, 282.f}, {245.f, 314.f}, {85.f, 314.f},
-        {85.f, 334.f}, {245.f, 334.f}, {245.f, 366.f}, {85.f, 366.f},
-        {85.f, 386.f}, {245.f, 386.f}, {245.f, 418.f}, {85.f, 418.f},
-        {85.f, 438.f}, {245.f, 438.f}, {245.f, 470.f}, {85.f, 470.f},
-        {85.f, 490.f}, {245.f, 490.f}, {245.f, 522.f}, {85.f, 522.f}
+        {85.f, 126.f}, {235.f, 126.f}, {235.f, 158.f}, {85.f, 158.f}, // first
+        {85.f, 178.f}, {235.f, 178.f}, {235.f, 210.f}, {85.f, 210.f}, // second...
+        {85.f, 230.f}, {235.f, 230.f}, {235.f, 262.f}, {85.f, 262.f},
+        {85.f, 282.f}, {235.f, 282.f}, {235.f, 314.f}, {85.f, 314.f},
+        {85.f, 334.f}, {235.f, 334.f}, {235.f, 366.f}, {85.f, 366.f},
+        {85.f, 386.f}, {235.f, 386.f}, {235.f, 418.f}, {85.f, 418.f},
+        {85.f, 438.f}, {235.f, 438.f}, {235.f, 470.f}, {85.f, 470.f},
+        {85.f, 490.f}, {235.f, 490.f}, {235.f, 522.f}, {85.f, 522.f},
+
+        {255.f, 126.f}, {405.f, 126.f}, {405.f, 158.f}, {255.f, 158.f}, // nineth
+        {255.f, 178.f}, {405.f, 178.f}, {405.f, 210.f}, {255.f, 210.f}, // tenth...
+        {255.f, 230.f}, {405.f, 230.f}, {405.f, 262.f}, {255.f, 262.f},
+        {255.f, 282.f}, {405.f, 282.f}, {405.f, 314.f}, {255.f, 314.f},
+        {255.f, 334.f}, {405.f, 334.f}, {405.f, 366.f}, {255.f, 366.f},
+        {255.f, 386.f}, {405.f, 386.f}, {405.f, 418.f}, {255.f, 418.f},
+        {255.f, 438.f}, {405.f, 438.f}, {405.f, 470.f}, {255.f, 470.f},
+        {255.f, 490.f}, {405.f, 490.f}, {405.f, 522.f}, {255.f, 522.f}
     };
     for (auto& point : itemPoints)
     {
@@ -340,7 +358,16 @@ Selection::Selection()
         {93.f, 342.f}, {109.f, 342.f}, {109.f, 358.f}, {93.f, 358.f},
         {93.f, 394.f}, {109.f, 394.f}, {109.f, 410.f}, {93.f, 410.f},
         {93.f, 446.f}, {109.f, 446.f}, {109.f, 462.f}, {93.f, 462.f},
-        {93.f, 498.f}, {109.f, 498.f}, {109.f, 514.f}, {93.f, 514.f}
+        {93.f, 498.f}, {109.f, 498.f}, {109.f, 514.f}, {93.f, 514.f},
+
+        {263.f, 134.f}, {279.f, 134.f}, {279.f, 150.f}, {263.f, 150.f}, // nineth
+        {263.f, 186.f}, {279.f, 186.f}, {279.f, 202.f}, {263.f, 202.f}, // tenth...
+        {263.f, 238.f}, {279.f, 238.f}, {279.f, 254.f}, {263.f, 254.f},
+        {263.f, 290.f}, {279.f, 290.f}, {279.f, 306.f}, {263.f, 306.f},
+        {263.f, 342.f}, {279.f, 342.f}, {279.f, 358.f}, {263.f, 358.f},
+        {263.f, 394.f}, {279.f, 394.f}, {279.f, 410.f}, {263.f, 410.f},
+        {263.f, 446.f}, {279.f, 446.f}, {279.f, 462.f}, {263.f, 462.f},
+        {263.f, 498.f}, {279.f, 498.f}, {279.f, 514.f}, {263.f, 514.f}
     };
     for (auto& point : squarePoints)
     {
@@ -388,23 +415,23 @@ SelectionMenuSelectedItem::SelectionMenuSelectedItem()
     background.setPrimitiveType(sf::Quads);
 
     background.append(sf::Vertex(sf::Vector2f(-29.f, -7.f), sf::Color(0x50, 0x4E, 0x48)));
-    background.append(sf::Vertex(sf::Vector2f(131.f, -7.f), sf::Color(0x50, 0x4E, 0x48)));
-    background.append(sf::Vertex(sf::Vector2f(131.f, -5.f), sf::Color(0x50, 0x4E, 0x48)));
+    background.append(sf::Vertex(sf::Vector2f(121.f, -7.f), sf::Color(0x50, 0x4E, 0x48)));
+    background.append(sf::Vertex(sf::Vector2f(121.f, -5.f), sf::Color(0x50, 0x4E, 0x48)));
     background.append(sf::Vertex(sf::Vector2f(-29.f, -5.f), sf::Color(0x50, 0x4E, 0x48)));
     // shadow
     background.append(sf::Vertex(sf::Vector2f(-27.f, 0.f), sf::Color(0x7C, 0x7B, 0x69, 0x80)));
-    background.append(sf::Vertex(sf::Vector2f(133.f, 0.f), sf::Color(0x7C, 0x7B, 0x69, 0x80)));
-    background.append(sf::Vertex(sf::Vector2f(133.f, 32.f), sf::Color(0x7C, 0x7B, 0x69, 0x80)));
+    background.append(sf::Vertex(sf::Vector2f(123.f, 0.f), sf::Color(0x7C, 0x7B, 0x69, 0x80)));
+    background.append(sf::Vertex(sf::Vector2f(123.f, 32.f), sf::Color(0x7C, 0x7B, 0x69, 0x80)));
     background.append(sf::Vertex(sf::Vector2f(-27.f, 32.f), sf::Color(0x7C, 0x7B, 0x69, 0x80)));
 
     background.append(sf::Vertex(sf::Vector2f(-29.f, -2.f), sf::Color(0x50, 0x4E, 0x48)));
-    background.append(sf::Vertex(sf::Vector2f(131.f, -2.f), sf::Color(0x50, 0x4E, 0x48)));
-    background.append(sf::Vertex(sf::Vector2f(131.f, 30.f), sf::Color(0x50, 0x4E, 0x48)));
+    background.append(sf::Vertex(sf::Vector2f(121.f, -2.f), sf::Color(0x50, 0x4E, 0x48)));
+    background.append(sf::Vertex(sf::Vector2f(121.f, 30.f), sf::Color(0x50, 0x4E, 0x48)));
     background.append(sf::Vertex(sf::Vector2f(-29.f, 30.f), sf::Color(0x50, 0x4E, 0x48)));
 
     background.append(sf::Vertex(sf::Vector2f(-29.f, 33.f), sf::Color(0x50, 0x4E, 0x48)));
-    background.append(sf::Vertex(sf::Vector2f(131.f, 33.f), sf::Color(0x50, 0x4E, 0x48)));
-    background.append(sf::Vertex(sf::Vector2f(131.f, 35.f), sf::Color(0x50, 0x4E, 0x48)));
+    background.append(sf::Vertex(sf::Vector2f(121.f, 33.f), sf::Color(0x50, 0x4E, 0x48)));
+    background.append(sf::Vertex(sf::Vector2f(121.f, 35.f), sf::Color(0x50, 0x4E, 0x48)));
     background.append(sf::Vertex(sf::Vector2f(-29.f, 35.f), sf::Color(0x50, 0x4E, 0x48)));
     // little square
     background.append(sf::Vertex(sf::Vector2f(-21.f, 6.f), sf::Color(0xD9, 0xD5, 0xB3)));
@@ -435,6 +462,14 @@ void Selection::PollEvents(sf::RenderWindow& window, sf::Event& event, bool& isT
             case sf::Keyboard::Down:
             case sf::Keyboard::S:
                 this->MoveDown(sounds);
+                break;
+            case sf::Keyboard::Left:
+            case sf::Keyboard::A:
+                this->MoveLeft(sounds);
+                break;
+            case sf::Keyboard::Right:
+            case sf::Keyboard::D:
+                this->MoveRight(sounds);
                 break;
             case sf::Keyboard::Return:
             case sf::Keyboard::Space:
@@ -484,13 +519,63 @@ void Selection::PollEvents(sf::RenderWindow& window, sf::Event& event, bool& isT
                     break;
                 case 6:
                 {
-                    std::cout << "Level 7\n";
+                    level = 6;
+                    isTransitioning = true;
                     sounds.pressSound.play();
                 }
                     break;
                 case 7:
                 {
-                    std::cout << "Level 8\n";
+                    level = 7;
+                    isTransitioning = true;
+                    sounds.pressSound.play();
+                }
+                    break;
+                case 8:
+                {
+                    std::cout << "Level 9\n";
+                    sounds.pressSound.play();
+                }
+                    break;
+                case 9:
+                {
+                    std::cout << "Level 10\n";
+                    sounds.pressSound.play();
+                }
+                    break;
+                case 10:
+                {
+                    std::cout << "Level 11\n";
+                    sounds.pressSound.play();
+                }
+                    break;
+                case 11:
+                {
+                    std::cout << "Level 12\n";
+                    sounds.pressSound.play();
+                }
+                    break;
+                case 12:
+                {
+                    std::cout << "Level 13\n";
+                    sounds.pressSound.play();
+                }
+                    break;
+                case 13:
+                {
+                    std::cout << "Level 14\n";
+                    sounds.pressSound.play();
+                }
+                    break;
+                case 14:
+                {
+                    std::cout << "Level 15\n";
+                    sounds.pressSound.play();
+                }
+                    break;
+                case 15:
+                {
+                    std::cout << "Level 16\n";
                     sounds.pressSound.play();
                 }
                     break;
@@ -511,9 +596,9 @@ void Selection::PollEvents(sf::RenderWindow& window, sf::Event& event, bool& isT
 void Selection::MoveUp(MusicManager& sounds)
 {
     menuItem[selectedItemIndex].setFillColor(sf::Color(0x50, 0x4E, 0x48));
-    if (selectedItemIndex == 0)
+    if (selectedItemIndex % 8 == 0)
     {
-        selectedItemIndex = 7;
+        selectedItemIndex += 7;
     }
     else
     {
@@ -527,9 +612,9 @@ void Selection::MoveUp(MusicManager& sounds)
 void Selection::MoveDown(MusicManager& sounds)
 {
     menuItem[selectedItemIndex].setFillColor(sf::Color(0x50, 0x4E, 0x48));
-    if (selectedItemIndex == 7)
+    if (selectedItemIndex % 8 == 7)
     {
-        selectedItemIndex = 0;
+        selectedItemIndex -= 7;
     }
     else
     {
@@ -538,6 +623,30 @@ void Selection::MoveDown(MusicManager& sounds)
     menuItem[selectedItemIndex].setFillColor(sf::Color(0xC6, 0xC2, 0xA5));
     selectedItem.setPosition(menuPositions[selectedItemIndex]);
     sounds.selectSound.play();
+}
+
+void Selection::MoveLeft(MusicManager& sounds)
+{
+    if (selectedItemIndex > 7)
+    {
+        menuItem[selectedItemIndex].setFillColor(sf::Color(0x50, 0x4E, 0x48));
+        selectedItemIndex -= 8;
+        menuItem[selectedItemIndex].setFillColor(sf::Color(0xC6, 0xC2, 0xA5));
+        selectedItem.setPosition(menuPositions[selectedItemIndex]);
+        sounds.selectSound.play();
+    }
+}
+
+void Selection::MoveRight(MusicManager& sounds)
+{
+    if (selectedItemIndex < 8)
+    {
+        menuItem[selectedItemIndex].setFillColor(sf::Color(0x50, 0x4E, 0x48));
+        selectedItemIndex += 8;
+        menuItem[selectedItemIndex].setFillColor(sf::Color(0xC6, 0xC2, 0xA5));
+        selectedItem.setPosition(menuPositions[selectedItemIndex]);
+        sounds.selectSound.play();
+    }
 }
 
 Transition::Transition()

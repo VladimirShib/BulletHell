@@ -1,8 +1,8 @@
 #pragma once
 
-#include "headers.h"
-#include "player.h"
-#include "enemies.h"
+#include "headers.hpp"
+#include "player.hpp"
+#include "enemies.hpp"
 
 class Level0 : public sf::Drawable
 {
@@ -170,6 +170,68 @@ public:
 public:
     Player player;
     Level5Enemy enemy;
+    float deltaTime;
+    int levelStatus;
+
+private:
+    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
+    {
+        target.draw(map, states);
+        if (enemy.health > 0)
+        {
+            target.draw(enemy, states);
+        }
+        if (player.health > 0)
+        {
+            target.draw(player, states);
+        }
+    }
+
+    sf::VertexArray map;
+};
+
+class Level6 : public sf::Drawable
+{
+public:
+    Level6();
+
+    void Update(sf::RenderWindow& window, sf::View& view, sf::Clock& clock);
+    void CheckCollision();
+
+public:
+    Player player;
+    Level6Enemy enemy;
+    float deltaTime;
+    int levelStatus;
+
+private:
+    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
+    {
+        target.draw(map, states);
+        if (enemy.health > 0)
+        {
+            target.draw(enemy, states);
+        }
+        if (player.health > 0)
+        {
+            target.draw(player, states);
+        }
+    }
+
+    sf::VertexArray map;
+};
+
+class Level7 : public sf::Drawable
+{
+public:
+    Level7();
+
+    void Update(sf::RenderWindow& window, sf::View& view, sf::Clock& clock);
+    void CheckCollision();
+
+public:
+    Player player;
+    Level7Enemy enemy;
     float deltaTime;
     int levelStatus;
 
