@@ -23,6 +23,7 @@ ${CMAKE_CURRENT_SOURCE_DIR}/game/src/player.hpp
 ${CMAKE_CURRENT_SOURCE_DIR}/game/src/player.cpp
 ${CMAKE_CURRENT_SOURCE_DIR}/game/src/enemies.hpp
 ${CMAKE_CURRENT_SOURCE_DIR}/game/src/enemies.cpp
+${CMAKE_CURRENT_SOURCE_DIR}/game/src/behavior.cpp
 ${CMAKE_CURRENT_SOURCE_DIR}/game/src/collision.cpp
 ${CMAKE_CURRENT_SOURCE_DIR}/game/src/sound.hpp
 ${CMAKE_CURRENT_SOURCE_DIR}/game/src/sound.cpp
