@@ -533,19 +533,22 @@ void Selection::PollEvents(sf::RenderWindow& window, sf::Event& event, bool& isT
                     break;
                 case 8:
                 {
-                    std::cout << "Level 9\n";
+                    level = 8;
+                    isTransitioning = true;
                     sounds.pressSound.play();
                 }
                     break;
                 case 9:
                 {
-                    std::cout << "Level 10\n";
+                    level = 9;
+                    isTransitioning = true;
                     sounds.pressSound.play();
                 }
                     break;
                 case 10:
                 {
-                    std::cout << "Level 11\n";
+                    level = 10;
+                    isTransitioning = true;
                     sounds.pressSound.play();
                 }
                     break;

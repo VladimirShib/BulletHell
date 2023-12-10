@@ -14,9 +14,11 @@ public:
 
 public:
     Player player;
-    Level0Enemy enemy;
+    BallEnemy enemy;
     float deltaTime;
+    float elapsedTime;
     int levelStatus; // 0 - in progress, 1 - complete, 2 - failed, 3 - exited on pause
+    sf::Color clearColor;
 
 private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -45,9 +47,11 @@ public:
 
 public:
     Player player;
-    Level1Enemy enemy;
+    BallEnemy enemy;
     float deltaTime;
+    float elapsedTime;
     int levelStatus;
+    sf::Color clearColor;
 
 private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -76,9 +80,11 @@ public:
 
 public:
     Player player;
-    Level2Enemy enemy;
+    BallEnemy enemy;
     float deltaTime;
+    float elapsedTime;
     int levelStatus;
+    sf::Color clearColor;
 
 private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -107,9 +113,10 @@ public:
 
 public:
     Player player;
-    Level3Enemy enemy;
+    BallEnemy enemy;
     float deltaTime;
     int levelStatus;
+    sf::Color clearColor;
 
 private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -138,9 +145,10 @@ public:
 
 public:
     Player player;
-    Level4Enemy enemy;
+    BallEnemy enemy;
     float deltaTime;
     int levelStatus;
+    sf::Color clearColor;
 
 private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -169,9 +177,10 @@ public:
 
 public:
     Player player;
-    Level5Enemy enemy;
+    BallEnemy enemy;
     float deltaTime;
     int levelStatus;
+    sf::Color clearColor;
 
 private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -200,9 +209,11 @@ public:
 
 public:
     Player player;
-    Level6Enemy enemy;
+    BallEnemy enemy;
     float deltaTime;
+    float elapsedTime;
     int levelStatus;
+    sf::Color clearColor;
 
 private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -231,9 +242,11 @@ public:
 
 public:
     Player player;
-    Level7Enemy enemy;
+    BallEnemy enemy;
     float deltaTime;
+    float elapsedTime;
     int levelStatus;
+    sf::Color clearColor;
 
 private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -250,4 +263,102 @@ private:
     }
 
     sf::VertexArray map;
+};
+
+class Level8 : public sf::Drawable
+{
+public:
+    Level8();
+
+    void Update(sf::RenderWindow& window, sf::View& view, sf::Clock& clock);
+    void CheckCollision();
+
+public:
+    Player player;
+    BallEnemy enemy;
+    float deltaTime;
+    int levelStatus;
+    sf::Color clearColor;
+
+private:
+    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
+    {
+        target.draw(map, states);
+        if (enemy.health > 0)
+        {
+            target.draw(enemy, states);
+        }
+        if (player.health > 0)
+        {
+            target.draw(player, states);
+        }
+    }
+
+    sf::VertexArray map;
+};
+
+class Level9 : public sf::Drawable
+{
+public:
+    Level9();
+
+    void Update(sf::RenderWindow& window, sf::View& view, sf::Clock& clock);
+    void CheckCollision();
+
+public:
+    Player player;
+    BallEnemy enemy;
+    float deltaTime;
+    int levelStatus;
+    sf::Color clearColor;
+
+private:
+    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
+    {
+        target.draw(map, states);
+        if (enemy.health > 0)
+        {
+            target.draw(enemy, states);
+        }
+        if (player.health > 0)
+        {
+            target.draw(player, states);
+        }
+    }
+
+    sf::VertexArray map;
+};
+
+class Level10 : public sf::Drawable
+{
+public:
+    Level10();
+
+    void Update(sf::RenderWindow& window, sf::View& view, sf::Clock& clock);
+    void CheckCollision();
+
+public:
+    Player player;
+    BallEnemy enemy;
+    float deltaTime;
+    int levelStatus;
+    sf::Color clearColor;
+
+private:
+    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
+    {
+        target.draw(map, states);
+        target.draw(stars, states);
+        if (enemy.health > 0)
+        {
+            target.draw(enemy, states);
+        }
+        if (player.health > 0)
+        {
+            target.draw(player, states);
+        }
+    }
+
+    sf::VertexArray map;
+    sf::VertexArray stars;
 };

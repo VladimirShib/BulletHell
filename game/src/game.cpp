@@ -135,144 +135,19 @@ void Game::ManageGame(Screens& screens, MusicManager& sounds)
     int levelStatus;
     while (window.isOpen())
     {
-        switch (currentLevel)
+        levelStatus = loadLevel(window, view, event, clock, screens, sounds, currentLevel);
+        switch (levelStatus)
         {
-        case 0:
-        {
-            levelStatus = playLevel0(window, view, event, clock, screens, sounds);
-            switch (levelStatus)
+        case 1: // level completed
+            currentLevel++;
+            if (currentLevel < 11) // if level exists
             {
-            case 1: // level completed
-                currentLevel++;
-                break;
-            case 2: // level failed
-            case 3: // exited manually
-                state = GameState::MENU;
-                return;
-            default:
                 break;
             }
-        }
-            break;
-        case 1:
-        {
-            levelStatus = playLevel1(window, view, event, clock, screens, sounds);
-            switch (levelStatus)
-            {
-            case 1:
-                currentLevel++;
-                break;
-            case 2:
-            case 3:
-                state = GameState::MENU;
-                return;
-            default:
-                break;
-            }
-        }
-            break;
-        case 2:
-        {
-            levelStatus = playLevel2(window, view, event, clock, screens, sounds);
-            switch (levelStatus)
-            {
-            case 1:
-                currentLevel++;
-                break;
-            case 2:
-            case 3:
-                state = GameState::MENU;
-                return;
-            default:
-                break;
-            }
-        }
-            break;
-        case 3:
-        {
-            levelStatus = playLevel3(window, view, event, clock, screens, sounds);
-            switch (levelStatus)
-            {
-            case 1:
-                currentLevel++;
-                break;
-            case 2:
-            case 3:
-                state = GameState::MENU;
-                return;
-            default:
-                break;
-            }
-        }
-            break;
-        case 4:
-        {
-            levelStatus = playLevel4(window, view, event, clock, screens, sounds);
-            switch (levelStatus)
-            {
-            case 1:
-                currentLevel++;
-                break;
-            case 2:
-            case 3:
-                state = GameState::MENU;
-                return;
-            default:
-                break;
-            }
-        }
-            break;
-        case 5:
-        {
-            levelStatus = playLevel5(window, view, event, clock, screens, sounds);
-            switch (levelStatus)
-            {
-            case 1:
-                currentLevel++;
-                break;
-            case 2:
-            case 3:
-                state = GameState::MENU;
-                return;
-            default:
-                break;
-            }
-        }
-            break;
-        case 6:
-        {
-            levelStatus = playLevel6(window, view, event, clock, screens, sounds);
-            switch (levelStatus)
-            {
-            case 1:
-                currentLevel++;
-                break;
-            case 2:
-            case 3:
-                state = GameState::MENU;
-                return;
-            default:
-                break;
-            }
-        }
-            break;
-        case 7:
-        {
-            levelStatus = playLevel7(window, view, event, clock, screens, sounds);
-            switch (levelStatus)
-            {
-            case 1:
-                // currentLevel++;
-                // break;
-            case 2:
-            case 3:
-                state = GameState::MENU;
-                return;
-            default:
-                break;
-            }
-        }
-            break;
+        case 2: // level failed
+        case 3: // exited manually
+            state = GameState::MENU;
+            return;
         default:
             break;
         }
