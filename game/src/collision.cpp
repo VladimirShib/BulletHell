@@ -26,12 +26,18 @@ namespace
     };
 
     Sounds sounds;
+
+    sf::FloatRect n_playerBounds;
+    sf::FloatRect n_playerBulletBounds;
+    sf::FloatRect n_enemyBounds;
+    sf::FloatRect n_smallEnemyBounds;
+    sf::FloatRect n_enemyBulletBounds;
 }
 
 template <typename EnemyType>
 void checkPlayerBulletsWithOrange(Player& player, EnemyType& enemy)
 {
-    sf::FloatRect enemyBounds = enemy.GetBounds();
+    n_enemyBounds = enemy.GetBounds();
 
     for (auto& playerBullet : player.bullets)
     {
@@ -42,9 +48,9 @@ void checkPlayerBulletsWithOrange(Player& player, EnemyType& enemy)
         }
         else
         {
-            sf::FloatRect playerBulletBounds = playerBullet.GetBounds();
+            n_playerBulletBounds = playerBullet.GetBounds();
 
-            if (playerBulletBounds.intersects(enemyBounds) && !enemy.isAnimatingExplode)
+            if (n_playerBulletBounds.intersects(n_enemyBounds) && !enemy.isAnimatingExplode)
             {
                 playerBullet.hit = true;
                 enemy.GotHit();
@@ -53,9 +59,9 @@ void checkPlayerBulletsWithOrange(Player& player, EnemyType& enemy)
             {
                 for (auto& orangeBullet : enemy.orangeBullets)
                 {
-                    sf::FloatRect orangeBulletBounds = orangeBullet.GetBounds();
+                    n_enemyBulletBounds = orangeBullet.GetBounds();
 
-                    if (playerBulletBounds.intersects(orangeBulletBounds))
+                    if (n_playerBulletBounds.intersects(n_enemyBulletBounds))
                     {
                         playerBullet.hit = true;
                         orangeBullet.hit = true;
@@ -67,9 +73,9 @@ void checkPlayerBulletsWithOrange(Player& player, EnemyType& enemy)
 }
 
 template <typename EnemyType>
-void checkPlayerBullets(Player& player, EnemyType& enemy)
+void checkPlayerBulletsWithEverything(Player& player, EnemyType& enemy)
 {
-    sf::FloatRect enemyBounds = enemy.GetBounds();
+    n_enemyBounds = enemy.GetBounds();
 
     for (auto& playerBullet : player.bullets)
     {
@@ -80,9 +86,60 @@ void checkPlayerBullets(Player& player, EnemyType& enemy)
         }
         else
         {
-            sf::FloatRect playerBulletBounds = playerBullet.GetBounds();
+            n_playerBulletBounds = playerBullet.GetBounds();
 
-            if (playerBulletBounds.intersects(enemyBounds) && !enemy.isAnimatingExplode)
+            if (n_playerBulletBounds.intersects(n_enemyBounds) && !enemy.isAnimatingExplode)
+            {
+                playerBullet.hit = true;
+                enemy.GotHit();
+            }
+            else
+            {
+                for (auto& orangeBullet : enemy.orangeBullets)
+                {
+                    n_enemyBulletBounds = orangeBullet.GetBounds();
+
+                    if (n_playerBulletBounds.intersects(n_enemyBulletBounds))
+                    {
+                        playerBullet.hit = true;
+                        orangeBullet.hit = true;
+                    }
+                    else
+                    {
+                        for (auto& smallEnemy : enemy.smallEnemies)
+                        {
+                            n_smallEnemyBounds = smallEnemy.GetBounds();
+
+                            if (n_playerBulletBounds.intersects(n_smallEnemyBounds) && !smallEnemy.isAnimatingExplode)
+                            {
+                                playerBullet.hit = true;
+                                smallEnemy.GotHit(enemy.shootingDelay);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+template <typename EnemyType>
+void checkPlayerBullets(Player& player, EnemyType& enemy)
+{
+    n_enemyBounds = enemy.GetBounds();
+
+    for (auto& playerBullet : player.bullets)
+    {
+        if (!player.playingField.contains(playerBullet.position))
+        {
+            playerBullet.hit = true;
+            sounds.playerBulletWall.play();
+        }
+        else
+        {
+            n_playerBulletBounds = playerBullet.GetBounds();
+
+            if (n_playerBulletBounds.intersects(n_enemyBounds) && !enemy.isAnimatingExplode)
             {
                 playerBullet.hit = true;
                 enemy.GotHit();
@@ -127,10 +184,10 @@ void checkPurpleBullets(Player& player, sf::FloatRect& playerBounds, EnemyType& 
     }
 }
 
-template <typename BulletType>
-bool isToBeRemoved(const BulletType& bullet)
+template <typename EntityType>
+bool isToBeRemoved(const EntityType& entity)
 {
-    return bullet.hit;
+    return entity.hit;
 }
 
 template <typename EnemyType>
@@ -159,12 +216,22 @@ void eraseOrangeBullets(EnemyType& enemy)
     enemy.orangeBullets.erase(newEndOrange, enemy.orangeBullets.end());
 }
 
+template <typename EnemyType>
+void eraseSmallEnemies(EnemyType& enemy)
+{
+    auto newEndEnemies = std::remove_if(enemy.smallEnemies.begin(), enemy.smallEnemies.end(), [&](const SmallEnemy& smallEnemy)
+    {
+        return isToBeRemoved(smallEnemy);
+    });
+    enemy.smallEnemies.erase(newEndEnemies, enemy.smallEnemies.end());
+}
+
 void Level0::CheckCollision()
 {
-    sf::FloatRect playerBounds = player.GetBounds();
+    n_playerBounds = player.GetBounds();
     checkPlayerBulletsWithOrange(player, enemy);
-    checkOrangeBullets(player, playerBounds, enemy);
-    checkPurpleBullets(player, playerBounds, enemy);
+    checkOrangeBullets(player, n_playerBounds, enemy);
+    checkPurpleBullets(player, n_playerBounds, enemy);
 
     erasePlayerAndPurpleBullets(player, enemy);
     eraseOrangeBullets(enemy);
@@ -172,28 +239,28 @@ void Level0::CheckCollision()
 
 void Level1::CheckCollision()
 {
-    sf::FloatRect playerBounds = player.GetBounds();
+    n_playerBounds = player.GetBounds();
     checkPlayerBullets(player, enemy);
-    checkPurpleBullets(player, playerBounds, enemy);
+    checkPurpleBullets(player, n_playerBounds, enemy);
 
     erasePlayerAndPurpleBullets(player, enemy);
 }
 
 void Level2::CheckCollision()
 {
-    sf::FloatRect playerBounds = player.GetBounds();
+    n_playerBounds = player.GetBounds();
     checkPlayerBullets(player, enemy);
-    checkPurpleBullets(player, playerBounds, enemy);
+    checkPurpleBullets(player, n_playerBounds, enemy);
 
     erasePlayerAndPurpleBullets(player, enemy);
 }
 
 void Level3::CheckCollision()
 {
-    sf::FloatRect playerBounds = player.GetBounds();
+    n_playerBounds = player.GetBounds();
     checkPlayerBulletsWithOrange(player, enemy);
-    checkOrangeBullets(player, playerBounds, enemy);
-    checkPurpleBullets(player, playerBounds, enemy);
+    checkOrangeBullets(player, n_playerBounds, enemy);
+    checkPurpleBullets(player, n_playerBounds, enemy);
 
     erasePlayerAndPurpleBullets(player, enemy);
     eraseOrangeBullets(enemy);
@@ -201,10 +268,10 @@ void Level3::CheckCollision()
 
 void Level4::CheckCollision()
 {
-    sf::FloatRect playerBounds = player.GetBounds();
+    n_playerBounds = player.GetBounds();
     checkPlayerBulletsWithOrange(player, enemy);
-    checkOrangeBullets(player, playerBounds, enemy);
-    checkPurpleBullets(player, playerBounds, enemy);
+    checkOrangeBullets(player, n_playerBounds, enemy);
+    checkPurpleBullets(player, n_playerBounds, enemy);
 
     erasePlayerAndPurpleBullets(player, enemy);
     eraseOrangeBullets(enemy);
@@ -212,10 +279,10 @@ void Level4::CheckCollision()
 
 void Level5::CheckCollision()
 {
-    sf::FloatRect playerBounds = player.GetBounds();
+    n_playerBounds = player.GetBounds();
     checkPlayerBulletsWithOrange(player, enemy);
-    checkOrangeBullets(player, playerBounds, enemy);
-    checkPurpleBullets(player, playerBounds, enemy);
+    checkOrangeBullets(player, n_playerBounds, enemy);
+    checkPurpleBullets(player, n_playerBounds, enemy);
 
     erasePlayerAndPurpleBullets(player, enemy);
     eraseOrangeBullets(enemy);
@@ -223,10 +290,10 @@ void Level5::CheckCollision()
 
 void Level6::CheckCollision()
 {
-    sf::FloatRect playerBounds = player.GetBounds();
+    n_playerBounds = player.GetBounds();
     checkPlayerBulletsWithOrange(player, enemy);
-    checkOrangeBullets(player, playerBounds, enemy);
-    checkPurpleBullets(player, playerBounds, enemy);
+    checkOrangeBullets(player, n_playerBounds, enemy);
+    checkPurpleBullets(player, n_playerBounds, enemy);
 
     erasePlayerAndPurpleBullets(player, enemy);
     eraseOrangeBullets(enemy);
@@ -234,19 +301,19 @@ void Level6::CheckCollision()
 
 void Level7::CheckCollision()
 {
-    sf::FloatRect playerBounds = player.GetBounds();
+    n_playerBounds = player.GetBounds();
     checkPlayerBullets(player, enemy);
-    checkPurpleBullets(player, playerBounds, enemy);
+    checkPurpleBullets(player, n_playerBounds, enemy);
 
     erasePlayerAndPurpleBullets(player, enemy);
 }
 
 void Level8::CheckCollision()
 {
-    sf::FloatRect playerBounds = player.GetBounds();
+    n_playerBounds = player.GetBounds();
     checkPlayerBulletsWithOrange(player, enemy);
-    checkOrangeBullets(player, playerBounds, enemy);
-    checkPurpleBullets(player, playerBounds, enemy);
+    checkOrangeBullets(player, n_playerBounds, enemy);
+    checkPurpleBullets(player, n_playerBounds, enemy);
 
     erasePlayerAndPurpleBullets(player, enemy);
     eraseOrangeBullets(enemy);
@@ -254,10 +321,10 @@ void Level8::CheckCollision()
 
 void Level9::CheckCollision()
 {
-    sf::FloatRect playerBounds = player.GetBounds();
+    n_playerBounds = player.GetBounds();
     checkPlayerBulletsWithOrange(player, enemy);
-    checkOrangeBullets(player, playerBounds, enemy);
-    checkPurpleBullets(player, playerBounds, enemy);
+    checkOrangeBullets(player, n_playerBounds, enemy);
+    checkPurpleBullets(player, n_playerBounds, enemy);
 
     erasePlayerAndPurpleBullets(player, enemy);
     eraseOrangeBullets(enemy);
@@ -265,11 +332,12 @@ void Level9::CheckCollision()
 
 void Level10::CheckCollision()
 {
-    sf::FloatRect playerBounds = player.GetBounds();
-    checkPlayerBulletsWithOrange(player, enemy);
-    checkOrangeBullets(player, playerBounds, enemy);
-    checkPurpleBullets(player, playerBounds, enemy);
+    n_playerBounds = player.GetBounds();
+    checkPlayerBulletsWithEverything(player, enemy);
+    checkOrangeBullets(player, n_playerBounds, enemy);
+    checkPurpleBullets(player, n_playerBounds, enemy);
 
+    eraseSmallEnemies(enemy);
     erasePlayerAndPurpleBullets(player, enemy);
     eraseOrangeBullets(enemy);
 }

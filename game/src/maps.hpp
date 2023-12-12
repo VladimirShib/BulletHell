@@ -339,7 +339,7 @@ public:
 
 public:
     Player player;
-    BallEnemy enemy;
+    ShieldedBallWithSmallEnemies enemy;
     float deltaTime;
     int levelStatus;
     sf::Color clearColor;

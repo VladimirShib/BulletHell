@@ -42,6 +42,24 @@ namespace
     float n_backOffsetAngle;
 }
 
+float toDegrees(float radians)
+{
+    return radians * 180.f / float(M_PI);
+}
+
+float toRadians(float degrees)
+{
+    return degrees * float(M_PI) / 180.f;
+}
+
+bool boxesOverlap(const sf::Vector2f& first, const sf::Vector2f& second, const float& distance)
+{
+    return (first.x + distance > second.x
+            && first.x - distance < second.x
+            && first.y + distance > second.y
+            && first.y - distance < second.y);
+}
+
 void BallEnemy::MoveHorizontal(const float& elapsedTime)
 {
     if (isAnimatingExplode)
@@ -728,6 +746,154 @@ void BallEnemy::ShootEightBulletsBothColors(const float& deltaTime)
         orangeBullets.push_back(bullet8);
 
         timeSinceLastShot = 0.f;
+
+        enemySounds.shoot.play();
+    }
+}
+
+void SmallEnemy::Update(std::vector<SmallEnemy>& enemies, const float& deltaTime, const sf::Vector2f& playerPosition,
+                        const sf::Vector2f& ballPosition, std::vector<OrangeBullet>& bullets, int& number)
+{
+    if (isAnimatingExplode)
+    {
+        currentFrame++;
+        if (currentFrame == 30)
+        {
+            hit = true;
+            number--;
+        }
+        return;
+    }
+
+    delta = playerPosition - position;
+    angleRad = atan2(delta.y, delta.x);
+    newAngleDeg = toDegrees(angleRad);
+    if (newAngleDeg < 0.f)
+    {
+        newAngleDeg += 360.f;
+    }
+    angleDeg = this->getRotation();
+    deltaAngle = newAngleDeg - angleDeg;
+    if (deltaAngle > 0.f && deltaAngle < 180.f || deltaAngle < -180.f)
+    {
+        angleDeg += 0.7f; // rotational speed
+    }
+    else
+    {
+        angleDeg -= 0.7f;
+    }
+    this->setRotation(angleDeg);
+
+    Shoot(bullets, deltaTime);
+
+    direction = toRadians(angleDeg);
+    velocity.x = std::cos(direction) * 70.f; // speed
+    velocity.y = std::sin(direction) * 70.f;
+    possiblePos = position;
+    possiblePos += velocity * deltaTime;
+    if (!boxesOverlap(possiblePos, playerPosition, 40.f)) // axis-aligned bounding boxes (AABB) algorithm
+    {
+        if (!boxesOverlap(possiblePos, ballPosition, 45.f))
+        {
+            for (SmallEnemy& otherEnemy : enemies)
+            {
+                if (id != otherEnemy.id)
+                {
+                    if (boxesOverlap(possiblePos, otherEnemy.position, 35.f))
+                    {
+                        position -= (otherEnemy.position - position) * 0.05f; // push distance
+                        this->setPosition(position);
+                        return;
+                    }
+                }
+            }
+            if (possiblePos.x > 65.f && possiblePos.x < 935.f
+                && possiblePos.y > -85.f && possiblePos.y < 785.f)
+            {
+                position = possiblePos;
+                this->setPosition(position);
+            }
+        }
+    }
+}
+
+void ShieldedBallWithSmallEnemies::FollowSlowly(const float& deltaTime, const sf::Vector2f& playerPosition)
+{
+    if (isAnimatingExplode)
+    {
+        currentFrame++;
+        if (currentFrame == 30)
+        {
+            health--;
+        }
+        return;
+    }
+    delta = playerPosition - enemyPosition;
+    n_vectorLength = std::sqrt(delta.x * delta.x + delta.y * delta.y);
+    if (n_vectorLength > 45.f)
+    {
+        n_direction.x = delta.x / n_vectorLength;
+        n_direction.y = delta.y / n_vectorLength;
+        n_distance = 70.f * deltaTime; // speed
+        possiblePos = enemyPosition;
+        possiblePos += n_direction * n_distance;
+        for (SmallEnemy& enemy : smallEnemies) // axis-aligned bounding boxes (AABB) algorithm
+        {
+            if (boxesOverlap(possiblePos, enemy.position, 75.f))
+            {
+                enemy.position -= (enemyPosition - enemy.position) * 0.05f; // push distance
+                enemy.setPosition(enemy.position);
+            }
+        }
+        enemyPosition = possiblePos;
+        this->setPosition(enemyPosition);
+    }
+}
+
+void SmallEnemy::Shoot(std::vector<OrangeBullet>& bullets, const float& deltaTime)
+{
+    timeSinceLastShot += deltaTime;
+    if (timeSinceLastShot > shootingDelay)
+    {
+        OrangeBullet bullet;
+        bullet.position = position;
+        bullet.velocity.x = std::cos(angleRad) * bullet.speed;
+        bullet.velocity.y = std::sin(angleRad) * bullet.speed;
+        bullet.setPosition(bullet.position);
+        bullets.push_back(bullet);
+
+        timeSinceLastShot = 0.f;
+
+        enemySounds.shoot.play();
+    }
+}
+
+void ShieldedBallWithSmallEnemies::ShootOneBulletBothColors(const float& deltaTime)
+{
+    timeSinceLastShot += deltaTime;
+    if (timeSinceLastShot > shootingDelay)
+    {
+        angleRad = atan2(delta.y, delta.x);
+        if (isOrange)
+        {
+            OrangeBullet bullet;
+            bullet.position = enemyPosition;
+            bullet.velocity.x = std::cos(angleRad) * bullet.speed;
+            bullet.velocity.y = std::sin(angleRad) * bullet.speed;
+            bullet.setPosition(bullet.position);
+            orangeBullets.push_back(bullet);
+        }
+        else
+        {
+            PurpleBullet bullet;
+            bullet.position = enemyPosition;
+            bullet.velocity.x = std::cos(angleRad) * bullet.speed;
+            bullet.velocity.y = std::sin(angleRad) * bullet.speed;
+            bullet.setPosition(bullet.position);
+            purpleBullets.push_back(bullet);
+        }
+        timeSinceLastShot = 0.f;
+        isOrange = !isOrange;
 
         enemySounds.shoot.play();
     }

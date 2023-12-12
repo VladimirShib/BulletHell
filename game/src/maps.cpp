@@ -37,9 +37,11 @@ namespace
 
         stars.setPrimitiveType(sf::Triangles);
         const std::vector<sf::Vector2f> small = {
-            {-330.f, -344.f}, {4.f, -182.f}, {-260.f, -46.f}, {-60.f, 130.f},
-            {-334.f, 228.f}, {174.f, -370.f}, {434.f, -336.f}, {360.f, -120.f}
-            // {.f, .f}, {.f, .f}, {.f, .f}, {.f, .f}
+            {-330.f, -344.f}, {4.f, -182.f}, {174.f, -370.f}, {434.f, -336.f},
+            {360.f, -120.f}, {-190.f, 284.f}, {-116.f, 612.f}, {-44.f, 866.f},
+            {-154.f, 1080.f}, {453.f, 1076.f}, {862.f, 1034.f}, {700.f, -350.f},
+            {922.f, -242.f}, {1158.f, -330.f}, {1124.f, -58.f}, {1422.f, 184.f},
+            {1038.f, 300.f}, {1128.f, 566.f}, {998.f, 766.f}, {1252.f, 890.f}
         };
         for (auto& point : small)
         {
@@ -49,8 +51,9 @@ namespace
         }
 
         const std::vector<sf::Vector2f> medium = {
-            {-32.f, -322.f}, {-236.f, -194.f}, {-125.f, 56.f}, {510.f, -190.f}
-            // {.f, .f}, {.f, .f}, {.f, .f}, {.f, .f}
+            {-104.f, -412.f}, {-272.f, -174.f}, {-125.f, 56.f}, {558.f, -220.f},
+            {-314.f, 474.f}, {-268.f, 710.f}, {105.f, 990.f}, {326.f, 826.f},
+            {762.f, -124.f}, {1300.f, -164.f}, {1270.f, 396.f}, {1156.f, 1074.f}
         };
         for (auto& point : medium)
         {
@@ -60,8 +63,8 @@ namespace
         }
 
         const std::vector<sf::Vector2f> large = {
-            {-104.f, -412.f}, {-350.f, 124.f}, {270.f, -248.f}
-            // {.f, .f}, {.f, .f}, {.f, .f}, {.f, .f}
+            {-350.f, 124.f}, {270.f, -248.f}, {-70.f, 400.f}, {-282.f, 988.f},
+            {666.f, 922.f}, {886.f, -388.f}, {1190.f, 120.f}, {1384.f, 716.f}
         };
         for (auto& point : large)
         {
@@ -77,7 +80,7 @@ Level0::Level0() : player(275.f, 125.f, 450.f), enemy(0.5f)
 {
     player.playerPosition = sf::Vector2f(500.f, 515.f);
     player.setPosition(player.playerPosition);
-    player.setRotation(-90);
+    player.setRotation(-90.f);
     enemy.enemyPosition = sf::Vector2f(500.f, 250.f);
     enemy.setPosition(enemy.enemyPosition);
     elapsedTime = 0.f;
@@ -115,7 +118,7 @@ Level1::Level1() : player(275.f, 125.f, 450.f), enemy(1.f)
 {
     player.playerPosition = sf::Vector2f(500.f, 515.f);
     player.setPosition(player.playerPosition);
-    player.setRotation(-90);
+    player.setRotation(-90.f);
     enemy.enemyPosition = sf::Vector2f(500.f, 250.f);
     enemy.setPosition(enemy.enemyPosition);
     elapsedTime = 45.f * (M_PI / 180.f);
@@ -153,7 +156,7 @@ Level2::Level2() : player(275.f, 125.f, 450.f), enemy(0.6f)
 {
     player.playerPosition = sf::Vector2f(500.f, 515.f);
     player.setPosition(player.playerPosition);
-    player.setRotation(-90);
+    player.setRotation(-90.f);
     enemy.enemyPosition = sf::Vector2f(500.f, 200.f);
     enemy.setPosition(enemy.enemyPosition);
     elapsedTime = 90.0f * (M_PI / 180.f);
@@ -191,7 +194,7 @@ Level3::Level3() : player(275.f, 125.f, 450.f), enemy(1.f)
 {
     player.playerPosition = sf::Vector2f(500.f, 515.f);
     player.setPosition(player.playerPosition);
-    player.setRotation(-90);
+    player.setRotation(-90.f);
     enemy.enemyPosition = sf::Vector2f(500.f, 250.f);
     enemy.setPosition(enemy.enemyPosition);
     levelStatus = 0;
@@ -227,7 +230,7 @@ Level4::Level4() : player(275.f, 125.f, 450.f), enemy(1.f)
 {
     player.playerPosition = sf::Vector2f(500.f, 515.f);
     player.setPosition(player.playerPosition);
-    player.setRotation(-90);
+    player.setRotation(-90.f);
     enemy.enemyPosition = sf::Vector2f(500.f, 250.f);
     enemy.setPosition(enemy.enemyPosition);
     levelStatus = 0;
@@ -263,7 +266,7 @@ Level5::Level5() : player(275.f, 125.f, 450.f), enemy(0.1f)
 {
     player.playerPosition = sf::Vector2f(500.f, 515.f);
     player.setPosition(player.playerPosition);
-    player.setRotation(-90);
+    player.setRotation(-90.f);
     enemy.enemyPosition = sf::Vector2f(500.f, 250.f);
     enemy.setPosition(enemy.enemyPosition);
     levelStatus = 0;
@@ -299,7 +302,7 @@ Level6::Level6() : player(275.f, 125.f, 450.f), enemy(0.1f)
 {
     player.playerPosition = sf::Vector2f(500.f, 515.f);
     player.setPosition(player.playerPosition);
-    player.setRotation(-90);
+    player.setRotation(-90.f);
     enemy.enemyPosition = sf::Vector2f(425.f, 250.f);
     enemy.setPosition(enemy.enemyPosition);
     elapsedTime = 0.f;
@@ -337,7 +340,7 @@ Level7::Level7() : player(275.f, 125.f, 450.f), enemy(1.f)
 {
     player.playerPosition = sf::Vector2f(500.f, 515.f);
     player.setPosition(player.playerPosition);
-    player.setRotation(-90);
+    player.setRotation(-90.f);
     enemy.enemyPosition = sf::Vector2f(500.f, 350.f);
     enemy.setPosition(enemy.enemyPosition);
     elapsedTime = 45.f * (M_PI / 180.f);
@@ -375,7 +378,7 @@ Level8::Level8() : player(275.f, 125.f, 450.f), enemy(1.f)
 {
     player.playerPosition = sf::Vector2f(500.f, 515.f);
     player.setPosition(player.playerPosition);
-    player.setRotation(-90);
+    player.setRotation(-90.f);
     enemy.enemyPosition = sf::Vector2f(500.f, 250.f);
     enemy.setPosition(enemy.enemyPosition);
     levelStatus = 0;
@@ -411,7 +414,7 @@ Level9::Level9() : player(275.f, 125.f, 450.f), enemy(1.f)
 {
     player.playerPosition = sf::Vector2f(500.f, 515.f);
     player.setPosition(player.playerPosition);
-    player.setRotation(-90);
+    player.setRotation(-90.f);
     enemy.enemyPosition = sf::Vector2f(500.f, 250.f);
     enemy.setPosition(enemy.enemyPosition);
     levelStatus = 0;
@@ -443,11 +446,11 @@ void Level9::Update(sf::RenderWindow& window, sf::View& view, sf::Clock& clock)
     }
 }
 
-Level10::Level10() : player(50.f, -100.f, 900.f), enemy(0.5f)
+Level10::Level10() : player(50.f, -100.f, 900.f), enemy(0.5f, 7) // shooting delay and number of small enemies
 {
     player.playerPosition = sf::Vector2f(500.f, 100.f);
     player.setPosition(player.playerPosition);
-    player.setRotation(90);
+    player.setRotation(90.f);
     enemy.enemyPosition = sf::Vector2f(500.f, 420.f);
     enemy.setPosition(enemy.enemyPosition);
     levelStatus = 0;
@@ -461,13 +464,15 @@ void Level10::Update(sf::RenderWindow& window, sf::View& view, sf::Clock& clock)
     deltaTime = clock.restart().asSeconds();
     player.Update(window, view, deltaTime);
     enemy.FollowSlowly(deltaTime, player.playerPosition);
+    enemy.UpdateSmallEnemies(deltaTime, player.playerPosition);
     if (!enemy.isAnimatingExplode)
     {
         enemy.AnimateHit();
-        // enemy.ShootEightBulletsBothColors(deltaTime);
-        // enemy.UpdateAllBullets(deltaTime);
+        enemy.ShootOneBulletBothColors(deltaTime);
+        enemy.UpdateAllBullets(deltaTime);
     }
     CheckCollision();
+    enemy.UpdateShield();
 
     if (player.health <= 0)
     {

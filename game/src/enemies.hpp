@@ -17,6 +17,18 @@ namespace
             {
                 std::cout << "Failed to load enemy_explode spritesheet!\n";
             }
+            if (!shieldTexture.loadFromFile("game/spritesheets/shield.png"))
+            {
+                std::cout << "Failed to load shield spritesheet!\n";
+            }
+            if (!weakExplodeTexture.loadFromFile("game/spritesheets/enemy_explode_weak.png"))
+            {
+                std::cout << "Failed to load enemy_explode_weak spritesheet!\n";
+            }
+            if (!shieldExplodeTexture.loadFromFile("game/spritesheets/shield_explode.png"))
+            {
+                std::cout << "Failed to load shield_explode spritesheet!\n";
+            }
 
             for (int i = 0; i < 4; ++i)
             {
@@ -49,17 +61,74 @@ namespace
                 sprite.setOrigin(sf::Vector2f(128.f, 128.f));
                 explodeSprites.push_back(sprite);
             }
+
+            for (int i = 0; i < 5; ++i)
+            {
+                for (int j = 0; j < 4; ++j)
+                {
+                    shieldFrames.push_back(sf::IntRect(j * 128, i * 128, 128, 128));
+                }
+            }
+            for (int i = 0; i < 20; ++i)
+            {
+                sf::Sprite sprite;
+                sprite.setTexture(shieldTexture);
+                sprite.setTextureRect(shieldFrames[i]);
+                sprite.setOrigin(sf::Vector2f(64.f, 64.f));
+                shieldSprites.push_back(sprite);
+            }
+
+            for (int i = 0; i < 6; ++i)
+            {
+                for (int j = 0; j < 5; ++j)
+                {
+                    weakExplodeFrames.push_back(sf::IntRect(j * 256, i * 256, 256, 256));
+                }
+            }
+            for (int i = 0; i < 30; ++i)
+            {
+                sf::Sprite sprite;
+                sprite.setTexture(weakExplodeTexture);
+                sprite.setTextureRect(weakExplodeFrames[i]);
+                sprite.setOrigin(sf::Vector2f(128.f, 128.f));
+                weakExplodeSprites.push_back(sprite);
+            }
+
+            for (int i = 0; i < 6; ++i)
+            {
+                for (int j = 0; j < 5; ++j)
+                {
+                    shieldExplodeFrames.push_back(sf::IntRect(j * 256, i * 256, 256, 256));
+                }
+            }
+            for (int i = 0; i < 30; ++i)
+            {
+                sf::Sprite sprite;
+                sprite.setTexture(shieldExplodeTexture);
+                sprite.setTextureRect(shieldExplodeFrames[i]);
+                sprite.setOrigin(sf::Vector2f(128.f, 128.f));
+                shieldExplodeSprites.push_back(sprite);
+            }
         }
 
     public:
         std::vector<sf::Sprite> hitSprites;
         std::vector<sf::Sprite> explodeSprites;
+        std::vector<sf::Sprite> shieldSprites;
+        std::vector<sf::Sprite> weakExplodeSprites;
+        std::vector<sf::Sprite> shieldExplodeSprites;
 
     private:
         sf::Texture hitTexture;
         sf::Texture explodeTexture;
+        sf::Texture shieldTexture;
+        sf::Texture weakExplodeTexture;
+        sf::Texture shieldExplodeTexture;
         std::vector<sf::IntRect> hitFrames;
         std::vector<sf::IntRect> explodeFrames;
+        std::vector<sf::IntRect> shieldFrames;
+        std::vector<sf::IntRect> weakExplodeFrames;
+        std::vector<sf::IntRect> shieldExplodeFrames;
     };
 
     EnemyAnimations enemyAnimations;
@@ -187,4 +256,134 @@ private:
     float angleRad;
     int currentFrame;
     bool isAnimatingHit;
+};
+
+class SmallEnemy : public sf::Drawable, public sf::Transformable
+{
+public:
+    SmallEnemy(int num, float lastShot);
+
+    void Update(std::vector<SmallEnemy>& enemies, const float& deltaTime, const sf::Vector2f& playerPosition,
+                const sf::Vector2f& ballPosition, std::vector<OrangeBullet>& bullets, int& number);
+    void Shoot(std::vector<OrangeBullet>& orangeBullets, const float& deltaTime);
+    void GotHit(float& delay);
+    sf::FloatRect GetBounds();
+
+public:
+    int id;
+    sf::Vector2f position;
+    bool hit;
+    bool isAnimatingExplode;
+
+private:
+    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
+    {
+        states.transform *= getTransform();
+        if (!isAnimatingExplode)
+        {
+            target.draw(enemy, states);
+        }
+        else
+        {
+            enemyAnimations.weakExplodeSprites[currentFrame].setPosition(position);
+            target.draw(enemyAnimations.weakExplodeSprites[currentFrame]);
+        }
+    }
+
+    sf::VertexArray enemy;
+    sf::Vector2f delta;
+    float angleRad;
+    float angleDeg;
+    float newAngleDeg;
+    float deltaAngle;
+    float direction;
+    sf::Vector2f possiblePos;
+    sf::Vector2f velocity;
+    float shootingDelay;
+    float timeSinceLastShot;
+    int currentFrame;
+};
+
+class ShieldedBallWithSmallEnemies : public sf::Drawable, public sf::Transformable
+{
+public:
+    ShieldedBallWithSmallEnemies(float delay, int number);
+
+    void FollowSlowly(const float& deltaTime, const sf::Vector2f& playerPosition);
+    void UpdateSmallEnemies(const float& deltaTime, const sf::Vector2f& playerPosition);
+    void AnimateHit();
+    void ShootOneBulletBothColors(const float& deltaTime);
+    void UpdateAllBullets(const float& deltaTime);
+    void GotHit();
+    void UpdateShield();
+    sf::FloatRect GetBounds();
+
+public:
+    int health;
+    sf::Vector2f enemyPosition;
+    std::vector<OrangeBullet> orangeBullets;
+    std::vector<PurpleBullet> purpleBullets;
+    std::vector<SmallEnemy> smallEnemies;
+    int numberOfSmallEnemies;
+    float shootingDelay;
+    bool isAnimatingExplode;
+
+private:
+    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
+    {
+        states.transform *= getTransform();
+        for (const OrangeBullet& bullet : orangeBullets)
+        {
+            target.draw(bullet);
+        }
+        for (const PurpleBullet& bullet : purpleBullets)
+        {
+            target.draw(bullet);
+        }
+
+        for (const SmallEnemy& smallEnemy : smallEnemies)
+        {
+            target.draw(smallEnemy);
+        }
+
+        if (!isAnimatingExplode)
+        {
+            target.draw(enemy, states);
+        }
+        else
+        {
+            enemyAnimations.explodeSprites[currentFrame].setPosition(enemyPosition);
+            target.draw(enemyAnimations.explodeSprites[currentFrame]);
+        }
+
+        if (isAnimatingHit)
+        {
+            enemyAnimations.hitSprites[currentFrame].setPosition(enemyPosition);
+            target.draw(enemyAnimations.hitSprites[currentFrame]);
+        }
+
+        if (isShielded)
+        {
+            enemyAnimations.shieldSprites[shieldFrame].setPosition(enemyPosition);
+            target.draw(enemyAnimations.shieldSprites[shieldFrame]);
+        }
+
+        if (isAnimatingShieldExplode)
+        {
+            enemyAnimations.shieldExplodeSprites[currentFrame].setPosition(enemyPosition);
+            target.draw(enemyAnimations.shieldExplodeSprites[currentFrame]);
+        }
+    }
+
+    sf::VertexArray enemy;
+    bool isOrange;
+    float timeSinceLastShot;
+    sf::Vector2f delta;
+    float angleRad;
+    sf::Vector2f possiblePos;
+    bool isShielded;
+    int shieldFrame;
+    int currentFrame;
+    bool isAnimatingHit;
+    bool isAnimatingShieldExplode;
 };

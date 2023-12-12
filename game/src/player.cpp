@@ -117,11 +117,6 @@ Player::Player(float left, float top, float size)
     }
 }
 
-float toDegrees(float radians)
-{
-    return float(double(radians) * 180.0 / M_PI);
-}
-
 void Player::Update(sf::RenderWindow& window, sf::View& view, const float& deltaTime)
 {
     if (isAnimatingExplode)
@@ -171,7 +166,7 @@ void Player::Update(sf::RenderWindow& window, sf::View& view, const float& delta
     mousePositionView = window.mapPixelToCoords(mousePositionWindow);
     delta = mousePositionView - playerPosition;
     angleRad = atan2(delta.y, delta.x);
-    angleDeg = toDegrees(angleRad);
+    angleDeg = angleRad * 180.f / float(M_PI);
     this->setRotation(angleDeg);
 
     lastGotHit += deltaTime;
@@ -207,10 +202,8 @@ void Player::Fire()
 {
     Bullet bullet;
     bullet.position = playerPosition;
-    bullet.velocity = {
-        std::cos(angleRad) * bullet.speed,
-        std::sin(angleRad) * bullet.speed
-    };
+    bullet.velocity.x = std::cos(angleRad) * bullet.speed;
+    bullet.velocity.y = std::sin(angleRad) * bullet.speed;
     bullet.setPosition(bullet.position);
     bullet.setRotation(angleDeg);
     bullets.push_back(bullet);
