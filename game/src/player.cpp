@@ -159,7 +159,96 @@ void Player::Update(sf::RenderWindow& window, sf::View& view, const float& delta
         }
     }
 
-    playerPosition = playerPosition + movement;
+    playerPosition += movement;
+    this->setPosition(playerPosition);
+    view.setCenter(playerPosition);
+    mousePositionWindow = sf::Vector2i(sf::Mouse::getPosition(window));
+    mousePositionView = window.mapPixelToCoords(mousePositionWindow);
+    delta = mousePositionView - playerPosition;
+    angleRad = atan2(delta.y, delta.x);
+    angleDeg = angleRad * 180.f / float(M_PI);
+    this->setRotation(angleDeg);
+
+    lastGotHit += deltaTime;
+    if (isAnimatingHit)
+    {
+        currentFrame++;
+        if (currentFrame == 18)
+        {
+            isAnimatingHit = false;
+            health--;
+        }
+    }
+    UpdateBullets(deltaTime);
+}
+
+void Player::UpdateWithObstacles(sf::RenderWindow& window, sf::View& view, const float& deltaTime,
+                                const std::vector<sf::FloatRect>& obstacles)
+{
+    if (isAnimatingExplode)
+    {
+        currentFrame++;
+        if (currentFrame == 30)
+        {
+            health--;
+        }
+        return;
+    }
+
+    sf::Vector2f movement;
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+    {
+		if (playerPosition.y - 20.f > playingField.top)
+		{
+			movement.y = -5.f;
+		}
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+    {
+        if (playerPosition.x - 20.f > playingField.left)
+        {
+            movement.x = -5.f;
+        }
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+    {
+        if (playerPosition.y + 20.f < playingField.top + playingField.height)
+        {
+            movement.y = 5.f;
+        }
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+    {
+        if (playerPosition.x + 20.f < playingField.left + playingField.width)
+        {
+            movement.x = 5.f;
+        }
+    }
+
+    if (movement.x != 0.f)
+    {
+        for (const auto& obstacle : obstacles)
+        {
+            if (obstacle.contains(playerPosition.x + movement.x, playerPosition.y))
+            {
+                movement.x = 0.f;
+                break;
+            }
+        }
+    }
+    if (movement.y != 0.f)
+    {
+        for (const auto& obstacle : obstacles)
+        {
+            if (obstacle.contains(playerPosition.x, playerPosition.y + movement.y))
+            {
+                movement.y = 0.f;
+                break;
+            }
+        }
+    }
+
+    playerPosition += movement;
     this->setPosition(playerPosition);
     view.setCenter(playerPosition);
     mousePositionWindow = sf::Vector2i(sf::Mouse::getPosition(window));

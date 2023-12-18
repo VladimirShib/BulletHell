@@ -304,6 +304,15 @@ Selection::Selection()
     menuPositions[14] = sf::Vector2f(284.f, 440.f);
     menuPositions[15] = sf::Vector2f(284.f, 492.f);
 
+    menuPositions[16] = sf::Vector2f(454.f, 128.f);
+    menuPositions[17] = sf::Vector2f(454.f, 180.f);
+    menuPositions[18] = sf::Vector2f(454.f, 232.f);
+    menuPositions[19] = sf::Vector2f(454.f, 284.f);
+    menuPositions[20] = sf::Vector2f(454.f, 336.f);
+    menuPositions[21] = sf::Vector2f(454.f, 388.f);
+    menuPositions[22] = sf::Vector2f(454.f, 440.f);
+    menuPositions[23] = sf::Vector2f(454.f, 492.f);
+
     menuItem[0].setFont(font);
     menuItem[0].setString("Level 1");
     menuItem[0].setCharacterSize(22);
@@ -335,14 +344,23 @@ Selection::Selection()
         {85.f, 438.f}, {235.f, 438.f}, {235.f, 470.f}, {85.f, 470.f},
         {85.f, 490.f}, {235.f, 490.f}, {235.f, 522.f}, {85.f, 522.f},
 
-        {255.f, 126.f}, {405.f, 126.f}, {405.f, 158.f}, {255.f, 158.f}, // nineth
-        {255.f, 178.f}, {405.f, 178.f}, {405.f, 210.f}, {255.f, 210.f}, // tenth...
+        {255.f, 126.f}, {405.f, 126.f}, {405.f, 158.f}, {255.f, 158.f}, // 9-th
+        {255.f, 178.f}, {405.f, 178.f}, {405.f, 210.f}, {255.f, 210.f}, // 10-th...
         {255.f, 230.f}, {405.f, 230.f}, {405.f, 262.f}, {255.f, 262.f},
         {255.f, 282.f}, {405.f, 282.f}, {405.f, 314.f}, {255.f, 314.f},
         {255.f, 334.f}, {405.f, 334.f}, {405.f, 366.f}, {255.f, 366.f},
         {255.f, 386.f}, {405.f, 386.f}, {405.f, 418.f}, {255.f, 418.f},
         {255.f, 438.f}, {405.f, 438.f}, {405.f, 470.f}, {255.f, 470.f},
-        {255.f, 490.f}, {405.f, 490.f}, {405.f, 522.f}, {255.f, 522.f}
+        {255.f, 490.f}, {405.f, 490.f}, {405.f, 522.f}, {255.f, 522.f},
+
+        {425.f, 126.f}, {575.f, 126.f}, {575.f, 158.f}, {425.f, 158.f}, // 17-th
+        {425.f, 178.f}, {575.f, 178.f}, {575.f, 210.f}, {425.f, 210.f}, // 18-th...
+        {425.f, 230.f}, {575.f, 230.f}, {575.f, 262.f}, {425.f, 262.f},
+        {425.f, 282.f}, {575.f, 282.f}, {575.f, 314.f}, {425.f, 314.f},
+        {425.f, 334.f}, {575.f, 334.f}, {575.f, 366.f}, {425.f, 366.f},
+        {425.f, 386.f}, {575.f, 386.f}, {575.f, 418.f}, {425.f, 418.f},
+        {425.f, 438.f}, {575.f, 438.f}, {575.f, 470.f}, {425.f, 470.f},
+        {425.f, 490.f}, {575.f, 490.f}, {575.f, 522.f}, {425.f, 522.f}
     };
     for (auto& point : itemPoints)
     {
@@ -360,14 +378,23 @@ Selection::Selection()
         {93.f, 446.f}, {109.f, 446.f}, {109.f, 462.f}, {93.f, 462.f},
         {93.f, 498.f}, {109.f, 498.f}, {109.f, 514.f}, {93.f, 514.f},
 
-        {263.f, 134.f}, {279.f, 134.f}, {279.f, 150.f}, {263.f, 150.f}, // nineth
-        {263.f, 186.f}, {279.f, 186.f}, {279.f, 202.f}, {263.f, 202.f}, // tenth...
+        {263.f, 134.f}, {279.f, 134.f}, {279.f, 150.f}, {263.f, 150.f}, // 9-th
+        {263.f, 186.f}, {279.f, 186.f}, {279.f, 202.f}, {263.f, 202.f}, // 10-th...
         {263.f, 238.f}, {279.f, 238.f}, {279.f, 254.f}, {263.f, 254.f},
         {263.f, 290.f}, {279.f, 290.f}, {279.f, 306.f}, {263.f, 306.f},
         {263.f, 342.f}, {279.f, 342.f}, {279.f, 358.f}, {263.f, 358.f},
         {263.f, 394.f}, {279.f, 394.f}, {279.f, 410.f}, {263.f, 410.f},
         {263.f, 446.f}, {279.f, 446.f}, {279.f, 462.f}, {263.f, 462.f},
-        {263.f, 498.f}, {279.f, 498.f}, {279.f, 514.f}, {263.f, 514.f}
+        {263.f, 498.f}, {279.f, 498.f}, {279.f, 514.f}, {263.f, 514.f},
+
+        {433.f, 134.f}, {449.f, 134.f}, {449.f, 150.f}, {433.f, 150.f}, // 17-th
+        {433.f, 186.f}, {449.f, 186.f}, {449.f, 202.f}, {433.f, 202.f}, // 18-th...
+        {433.f, 238.f}, {449.f, 238.f}, {449.f, 254.f}, {433.f, 254.f},
+        {433.f, 290.f}, {449.f, 290.f}, {449.f, 306.f}, {433.f, 306.f},
+        {433.f, 342.f}, {449.f, 342.f}, {449.f, 358.f}, {433.f, 358.f},
+        {433.f, 394.f}, {449.f, 394.f}, {449.f, 410.f}, {433.f, 410.f},
+        {433.f, 446.f}, {449.f, 446.f}, {449.f, 462.f}, {433.f, 462.f},
+        {433.f, 498.f}, {449.f, 498.f}, {449.f, 514.f}, {433.f, 514.f}
     };
     for (auto& point : squarePoints)
     {
@@ -554,31 +581,83 @@ void Selection::PollEvents(sf::RenderWindow& window, sf::Event& event, bool& isT
                     break;
                 case 11:
                 {
-                    std::cout << "Level 12\n";
+                    level = 11;
+                    isTransitioning = true;
                     sounds.pressSound.play();
                 }
                     break;
                 case 12:
                 {
-                    std::cout << "Level 13\n";
+                    level = 12;
+                    isTransitioning = true;
                     sounds.pressSound.play();
                 }
                     break;
                 case 13:
                 {
-                    std::cout << "Level 14\n";
+                    level = 13;
+                    isTransitioning = true;
                     sounds.pressSound.play();
                 }
                     break;
                 case 14:
                 {
-                    std::cout << "Level 15\n";
+                    level = 14;
+                    isTransitioning = true;
                     sounds.pressSound.play();
                 }
                     break;
                 case 15:
                 {
                     std::cout << "Level 16\n";
+                    sounds.pressSound.play();
+                }
+                    break;
+                case 16:
+                {
+                    std::cout << "Level 17\n";
+                    sounds.pressSound.play();
+                }
+                    break;
+                case 17:
+                {
+                    std::cout << "Level 18\n";
+                    sounds.pressSound.play();
+                }
+                    break;
+                case 18:
+                {
+                    std::cout << "Level 19\n";
+                    sounds.pressSound.play();
+                }
+                    break;
+                case 19:
+                {
+                    std::cout << "Level 20\n";
+                    sounds.pressSound.play();
+                }
+                    break;
+                case 20:
+                {
+                    std::cout << "Level 21\n";
+                    sounds.pressSound.play();
+                }
+                    break;
+                case 21:
+                {
+                    std::cout << "Level 22\n";
+                    sounds.pressSound.play();
+                }
+                    break;
+                case 22:
+                {
+                    std::cout << "Level 23\n";
+                    sounds.pressSound.play();
+                }
+                    break;
+                case 23:
+                {
+                    std::cout << "Level 24\n";
                     sounds.pressSound.play();
                 }
                     break;
@@ -642,7 +721,7 @@ void Selection::MoveLeft(MusicManager& sounds)
 
 void Selection::MoveRight(MusicManager& sounds)
 {
-    if (selectedItemIndex < 8)
+    if (selectedItemIndex < 16)
     {
         menuItem[selectedItemIndex].setFillColor(sf::Color(0x50, 0x4E, 0x48));
         selectedItemIndex += 8;

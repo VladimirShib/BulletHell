@@ -95,6 +95,8 @@ public:
     Player(float left, float top, float size);
 
     void Update(sf::RenderWindow& window, sf::View& view, const float& deltaTime);
+    void UpdateWithObstacles(sf::RenderWindow& window, sf::View& view, const float& deltaTime,
+                            const std::vector<sf::FloatRect>& obstacles);
     void UpdateBullets(const float& deltaTime);
     void Fire();
     void GotHit();

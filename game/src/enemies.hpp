@@ -263,8 +263,10 @@ class SmallEnemy : public sf::Drawable, public sf::Transformable
 public:
     SmallEnemy(int num, float lastShot);
 
-    void Update(std::vector<SmallEnemy>& enemies, const float& deltaTime, const sf::Vector2f& playerPosition,
-                const sf::Vector2f& ballPosition, std::vector<OrangeBullet>& bullets, int& number);
+    void Move(std::vector<SmallEnemy>& enemies, const float& deltaTime, const sf::Vector2f& playerPosition,
+              std::vector<OrangeBullet>& bullets, int& number);
+    void MoveWithObstacles(std::vector<SmallEnemy>& enemies, const float& deltaTime, const sf::Vector2f& playerPosition,
+                           std::vector<OrangeBullet>& bullets, int& number, const std::vector<sf::FloatRect>& obstacles);
     void Shoot(std::vector<OrangeBullet>& orangeBullets, const float& deltaTime);
     void GotHit(float& delay);
     sf::FloatRect GetBounds();
@@ -291,6 +293,7 @@ private:
     }
 
     sf::VertexArray enemy;
+    int health;
     sf::Vector2f delta;
     float angleRad;
     float angleDeg;
@@ -307,15 +310,26 @@ private:
 class ShieldedBallWithSmallEnemies : public sf::Drawable, public sf::Transformable
 {
 public:
-    ShieldedBallWithSmallEnemies(float delay, int number);
+    ShieldedBallWithSmallEnemies(float delay, int level, int number);
 
     void FollowSlowly(const float& deltaTime, const sf::Vector2f& playerPosition);
+    void FollowSlowlyWithObstacles(const float& deltaTime, const sf::Vector2f& playerPosition,
+                                   const std::vector<sf::FloatRect>& obstacles);
+    void FollowSlowlyWithObstaclesAndAdd(const float& deltaTime, const sf::Vector2f& playerPosition,
+                                         const std::vector<sf::FloatRect>& obstacles, const sf::Vector2f& secondEnemyPos);
     void UpdateSmallEnemies(const float& deltaTime, const sf::Vector2f& playerPosition);
+    void UpdateSmallEnemiesWithObstacles(const float& deltaTime, const sf::Vector2f& playerPosition,
+                                         const std::vector<sf::FloatRect>& obstacles);
     void AnimateHit();
     void ShootOneBulletBothColors(const float& deltaTime);
+    void ShootThreePurpleBullets(const float& deltaTime);
+    void ShootFiveBulletsBothColors(const float& deltaTime);
+    void RotatingShootingTypeOne(const float& deltaTime);
+    void RotatingShootingTypeTwo(const float& deltaTime);
     void UpdateAllBullets(const float& deltaTime);
     void GotHit();
     void UpdateShield();
+    void CheckOtherEnemy(const bool& isAlive);
     sf::FloatRect GetBounds();
 
 public:
@@ -326,7 +340,9 @@ public:
     std::vector<SmallEnemy> smallEnemies;
     int numberOfSmallEnemies;
     float shootingDelay;
+    float shootingAngle;
     bool isAnimatingExplode;
+    bool otherEnemy;
 
 private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -370,8 +386,77 @@ private:
 
         if (isAnimatingShieldExplode)
         {
-            enemyAnimations.shieldExplodeSprites[currentFrame].setPosition(enemyPosition);
-            target.draw(enemyAnimations.shieldExplodeSprites[currentFrame]);
+            enemyAnimations.shieldExplodeSprites[shieldFrame].setPosition(enemyPosition);
+            target.draw(enemyAnimations.shieldExplodeSprites[shieldFrame]);
+        }
+    }
+
+    sf::VertexArray enemy;
+    bool isOrange;
+    float timeSinceLastShot;
+    sf::Vector2f delta;
+    float angleRad;
+    sf::Vector2f possiblePos;
+    bool isShielded;
+    int shieldFrame;
+    int currentFrame;
+    bool isAnimatingHit;
+    bool isAnimatingShieldExplode;
+};
+
+class AdditionalEnemy : public sf::Drawable, public sf::Transformable
+{
+public:
+    AdditionalEnemy(float delay);
+
+    void FollowSlowlyWithObstacles(const float& deltaTime, const sf::Vector2f& playerPosition, const std::vector<sf::FloatRect>& obstacles,
+                                   const sf::Vector2f& firstEnemyPos, std::vector<SmallEnemy>& smallEnemies);
+    void RotatingShootingTypeOne(const float& deltaTime, const float& delay, std::vector<OrangeBullet>& orangeBullets,
+                                 std::vector<PurpleBullet>& purpleBullets);
+    void AnimateHit();
+    void GotHit();
+    void UpdateShield(const int& numberOfSmallEnemies);
+    sf::FloatRect GetBounds();
+
+public:
+    int health;
+    sf::Vector2f enemyPosition;
+    float shootingDelay;
+    float shootingAngle;
+    bool isAnimatingExplode;
+    bool isAlive;
+
+private:
+    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
+    {
+        states.transform *= getTransform();
+
+        if (!isAnimatingExplode)
+        {
+            target.draw(enemy, states);
+        }
+        else
+        {
+            enemyAnimations.explodeSprites[currentFrame].setPosition(enemyPosition);
+            target.draw(enemyAnimations.explodeSprites[currentFrame]);
+        }
+
+        if (isAnimatingHit)
+        {
+            enemyAnimations.hitSprites[currentFrame].setPosition(enemyPosition);
+            target.draw(enemyAnimations.hitSprites[currentFrame]);
+        }
+
+        if (isShielded)
+        {
+            enemyAnimations.shieldSprites[shieldFrame].setPosition(enemyPosition);
+            target.draw(enemyAnimations.shieldSprites[shieldFrame]);
+        }
+
+        if (isAnimatingShieldExplode)
+        {
+            enemyAnimations.shieldExplodeSprites[shieldFrame].setPosition(enemyPosition);
+            target.draw(enemyAnimations.shieldExplodeSprites[shieldFrame]);
         }
     }
 

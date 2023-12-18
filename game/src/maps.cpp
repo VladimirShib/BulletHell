@@ -121,7 +121,7 @@ Level1::Level1() : player(275.f, 125.f, 450.f), enemy(1.f)
     player.setRotation(-90.f);
     enemy.enemyPosition = sf::Vector2f(500.f, 250.f);
     enemy.setPosition(enemy.enemyPosition);
-    elapsedTime = 45.f * (M_PI / 180.f);
+    elapsedTime = 45.f * float(M_PI) / 180.f;
     levelStatus = 0;
     clearColor = LIGHT_COLOR;
 
@@ -159,7 +159,7 @@ Level2::Level2() : player(275.f, 125.f, 450.f), enemy(0.6f)
     player.setRotation(-90.f);
     enemy.enemyPosition = sf::Vector2f(500.f, 200.f);
     enemy.setPosition(enemy.enemyPosition);
-    elapsedTime = 90.0f * (M_PI / 180.f);
+    elapsedTime = 90.0f * float(M_PI) / 180.f;
     levelStatus = 0;
     clearColor = LIGHT_COLOR;
     
@@ -343,7 +343,7 @@ Level7::Level7() : player(275.f, 125.f, 450.f), enemy(1.f)
     player.setRotation(-90.f);
     enemy.enemyPosition = sf::Vector2f(500.f, 350.f);
     enemy.setPosition(enemy.enemyPosition);
-    elapsedTime = 45.f * (M_PI / 180.f);
+    elapsedTime = 45.f * float(M_PI) / 180.f;
     levelStatus = 0;
     clearColor = LIGHT_COLOR;
     
@@ -446,7 +446,7 @@ void Level9::Update(sf::RenderWindow& window, sf::View& view, sf::Clock& clock)
     }
 }
 
-Level10::Level10() : player(50.f, -100.f, 900.f), enemy(0.5f, 7) // shooting delay and number of small enemies
+Level10::Level10() : player(50.f, -100.f, 900.f), enemy(0.5f, 0, 7) // shooting delay, level number and number of small enemies
 {
     player.playerPosition = sf::Vector2f(500.f, 100.f);
     player.setPosition(player.playerPosition);
@@ -464,11 +464,249 @@ void Level10::Update(sf::RenderWindow& window, sf::View& view, sf::Clock& clock)
     deltaTime = clock.restart().asSeconds();
     player.Update(window, view, deltaTime);
     enemy.FollowSlowly(deltaTime, player.playerPosition);
-    enemy.UpdateSmallEnemies(deltaTime, player.playerPosition);
+    if (enemy.numberOfSmallEnemies > 0)
+    {
+        enemy.UpdateSmallEnemies(deltaTime, player.playerPosition);
+    }
     if (!enemy.isAnimatingExplode)
     {
         enemy.AnimateHit();
         enemy.ShootOneBulletBothColors(deltaTime);
+        enemy.UpdateAllBullets(deltaTime);
+    }
+    CheckCollision();
+    enemy.UpdateShield();
+
+    if (player.health <= 0)
+    {
+        levelStatus = 2;
+    }
+    if (enemy.health <= 0)
+    {
+        levelStatus = 1;
+    }
+}
+
+Level11::Level11() : player(50.f, -100.f, 900.f), enemy(1.f, 1, 11)
+{
+    player.playerPosition = sf::Vector2f(500.f, 600.f);
+    player.setPosition(player.playerPosition);
+    player.setRotation(-90.f);
+    enemy.enemyPosition = sf::Vector2f(500.f, 200.f);
+    enemy.setPosition(enemy.enemyPosition);
+    levelStatus = 0;
+    clearColor = DARK_COLOR;
+
+    constructLargeLevelMap(map, stars);
+}
+
+void Level11::Update(sf::RenderWindow& window, sf::View& view, sf::Clock& clock)
+{
+    deltaTime = clock.restart().asSeconds();
+    player.Update(window, view, deltaTime);
+    enemy.FollowSlowly(deltaTime, player.playerPosition);
+    if (enemy.numberOfSmallEnemies > 0)
+    {
+        enemy.UpdateSmallEnemies(deltaTime, player.playerPosition);
+    }
+    if (!enemy.isAnimatingExplode)
+    {
+        enemy.AnimateHit();
+        enemy.ShootThreePurpleBullets(deltaTime);
+        enemy.UpdateAllBullets(deltaTime);
+    }
+    CheckCollision();
+    enemy.UpdateShield();
+
+    if (player.health <= 0)
+    {
+        levelStatus = 2;
+    }
+    if (enemy.health <= 0)
+    {
+        levelStatus = 1;
+    }
+}
+
+Level12::Level12() : player(50.f, -100.f, 900.f), enemy(0.68f, 2, 7), secondEnemy(0.68f)
+{
+    player.playerPosition = sf::Vector2f(500.f, 450.f);
+    player.setPosition(player.playerPosition);
+    player.setRotation(-90.f);
+    enemy.enemyPosition = sf::Vector2f(270.f, 100.f);
+    enemy.setPosition(enemy.enemyPosition);
+    enemy.shootingAngle = 150.f * float(M_PI) / 180.f;
+    secondEnemy.enemyPosition = sf::Vector2f(730.f, 100.f);
+    secondEnemy.setPosition(secondEnemy.enemyPosition);
+    secondEnemy.shootingAngle = 150.f * float(M_PI) / 180.f;
+    levelStatus = 0;
+    enemy.otherEnemy = true;
+    clearColor = DARK_COLOR;
+
+    constructLargeLevelMap(map, stars);
+    const std::vector<sf::Vector2f> points = {
+        {50.f, 325.f}, {100.f, 325.f}, {100.f, 375.f}, {50.f, 375.f},
+        {200.f, 325.f}, {250.f, 325.f}, {250.f, 375.f}, {200.f, 375.f},
+        {350.f, 325.f}, {400.f, 325.f}, {400.f, 375.f}, {350.f, 375.f},
+        {600.f, 325.f}, {650.f, 325.f}, {650.f, 375.f}, {600.f, 375.f},
+        {750.f, 325.f}, {800.f, 325.f}, {800.f, 375.f}, {750.f, 375.f},
+        {900.f, 325.f}, {950.f, 325.f}, {950.f, 375.f}, {900.f, 375.f}
+    }; // obstacles
+    for (auto& point : points)
+    {
+        map.append(sf::Vertex(point, sf::Color(0xEC, 0xE8, 0xE1)));
+    }
+
+    playerObstacles.push_back(sf::FloatRect(50.f, 305.f, 70.f, 90.f));
+    playerObstacles.push_back(sf::FloatRect(180.f, 305.f, 90.f, 90.f));
+    playerObstacles.push_back(sf::FloatRect(330.f, 305.f, 90.f, 90.f));
+    playerObstacles.push_back(sf::FloatRect(580.f, 305.f, 90.f, 90.f));
+    playerObstacles.push_back(sf::FloatRect(730.f, 305.f, 90.f, 90.f));
+    playerObstacles.push_back(sf::FloatRect(880.f, 305.f, 70.f, 90.f));
+
+    obstacles.push_back(sf::FloatRect(50.f, 325.f, 50.f, 50.f));
+    obstacles.push_back(sf::FloatRect(200.f, 325.f, 50.f, 50.f));
+    obstacles.push_back(sf::FloatRect(350.f, 325.f, 50.f, 50.f));
+    obstacles.push_back(sf::FloatRect(600.f, 325.f, 50.f, 50.f));
+    obstacles.push_back(sf::FloatRect(750.f, 325.f, 50.f, 50.f));
+    obstacles.push_back(sf::FloatRect(900.f, 325.f, 50.f, 50.f));
+}
+
+void Level12::Update(sf::RenderWindow& window, sf::View& view, sf::Clock& clock)
+{
+    deltaTime = clock.restart().asSeconds();
+    player.UpdateWithObstacles(window, view, deltaTime, playerObstacles);
+    enemy.FollowSlowlyWithObstaclesAndAdd(deltaTime, player.playerPosition, obstacles, secondEnemy.enemyPosition);
+    if (enemy.numberOfSmallEnemies > 0)
+    {
+        enemy.UpdateSmallEnemiesWithObstacles(deltaTime, player.playerPosition, obstacles);
+    }
+    secondEnemy.FollowSlowlyWithObstacles(deltaTime, player.playerPosition, obstacles, enemy.enemyPosition, enemy.smallEnemies);
+    if (!secondEnemy.isAnimatingExplode)
+    {
+        secondEnemy.AnimateHit();
+        secondEnemy.RotatingShootingTypeOne(deltaTime, enemy.shootingDelay, enemy.orangeBullets, enemy.purpleBullets);
+    }
+    if (!enemy.isAnimatingExplode)
+    {
+        enemy.AnimateHit();
+        enemy.RotatingShootingTypeOne(deltaTime);
+    }
+    if (!enemy.isAnimatingExplode || !secondEnemy.isAnimatingExplode)
+    {
+        enemy.UpdateAllBullets(deltaTime);
+    }
+    else
+    {
+        enemy.orangeBullets.clear();
+        enemy.purpleBullets.clear();
+    }
+    CheckCollision();
+    enemy.UpdateShield();
+    secondEnemy.UpdateShield(enemy.numberOfSmallEnemies);
+    enemy.CheckOtherEnemy(secondEnemy.isAlive);
+
+    if (player.health <= 0)
+    {
+        levelStatus = 2;
+    }
+    if (enemy.health <= 0 && secondEnemy.health <= 0)
+    {
+        levelStatus = 1;
+    }
+}
+
+Level13::Level13() : player(50.f, -100.f, 900.f), enemy(1.1f, 3, 14)
+{
+    player.playerPosition = sf::Vector2f(500.f, 100.f);
+    player.setPosition(player.playerPosition);
+    player.setRotation(90.f);
+    enemy.enemyPosition = sf::Vector2f(500.f, 350.f);
+    enemy.setPosition(enemy.enemyPosition);
+    levelStatus = 0;
+    clearColor = DARK_COLOR;
+
+    constructLargeLevelMap(map, stars);
+}
+
+void Level13::Update(sf::RenderWindow& window, sf::View& view, sf::Clock& clock)
+{
+    deltaTime = clock.restart().asSeconds();
+    player.Update(window, view, deltaTime);
+    enemy.FollowSlowly(deltaTime, player.playerPosition);
+    if (enemy.numberOfSmallEnemies > 0)
+    {
+        enemy.UpdateSmallEnemies(deltaTime, player.playerPosition);
+    }
+    if (!enemy.isAnimatingExplode)
+    {
+        enemy.AnimateHit();
+        enemy.ShootFiveBulletsBothColors(deltaTime);
+        enemy.UpdateAllBullets(deltaTime);
+    }
+    CheckCollision();
+    enemy.UpdateShield();
+
+    if (player.health <= 0)
+    {
+        levelStatus = 2;
+    }
+    if (enemy.health <= 0)
+    {
+        levelStatus = 1;
+    }
+}
+
+Level14::Level14() : player(50.f, -100.f, 900.f), enemy(0.8f, 4, 9)
+{
+    player.playerPosition = sf::Vector2f(500.f, 575.f);
+    player.setPosition(player.playerPosition);
+    player.setRotation(-90.f);
+    enemy.enemyPosition = sf::Vector2f(500.f, 200.f);
+    enemy.setPosition(enemy.enemyPosition);
+    enemy.shootingAngle = 0.f;
+    levelStatus = 0;
+    clearColor = DARK_COLOR;
+
+    constructLargeLevelMap(map, stars);
+    const std::vector<sf::Vector2f> points = {
+        {418.4f, 600.f}, {468.4f, 600.f}, {468.4f, 650.f}, {418.4f, 650.f},
+        {475.f, 600.f}, {525.f, 600.f}, {525.f, 650.f}, {475.f, 650.f},
+        {531.6f, 600.f}, {581.6f, 600.f}, {581.6f, 650.f}, {531.6f, 650.f},
+        {200.f, 318.4f}, {250.f, 318.4f}, {250.f, 368.4f}, {200.f, 368.4f},
+        {200.f, 375.f}, {250.f, 375.f}, {250.f, 425.f}, {200.f, 425.f},
+        {200.f, 431.6f}, {250.f, 431.6f}, {250.f, 481.6f}, {200.f, 481.6f},
+        {750.f, 318.4f}, {800.f, 318.4f}, {800.f, 368.4f}, {750.f, 368.4f},
+        {750.f, 375.f}, {800.f, 375.f}, {800.f, 425.f}, {750.f, 425.f},
+        {750.f, 431.6f}, {800.f, 431.6f}, {800.f, 481.6f}, {750.f, 481.6f}
+    };
+    for (auto& point : points)
+    {
+        map.append(sf::Vertex(point, sf::Color(0xEC, 0xE8, 0xE1)));
+    }
+
+    playerObstacles.push_back(sf::FloatRect(398.4f, 580.f, 203.2f, 90.f));
+    playerObstacles.push_back(sf::FloatRect(180.f, 298.4f, 90.f, 203.2f));
+    playerObstacles.push_back(sf::FloatRect(730.f, 298.4f, 90.f, 203.2f));
+
+    obstacles.push_back(sf::FloatRect(418.4f, 600.f, 163.2f, 50.f));
+    obstacles.push_back(sf::FloatRect(200.f, 318.4f, 50.f, 163.2f));
+    obstacles.push_back(sf::FloatRect(750.f, 318.4f, 50.f, 163.2f));
+}
+
+void Level14::Update(sf::RenderWindow& window, sf::View& view, sf::Clock& clock)
+{
+    deltaTime = clock.restart().asSeconds();
+    player.UpdateWithObstacles(window, view, deltaTime, playerObstacles);
+    enemy.FollowSlowlyWithObstacles(deltaTime, player.playerPosition, obstacles);
+    if (enemy.numberOfSmallEnemies > 0)
+    {
+        enemy.UpdateSmallEnemiesWithObstacles(deltaTime, player.playerPosition, obstacles);
+    }
+    if (!enemy.isAnimatingExplode)
+    {
+        enemy.AnimateHit();
+        enemy.RotatingShootingTypeTwo(deltaTime);
         enemy.UpdateAllBullets(deltaTime);
     }
     CheckCollision();
