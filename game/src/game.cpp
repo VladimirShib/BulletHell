@@ -173,7 +173,7 @@ void Game::ManageGame(Screens& screens, MusicManager& sounds)
         {
         case 1: // level completed
             currentLevel++;
-            if (currentLevel < 17) // if level exists
+            if (currentLevel < 20) // if level exists
             {
                 break;
             }
@@ -184,8 +184,8 @@ void Game::ManageGame(Screens& screens, MusicManager& sounds)
                 previousRecord = maxLevelsCleared;
                 maxLevelsCleared = currentLevel;
                 showingStat = true;
-                freshStart = false;
             }
+            freshStart = false;
             state = GameState::MENU;
             return;
         default:

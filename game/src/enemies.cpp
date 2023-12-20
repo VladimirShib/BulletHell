@@ -441,6 +441,7 @@ SmallEnemy::SmallEnemy(int num, float lastShot, char shield)
     shootingDelay = 1.5f;
     timeSinceLastShot = lastShot;
     isAnimatingExplode = false;
+    spawned = false;
     if (shield == 't')
     {
         shielded = true;

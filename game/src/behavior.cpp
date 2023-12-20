@@ -1201,6 +1201,84 @@ void ShieldedBallWithSmallEnemies::RotatingShootingTypeTwo(const float& deltaTim
     shootingAngle += 0.5f * float(M_PI) / 180.f;
 }
 
+void ShieldedBallWithSmallEnemies::RotatingShootingTypeThree(const float& deltaTime) // eight purple
+{
+    timeSinceLastShot += deltaTime;
+    if (timeSinceLastShot > shootingDelay)
+    {
+        PurpleBullet bullet1;
+        bullet1.position = enemyPosition;
+        bullet1.velocity.x = std::cos(shootingAngle) * bullet1.speed;
+        bullet1.velocity.y = std::sin(shootingAngle) * bullet1.speed;
+        bullet1.setPosition(bullet1.position);
+        shootingAngle += float(M_PI) / 4.f;
+
+        PurpleBullet bullet2;
+        bullet2.position = enemyPosition;
+        bullet2.velocity.x = std::cos(shootingAngle) * bullet2.speed;
+        bullet2.velocity.y = std::sin(shootingAngle) * bullet2.speed;
+        bullet2.setPosition(bullet2.position);
+        shootingAngle += float(M_PI) / 4.f;
+
+        PurpleBullet bullet3;
+        bullet3.position = enemyPosition;
+        bullet3.velocity.x = std::cos(shootingAngle) * bullet3.speed;
+        bullet3.velocity.y = std::sin(shootingAngle) * bullet3.speed;
+        bullet3.setPosition(bullet3.position);
+        shootingAngle += float(M_PI) / 4.f;
+
+        PurpleBullet bullet4;
+        bullet4.position = enemyPosition;
+        bullet4.velocity.x = std::cos(shootingAngle) * bullet4.speed;
+        bullet4.velocity.y = std::sin(shootingAngle) * bullet4.speed;
+        bullet4.setPosition(bullet4.position);
+        shootingAngle += float(M_PI) / 4.f;
+
+        PurpleBullet bullet5;
+        bullet5.position = enemyPosition;
+        bullet5.velocity.x = std::cos(shootingAngle) * bullet5.speed;
+        bullet5.velocity.y = std::sin(shootingAngle) * bullet5.speed;
+        bullet5.setPosition(bullet5.position);
+        shootingAngle += float(M_PI) / 4.f;
+
+        PurpleBullet bullet6;
+        bullet6.position = enemyPosition;
+        bullet6.velocity.x = std::cos(shootingAngle) * bullet6.speed;
+        bullet6.velocity.y = std::sin(shootingAngle) * bullet6.speed;
+        bullet6.setPosition(bullet6.position);
+        shootingAngle += float(M_PI) / 4.f;
+
+        PurpleBullet bullet7;
+        bullet7.position = enemyPosition;
+        bullet7.velocity.x = std::cos(shootingAngle) * bullet7.speed;
+        bullet7.velocity.y = std::sin(shootingAngle) * bullet7.speed;
+        bullet7.setPosition(bullet7.position);
+        shootingAngle += float(M_PI) / 4.f;
+
+        PurpleBullet bullet8;
+        bullet8.position = enemyPosition;
+        bullet8.velocity.x = std::cos(shootingAngle) * bullet8.speed;
+        bullet8.velocity.y = std::sin(shootingAngle) * bullet8.speed;
+        bullet8.setPosition(bullet8.position);
+        shootingAngle += float(M_PI) / 4.f;
+
+        purpleBullets.push_back(bullet1);
+        purpleBullets.push_back(bullet4);
+        purpleBullets.push_back(bullet5);
+        purpleBullets.push_back(bullet6);
+        purpleBullets.push_back(bullet2);
+        purpleBullets.push_back(bullet3);
+        purpleBullets.push_back(bullet7);
+        purpleBullets.push_back(bullet8);
+
+        timeSinceLastShot = 0.f;
+
+        enemySounds.shoot.play();
+    }
+
+    shootingAngle += 0.5f * float(M_PI) / 180.f;
+}
+
 void ShieldedBallWithSmallEnemies::ConstantAngleShooting(const float& deltaTime)
 {
     timeSinceLastShot += deltaTime;
@@ -1378,6 +1456,14 @@ void SmallEnemy::Move(std::vector<SmallEnemy>& enemies, const float& deltaTime, 
         }
         return;
     }
+    if (spawned)
+    {
+        currentFrame++;
+        if (currentFrame == 18)
+        {
+            spawned = false;
+        }
+    }
 
     delta = playerPosition - position;
     angleRad = atan2(delta.y, delta.x);
@@ -1440,6 +1526,14 @@ void SmallEnemy::MoveWithObstacles(std::vector<SmallEnemy>& enemies, const float
             number--;
         }
         return;
+    }
+    if (spawned)
+    {
+        currentFrame++;
+        if (currentFrame == 18)
+        {
+            spawned = false;
+        }
     }
 
     delta = playerPosition - position;

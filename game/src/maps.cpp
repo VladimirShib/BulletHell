@@ -947,3 +947,253 @@ void Level16::Update(sf::RenderWindow& window, sf::View& view, sf::Clock& clock)
         levelStatus = 1;
     }
 }
+
+Level17::Level17() : player(50.f, -100.f, 900.f), enemy(0.76f, 8)
+{
+    player.playerPosition = sf::Vector2f(500.f, 600.f);
+    player.setPosition(player.playerPosition);
+    player.setRotation(-90.f);
+    enemy.enemyPosition = sf::Vector2f(500.f, 100.f);
+    enemy.setPosition(enemy.enemyPosition);
+    enemy.shootingAngle = 0.f;
+    levelStatus = 0;
+    clearColor = DARK_COLOR;
+
+    const std::vector<EnemyLevelData> enemyLevelData = {
+        {{450.f, 340.f}, 80.f}, {{550.f, 340.f}, 100.f}, {{350.f, 360.f}, 60.f}, {{650.f, 360.f}, 120.f},
+        {{410.f, 280.f}, 70.f}, {{590.f, 280.f}, 110.f}, {{310.f, 250.f}, 65.f}, {{690.f, 250.f}, 115.f}
+    };
+    for (int i = 0; i < 8; ++i)
+    {
+        SmallEnemy smallEnemy(i, n_lastShot[i], 'f');
+        smallEnemy.position = enemyLevelData[i].position;
+        smallEnemy.setPosition(smallEnemy.position);
+        smallEnemy.setRotation(enemyLevelData[i].rotation);
+        enemy.smallEnemies.push_back(smallEnemy);
+    }
+
+    initLargeLevelMap(map, stars);
+}
+
+void Level17::Update(sf::RenderWindow& window, sf::View& view, sf::Clock& clock)
+{
+    deltaTime = clock.restart().asSeconds();
+    player.Update(window, view, deltaTime);
+    enemy.FollowSlowly(deltaTime, player.playerPosition);
+    if (enemy.numberOfSmallEnemies > 0)
+    {
+        enemy.UpdateSmallEnemies(deltaTime, player.playerPosition);
+    }
+    if (!enemy.isAnimatingExplode)
+    {
+        enemy.AnimateHit();
+        enemy.RotatingShootingTypeThree(deltaTime);
+        enemy.UpdateAllBullets(deltaTime);
+    }
+    CheckCollision();
+    enemy.UpdateShield();
+
+    if (player.health <= 0)
+    {
+        levelStatus = 2;
+    }
+    if (enemy.health <= 0)
+    {
+        levelStatus = 1;
+    }
+}
+
+Level18::Level18() : player(50.f, -100.f, 900.f), enemy(0.76f, 8)
+{
+    player.playerPosition = sf::Vector2f(500.f, 600.f);
+    player.setPosition(player.playerPosition);
+    player.setRotation(-90.f);
+    enemy.enemyPosition = sf::Vector2f(500.f, 220.f);
+    enemy.setPosition(enemy.enemyPosition);
+    levelStatus = 0;
+    clearColor = DARK_COLOR;
+
+    const std::vector<EnemyLevelData> enemyLevelData = {
+        {{410.f, 230.f}, 80.f}, {{590.f, 230.f}, 100.f}, {{380.f, 280.f}, 75.f}, {{620.f, 280.f}, 105.f},
+        {{440.f, 310.f}, 80.f}, {{560.f, 310.f}, 100.f}, {{410.f, 360.f}, 75.f}, {{590.f, 360.f}, 105.f}
+    };
+    for (int i = 0; i < 8; ++i)
+    {
+        SmallEnemy smallEnemy(i, n_lastShot[i], 't');
+        smallEnemy.position = enemyLevelData[i].position;
+        smallEnemy.setPosition(smallEnemy.position);
+        smallEnemy.setRotation(enemyLevelData[i].rotation);
+        enemy.smallEnemies.push_back(smallEnemy);
+    }
+
+    initLargeLevelMap(map, stars);
+}
+
+void Level18::Update(sf::RenderWindow& window, sf::View& view, sf::Clock& clock)
+{
+    deltaTime = clock.restart().asSeconds();
+    player.Update(window, view, deltaTime);
+    enemy.FollowSlowly(deltaTime, player.playerPosition);
+    if (enemy.numberOfSmallEnemies > 0)
+    {
+        enemy.UpdateSmallEnemies(deltaTime, player.playerPosition);
+    }
+    if (!enemy.isAnimatingExplode)
+    {
+        enemy.AnimateHit();
+        enemy.ShootOneBulletBothColors(deltaTime);
+        enemy.UpdateAllBullets(deltaTime);
+    }
+    CheckCollision();
+    enemy.UpdateShield();
+
+    if (player.health <= 0)
+    {
+        levelStatus = 2;
+    }
+    if (enemy.health <= 0)
+    {
+        levelStatus = 1;
+    }
+}
+
+Level19::Level19() : player(50.f, -100.f, 900.f), enemy(0.92f, 10)
+{
+    player.playerPosition = sf::Vector2f(500.f, 600.f);
+    player.setPosition(player.playerPosition);
+    player.setRotation(-90.f);
+    enemy.enemyPosition = sf::Vector2f(500.f, 0.f);
+    enemy.setPosition(enemy.enemyPosition);
+    enemy.shootingAngle = 0.f;
+    elapsedTime = 0.f;
+    levelStatus = 0;
+    clearColor = DARK_COLOR;
+    wave = 1;
+
+    const std::vector<EnemyLevelData> enemyLevelData = {
+        {{282.f, 350.f}, 45.f}, {{718.f, 350.f}, 135.f}, {{415.f, 131.f}, 80.f}, {{585.f, 131.f}, 100.f},
+        {{125.f, 100.f}, 80.f}, {{875.f, 100.f}, 100.f}
+    };
+    for (int i = 0; i < 6; ++i)
+    {
+        SmallEnemy smallEnemy(i, n_lastShot[i], 'f');
+        smallEnemy.position = enemyLevelData[i].position;
+        smallEnemy.setPosition(smallEnemy.position);
+        smallEnemy.setRotation(enemyLevelData[i].rotation);
+        enemy.smallEnemies.push_back(smallEnemy);
+    }
+
+    initLargeLevelMap(map, stars);
+    const std::vector<sf::Vector2f> blocks = {
+        {200.f, 50.f}, {363.2f, 50.f}, {363.2f, 213.2f}, {200.f, 213.2f},
+        {636.8f, 50.f}, {800.f, 50.f}, {800.f, 213.2f}, {636.8f, 213.2f},
+        {200.f, 486.8f}, {363.2f, 486.8f}, {363.2f, 650.f}, {200.f, 650.f},
+        {636.8f, 486.8f}, {800.f, 486.8f}, {800.f, 650.f}, {636.8f, 650.f}
+    };
+    const std::vector<sf::Vector2f> lines = {
+        {200.f, 100.f}, {800.f, 100.f}, {800.f, 106.6f}, {200.f, 106.6f}, // horizontal
+        {200.f, 156.6f}, {800.f, 156.6f}, {800.f, 163.2f}, {200.f, 163.2f},
+        {200.f, 536.8f}, {800.f, 536.8f}, {800.f, 543.4f}, {200.f, 543.4f},
+        {200.f, 593.4f}, {800.f, 593.4f}, {800.f, 600.f}, {200.f, 600.f},
+        {250.f, 50.f}, {256.6f, 50.f}, {256.6f, 650.f}, {250.f, 650.f}, // vertical
+        {306.6f, 50.f}, {313.2f, 50.f}, {313.2f, 650.f}, {306.6f, 650.f},
+        {686.8f, 50.f}, {693.4f, 50.f}, {693.4f, 650.f}, {686.8f, 650.f},
+        {743.4f, 50.f}, {750.4f, 50.f}, {750.4f, 650.f}, {743.4f, 650.f}
+    };
+    for (auto& point : blocks)
+    {
+        map.append(sf::Vertex(point, sf::Color(0xEC, 0xE8, 0xE1)));
+    }
+    for (auto& point : lines)
+    {
+        map.append(sf::Vertex(point, sf::Color(0xC6, 0xC2, 0xA5)));
+    }
+
+    playerObstacles.push_back(sf::FloatRect(180.f, 30.f, 203.2f, 203.2f));
+    playerObstacles.push_back(sf::FloatRect(616.8f, 30.f, 203.2f, 203.2f));
+    playerObstacles.push_back(sf::FloatRect(180.f, 466.8f, 203.2f, 203.2f));
+    playerObstacles.push_back(sf::FloatRect(616.8f, 466.8f, 203.2f, 203.2f));
+
+    obstacles.push_back(sf::FloatRect(200.f, 50.f, 163.2f, 163.2f));
+    obstacles.push_back(sf::FloatRect(636.8f, 50.f, 163.2f, 163.2f));
+    obstacles.push_back(sf::FloatRect(200.f, 486.8f, 163.2f, 163.2f));
+    obstacles.push_back(sf::FloatRect(636.8f, 486.8f, 163.2f, 163.2f));
+}
+
+void Level19::Update(sf::RenderWindow& window, sf::View& view, sf::Clock& clock)
+{
+    deltaTime = clock.restart().asSeconds();
+    elapsedTime += deltaTime;
+    player.UpdateWithObstacles(window, view, deltaTime, playerObstacles);
+    enemy.FollowSlowlyWithObstacles(deltaTime, player.playerPosition, obstacles);
+    if (enemy.numberOfSmallEnemies > 0)
+    {
+        enemy.UpdateSmallEnemiesWithObstacles(deltaTime, player.playerPosition, obstacles);
+    }
+    if (!enemy.isAnimatingExplode)
+    {
+        enemy.AnimateHit();
+        enemy.RotatingShootingTypeOne(deltaTime);
+        enemy.UpdateAllBullets(deltaTime);
+    }
+    CheckCollision();
+    enemy.UpdateShield();
+
+    if (wave == 1 && elapsedTime >= 5.f)
+    {
+        SmallEnemy smallEnemy(6, 2.f, 'f');
+        smallEnemy.position = sf::Vector2f(125.f, 350.f);
+        smallEnemy.setPosition(smallEnemy.position);
+        smallEnemy.setRotation(30.f);
+        smallEnemy.spawned = true;
+        smallEnemy.currentFrame = 0;
+        enemy.smallEnemies.push_back(smallEnemy);
+
+        wave++;
+    }
+    if (wave == 2 && elapsedTime >= 7.f)
+    {
+        SmallEnemy smallEnemy(7, 2.f, 'f');
+        smallEnemy.position = sf::Vector2f(875.f, 350.f);
+        smallEnemy.setPosition(smallEnemy.position);
+        smallEnemy.setRotation(150.f);
+        smallEnemy.spawned = true;
+        smallEnemy.currentFrame = 0;
+        enemy.smallEnemies.push_back(smallEnemy);
+
+        wave++;
+    }
+    if (wave == 3 && elapsedTime >= 9.f)
+    {
+        SmallEnemy smallEnemy(8, 2.f, 'f');
+        smallEnemy.position = sf::Vector2f(500.f, 350.f);
+        smallEnemy.setPosition(smallEnemy.position);
+        smallEnemy.setRotation(90.f);
+        smallEnemy.spawned = true;
+        smallEnemy.currentFrame = 0;
+        enemy.smallEnemies.push_back(smallEnemy);
+
+        wave++;
+    }
+    if (wave == 4 && elapsedTime >= 11.f)
+    {
+        SmallEnemy smallEnemy(9, 2.f, 'f');
+        smallEnemy.position = sf::Vector2f(500.f, 0.f);
+        smallEnemy.setPosition(smallEnemy.position);
+        smallEnemy.setRotation(90.f);
+        smallEnemy.spawned = true;
+        smallEnemy.currentFrame = 0;
+        enemy.smallEnemies.push_back(smallEnemy);
+
+        wave++;
+    }
+
+    if (player.health <= 0)
+    {
+        levelStatus = 2;
+    }
+    if (enemy.health <= 0)
+    {
+        levelStatus = 1;
+    }
+}

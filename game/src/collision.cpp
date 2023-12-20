@@ -163,10 +163,17 @@ void checkPlayerBulletsWithOrangeAndSmallShielded(Player& player, EnemyType& ene
                     if (n_playerBulletBounds.intersects(n_smallEnemyBounds) && !smallEnemy.isAnimatingExplode)
                     {
                         playerBullet.hit = true;
-                        n_smallEnemyFrontBounds = smallEnemy.GetFrontBounds();
-                        if (n_playerBulletBounds.intersects(n_smallEnemyFrontBounds))
+                        if (smallEnemy.shielded)
                         {
-                            smallEnemy.GotHitInShield();
+                            n_smallEnemyFrontBounds = smallEnemy.GetFrontBounds();
+                            if (n_playerBulletBounds.intersects(n_smallEnemyFrontBounds))
+                            {
+                                smallEnemy.GotHitInShield();
+                            }
+                            else
+                            {
+                                smallEnemy.GotHit(enemy.shootingDelay);
+                            }
                         }
                         else
                         {
@@ -521,6 +528,44 @@ void Level16::CheckCollision()
     checkPlayerBulletsWithOrangeAndSmall(player, enemy);
     checkOrangeBullets(player, n_playerBounds, enemy);
     checkPurpleBullets(player, n_playerBounds, enemy);
+
+    eraseSmallEnemies(enemy);
+    erasePlayerAndPurpleBullets(player, enemy);
+    eraseOrangeBullets(enemy);
+}
+
+void Level17::CheckCollision()
+{
+    n_playerBounds = player.GetBounds();
+    checkPlayerBulletsWithOrangeAndSmall(player, enemy);
+    checkOrangeBullets(player, n_playerBounds, enemy);
+    checkPurpleBullets(player, n_playerBounds, enemy);
+
+    eraseSmallEnemies(enemy);
+    erasePlayerAndPurpleBullets(player, enemy);
+    eraseOrangeBullets(enemy);
+}
+
+void Level18::CheckCollision()
+{
+    n_playerBounds = player.GetBounds();
+    checkPlayerBulletsWithOrangeAndSmallShielded(player, enemy);
+    checkOrangeBullets(player, n_playerBounds, enemy);
+    checkPurpleBullets(player, n_playerBounds, enemy);
+
+    eraseSmallEnemies(enemy);
+    erasePlayerAndPurpleBullets(player, enemy);
+    eraseOrangeBullets(enemy);
+}
+
+void Level19::CheckCollision()
+{
+    n_playerBounds = player.GetBounds();
+    checkPlayerBulletsWithOrangeAndSmall(player, enemy);
+    checkOrangeBullets(player, n_playerBounds, enemy);
+    checkPurpleBullets(player, n_playerBounds, enemy);
+
+    checkAllBulletsWithObstacles(player, enemy, obstacles);
 
     eraseSmallEnemies(enemy);
     erasePlayerAndPurpleBullets(player, enemy);
