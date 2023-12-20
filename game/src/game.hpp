@@ -31,8 +31,12 @@ public:
     sf::View view;
     sf::Event event;
     sf::Clock clock;
+    int currentLevel;
 
 private:
     GameState state;
-    int currentLevel;
+    int maxLevelsCleared;
+    int previousRecord;
+    bool freshStart;
+    bool showingStat;
 };

@@ -29,8 +29,8 @@ namespace
     float n_distance;
     float n_originalX;
     float n_originalY;
-    float n_movementOffsetCos = std::cos(M_PI / 4.f);
-    float n_movementOffsetSin = std::sin(M_PI / 4.f);
+    float n_movementOffsetCos = std::cos(float(M_PI) / 4.f);
+    float n_movementOffsetSin = std::sin(float(M_PI) / 4.f);
 
     // shooting variables
     float n_left1OffsetAngle;
@@ -410,8 +410,8 @@ void BallEnemy::ShootThreePurpleBullets(const float& deltaTime, const sf::Vector
     {
         delta = playerPosition - enemyPosition;
         angleRad = atan2(delta.y, delta.x);
-        n_left1OffsetAngle = angleRad - (M_PI / 4.0f);
-        n_right1OffsetAngle = angleRad + (M_PI / 4.0f);
+        n_left1OffsetAngle = angleRad - (float(M_PI) / 4.0f);
+        n_right1OffsetAngle = angleRad + (float(M_PI) / 4.0f);
 
         PurpleBullet bullet1;
         bullet1.position = enemyPosition;
@@ -451,8 +451,8 @@ void BallEnemy::ShootThreeBulletsInStreamsBothColors(const float& deltaTime, con
         {
             delta = playerPosition - enemyPosition;
             angleRad = atan2(delta.y, delta.x);
-            n_left1OffsetAngle = angleRad - (M_PI / 4.0f);
-            n_right1OffsetAngle = angleRad + (M_PI / 4.0f);
+            n_left1OffsetAngle = angleRad - (float(M_PI) / 4.0f);
+            n_right1OffsetAngle = angleRad + (float(M_PI) / 4.0f);
             if (isOrange)
             {
                 OrangeBullet bullet1;
@@ -522,9 +522,9 @@ void BallEnemy::ShootFourPurpleBullets(const float& deltaTime, const sf::Vector2
     {
         delta = playerPosition - enemyPosition;
         angleRad = atan2(delta.y, delta.x);
-        n_left1OffsetAngle = angleRad - (M_PI / 2.0f);
-        n_right1OffsetAngle = angleRad + (M_PI / 2.0f);
-        n_backOffsetAngle = angleRad + M_PI;
+        n_left1OffsetAngle = angleRad - (float(M_PI) / 2.0f);
+        n_right1OffsetAngle = angleRad + (float(M_PI) / 2.0f);
+        n_backOffsetAngle = angleRad + float(M_PI);
 
         PurpleBullet bullet1;
         bullet1.position = enemyPosition;
@@ -568,9 +568,9 @@ void BallEnemy::ShootFourBulletsBothColors(const float& deltaTime, const sf::Vec
     {
         delta = playerPosition - enemyPosition;
         angleRad = atan2(delta.y, delta.x);
-        n_left1OffsetAngle = angleRad - (M_PI / 2.0f);
-        n_right1OffsetAngle = angleRad + (M_PI / 2.0f);
-        n_backOffsetAngle = angleRad + M_PI;
+        n_left1OffsetAngle = angleRad - (float(M_PI) / 2.0f);
+        n_right1OffsetAngle = angleRad + (float(M_PI) / 2.0f);
+        n_backOffsetAngle = angleRad + float(M_PI);
         if (isOrange)
         {
             OrangeBullet bullet1;
@@ -647,10 +647,10 @@ void BallEnemy::ShootFiveBulletsBothColors(const float& deltaTime, const sf::Vec
     {
         delta = playerPosition - enemyPosition;
         angleRad = atan2(delta.y, delta.x);
-        n_left1OffsetAngle = angleRad - (M_PI / 4.0f);
-        n_left2OffsetAngle = angleRad - (M_PI / 2.0f);
-        n_right1OffsetAngle = angleRad + (M_PI / 4.0f);
-        n_right2OffsetAngle = angleRad + (M_PI / 2.0f);
+        n_left1OffsetAngle = angleRad - (float(M_PI) / 4.0f);
+        n_left2OffsetAngle = angleRad - (float(M_PI) / 2.0f);
+        n_right1OffsetAngle = angleRad + (float(M_PI) / 4.0f);
+        n_right2OffsetAngle = angleRad + (float(M_PI) / 2.0f);
         if (isOrange)
         {
             OrangeBullet bullet1;
@@ -740,13 +740,13 @@ void BallEnemy::ShootEightBulletsBothColors(const float& deltaTime)
     if (timeSinceLastShot > shootingDelay)
     {
         angleRad = atan2(delta.y, delta.x);
-        n_backOffsetAngle = angleRad + M_PI;
-        n_left1OffsetAngle = angleRad - (M_PI / 4.0f);
-        n_left2OffsetAngle = angleRad - (M_PI / 2.0f);
-        n_left3OffsetAngle = n_backOffsetAngle - (M_PI / 4.0f);
-        n_right1OffsetAngle = angleRad + (M_PI / 4.0f);
-        n_right2OffsetAngle = angleRad + (M_PI / 2.0f);
-        n_right3OffsetAngle = n_backOffsetAngle + (M_PI / 4.0f);
+        n_backOffsetAngle = angleRad + float(M_PI);
+        n_left1OffsetAngle = angleRad - (float(M_PI) / 4.0f);
+        n_left2OffsetAngle = angleRad - (float(M_PI) / 2.0f);
+        n_left3OffsetAngle = n_backOffsetAngle - (float(M_PI) / 4.0f);
+        n_right1OffsetAngle = angleRad + (float(M_PI) / 4.0f);
+        n_right2OffsetAngle = angleRad + (float(M_PI) / 2.0f);
+        n_right3OffsetAngle = n_backOffsetAngle + (float(M_PI) / 4.0f);
 
         PurpleBullet bullet1;
         bullet1.position = enemyPosition;
@@ -953,8 +953,8 @@ void ShieldedBallWithSmallEnemies::ShootThreePurpleBullets(const float& deltaTim
     if (timeSinceLastShot > shootingDelay)
     {
         angleRad = atan2(delta.y, delta.x);
-        n_left1OffsetAngle = angleRad - (M_PI / 4.0f);
-        n_right1OffsetAngle = angleRad + (M_PI / 4.0f);
+        n_left1OffsetAngle = angleRad - (float(M_PI) / 4.0f);
+        n_right1OffsetAngle = angleRad + (float(M_PI) / 4.0f);
 
         PurpleBullet bullet1;
         bullet1.position = enemyPosition;
@@ -990,10 +990,10 @@ void ShieldedBallWithSmallEnemies::ShootFiveBulletsBothColors(const float& delta
     if (timeSinceLastShot > shootingDelay)
     {
         angleRad = atan2(delta.y, delta.x);
-        n_left1OffsetAngle = angleRad - (M_PI / 4.0f);
-        n_left2OffsetAngle = angleRad - (M_PI / 2.0f);
-        n_right1OffsetAngle = angleRad + (M_PI / 4.0f);
-        n_right2OffsetAngle = angleRad + (M_PI / 2.0f);
+        n_left1OffsetAngle = angleRad - (float(M_PI) / 4.0f);
+        n_left2OffsetAngle = angleRad - (float(M_PI) / 2.0f);
+        n_right1OffsetAngle = angleRad + (float(M_PI) / 4.0f);
+        n_right2OffsetAngle = angleRad + (float(M_PI) / 2.0f);
         if (isOrange)
         {
             OrangeBullet bullet1;
@@ -1087,28 +1087,28 @@ void ShieldedBallWithSmallEnemies::RotatingShootingTypeOne(const float& deltaTim
         bullet1.velocity.x = std::cos(shootingAngle) * bullet1.speed;
         bullet1.velocity.y = std::sin(shootingAngle) * bullet1.speed;
         bullet1.setPosition(bullet1.position);
-        shootingAngle += 90.f * float(M_PI) / 180.f;
+        shootingAngle += float(M_PI) / 2.f;
 
         OrangeBullet bullet2;
         bullet2.position = enemyPosition;
         bullet2.velocity.x = std::cos(shootingAngle) * bullet2.speed;
         bullet2.velocity.y = std::sin(shootingAngle) * bullet2.speed;
         bullet2.setPosition(bullet2.position);
-        shootingAngle += 90.f * float(M_PI) / 180.f;
+        shootingAngle += float(M_PI) / 2.f;
 
         PurpleBullet bullet3;
         bullet3.position = enemyPosition;
         bullet3.velocity.x = std::cos(shootingAngle) * bullet3.speed;
         bullet3.velocity.y = std::sin(shootingAngle) * bullet3.speed;
         bullet3.setPosition(bullet3.position);
-        shootingAngle += 90.f * float(M_PI) / 180.f;
+        shootingAngle += float(M_PI) / 2.f;
 
         PurpleBullet bullet4;
         bullet4.position = enemyPosition;
         bullet4.velocity.x = std::cos(shootingAngle) * bullet4.speed;
         bullet4.velocity.y = std::sin(shootingAngle) * bullet4.speed;
         bullet4.setPosition(bullet4.position);
-        shootingAngle += 90.f * float(M_PI) / 180.f;
+        shootingAngle += float(M_PI) / 2.f;
 
         orangeBullets.push_back(bullet1);
         orangeBullets.push_back(bullet2);
@@ -1133,56 +1133,56 @@ void ShieldedBallWithSmallEnemies::RotatingShootingTypeTwo(const float& deltaTim
         bullet1.velocity.x = std::cos(shootingAngle) * bullet1.speed;
         bullet1.velocity.y = std::sin(shootingAngle) * bullet1.speed;
         bullet1.setPosition(bullet1.position);
-        shootingAngle += 45.f * float(M_PI) / 180.f;
+        shootingAngle += float(M_PI) / 4.f;
 
         PurpleBullet bullet2;
         bullet2.position = enemyPosition;
         bullet2.velocity.x = std::cos(shootingAngle) * bullet2.speed;
         bullet2.velocity.y = std::sin(shootingAngle) * bullet2.speed;
         bullet2.setPosition(bullet2.position);
-        shootingAngle += 45.f * float(M_PI) / 180.f;
+        shootingAngle += float(M_PI) / 4.f;
 
         PurpleBullet bullet3;
         bullet3.position = enemyPosition;
         bullet3.velocity.x = std::cos(shootingAngle) * bullet3.speed;
         bullet3.velocity.y = std::sin(shootingAngle) * bullet3.speed;
         bullet3.setPosition(bullet3.position);
-        shootingAngle += 45.f * float(M_PI) / 180.f;
+        shootingAngle += float(M_PI) / 4.f;
 
         OrangeBullet bullet4;
         bullet4.position = enemyPosition;
         bullet4.velocity.x = std::cos(shootingAngle) * bullet4.speed;
         bullet4.velocity.y = std::sin(shootingAngle) * bullet4.speed;
         bullet4.setPosition(bullet4.position);
-        shootingAngle += 45.f * float(M_PI) / 180.f;
+        shootingAngle += float(M_PI) / 4.f;
 
         OrangeBullet bullet5;
         bullet5.position = enemyPosition;
         bullet5.velocity.x = std::cos(shootingAngle) * bullet5.speed;
         bullet5.velocity.y = std::sin(shootingAngle) * bullet5.speed;
         bullet5.setPosition(bullet5.position);
-        shootingAngle += 45.f * float(M_PI) / 180.f;
+        shootingAngle += float(M_PI) / 4.f;
 
         OrangeBullet bullet6;
         bullet6.position = enemyPosition;
         bullet6.velocity.x = std::cos(shootingAngle) * bullet6.speed;
         bullet6.velocity.y = std::sin(shootingAngle) * bullet6.speed;
         bullet6.setPosition(bullet6.position);
-        shootingAngle += 45.f * float(M_PI) / 180.f;
+        shootingAngle += float(M_PI) / 4.f;
 
         PurpleBullet bullet7;
         bullet7.position = enemyPosition;
         bullet7.velocity.x = std::cos(shootingAngle) * bullet7.speed;
         bullet7.velocity.y = std::sin(shootingAngle) * bullet7.speed;
         bullet7.setPosition(bullet7.position);
-        shootingAngle += 45.f * float(M_PI) / 180.f;
+        shootingAngle += float(M_PI) / 4.f;
 
         PurpleBullet bullet8;
         bullet8.position = enemyPosition;
         bullet8.velocity.x = std::cos(shootingAngle) * bullet8.speed;
         bullet8.velocity.y = std::sin(shootingAngle) * bullet8.speed;
         bullet8.setPosition(bullet8.position);
-        shootingAngle += 45.f * float(M_PI) / 180.f;
+        shootingAngle += float(M_PI) / 4.f;
 
         orangeBullets.push_back(bullet1);
         orangeBullets.push_back(bullet4);
@@ -1199,6 +1199,83 @@ void ShieldedBallWithSmallEnemies::RotatingShootingTypeTwo(const float& deltaTim
     }
 
     shootingAngle += 0.5f * float(M_PI) / 180.f;
+}
+
+void ShieldedBallWithSmallEnemies::ConstantAngleShooting(const float& deltaTime)
+{
+    timeSinceLastShot += deltaTime;
+    if (timeSinceLastShot > shootingDelay)
+    {
+        n_left1OffsetAngle = shootingAngle - (float(M_PI) / 2.0f);
+        n_right1OffsetAngle = shootingAngle + (float(M_PI) / 2.0f);
+        n_backOffsetAngle = shootingAngle + float(M_PI);
+        if (isOrange)
+        {
+            OrangeBullet bullet1;
+            bullet1.position = enemyPosition;
+            bullet1.velocity.x = std::cos(shootingAngle) * bullet1.speed;
+            bullet1.velocity.y = std::sin(shootingAngle) * bullet1.speed;
+            bullet1.setPosition(bullet1.position);
+
+            OrangeBullet bullet2;
+            bullet2.position = enemyPosition;
+            bullet2.velocity.x = std::cos(n_left1OffsetAngle) * bullet2.speed;
+            bullet2.velocity.y = std::sin(n_left1OffsetAngle) * bullet2.speed;
+            bullet2.setPosition(bullet2.position);
+
+            OrangeBullet bullet3;
+            bullet3.position = enemyPosition;
+            bullet3.velocity.x = std::cos(n_right1OffsetAngle) * bullet3.speed;
+            bullet3.velocity.y = std::sin(n_right1OffsetAngle) * bullet3.speed;
+            bullet3.setPosition(bullet3.position);
+
+            OrangeBullet bullet4;
+            bullet4.position = enemyPosition;
+            bullet4.velocity.x = std::cos(n_backOffsetAngle) * bullet4.speed;
+            bullet4.velocity.y = std::sin(n_backOffsetAngle) * bullet4.speed;
+            bullet4.setPosition(bullet4.position);
+
+            orangeBullets.push_back(bullet1);
+            orangeBullets.push_back(bullet2);
+            orangeBullets.push_back(bullet3);
+            orangeBullets.push_back(bullet4);
+        }
+        else
+        {
+            PurpleBullet bullet1;
+            bullet1.position = enemyPosition;
+            bullet1.velocity.x = std::cos(shootingAngle) * bullet1.speed;
+            bullet1.velocity.y = std::sin(shootingAngle) * bullet1.speed;
+            bullet1.setPosition(bullet1.position);
+
+            PurpleBullet bullet2;
+            bullet2.position = enemyPosition;
+            bullet2.velocity.x = std::cos(n_left1OffsetAngle) * bullet2.speed;
+            bullet2.velocity.y = std::sin(n_left1OffsetAngle) * bullet2.speed;
+            bullet2.setPosition(bullet2.position);
+
+            PurpleBullet bullet3;
+            bullet3.position = enemyPosition;
+            bullet3.velocity.x = std::cos(n_right1OffsetAngle) * bullet3.speed;
+            bullet3.velocity.y = std::sin(n_right1OffsetAngle) * bullet3.speed;
+            bullet3.setPosition(bullet3.position);
+
+            PurpleBullet bullet4;
+            bullet4.position = enemyPosition;
+            bullet4.velocity.x = std::cos(n_backOffsetAngle) * bullet4.speed;
+            bullet4.velocity.y = std::sin(n_backOffsetAngle) * bullet4.speed;
+            bullet4.setPosition(bullet4.position);
+
+            purpleBullets.push_back(bullet1);
+            purpleBullets.push_back(bullet2);
+            purpleBullets.push_back(bullet3);
+            purpleBullets.push_back(bullet4);
+        }
+        timeSinceLastShot = 0.f;
+        isOrange = !isOrange;
+
+        enemySounds.shoot.play();
+    }
 }
 
 void AdditionalEnemy::FollowSlowlyWithObstacles(const float& deltaTime, const sf::Vector2f& playerPosition, const std::vector<sf::FloatRect>& obstacles,
@@ -1254,28 +1331,28 @@ void AdditionalEnemy::RotatingShootingTypeOne(const float& deltaTime, const floa
         bullet1.velocity.x = std::cos(shootingAngle) * bullet1.speed;
         bullet1.velocity.y = std::sin(shootingAngle) * bullet1.speed;
         bullet1.setPosition(bullet1.position);
-        shootingAngle += 90.f * float(M_PI) / 180.f;
+        shootingAngle += float(M_PI) / 2.f;
 
         OrangeBullet bullet2;
         bullet2.position = enemyPosition;
         bullet2.velocity.x = std::cos(shootingAngle) * bullet2.speed;
         bullet2.velocity.y = std::sin(shootingAngle) * bullet2.speed;
         bullet2.setPosition(bullet2.position);
-        shootingAngle += 90.f * float(M_PI) / 180.f;
+        shootingAngle += float(M_PI) / 2.f;
 
         PurpleBullet bullet3;
         bullet3.position = enemyPosition;
         bullet3.velocity.x = std::cos(shootingAngle) * bullet3.speed;
         bullet3.velocity.y = std::sin(shootingAngle) * bullet3.speed;
         bullet3.setPosition(bullet3.position);
-        shootingAngle += 90.f * float(M_PI) / 180.f;
+        shootingAngle += float(M_PI) / 2.f;
 
         PurpleBullet bullet4;
         bullet4.position = enemyPosition;
         bullet4.velocity.x = std::cos(shootingAngle) * bullet4.speed;
         bullet4.velocity.y = std::sin(shootingAngle) * bullet4.speed;
         bullet4.setPosition(bullet4.position);
-        shootingAngle += 90.f * float(M_PI) / 180.f;
+        shootingAngle += float(M_PI) / 2.f;
 
         orangeBullets.push_back(bullet1);
         orangeBullets.push_back(bullet2);

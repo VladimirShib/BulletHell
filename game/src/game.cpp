@@ -10,6 +10,9 @@ Game::Game() : window(
     window.setFramerateLimit(MAX_FPS);
     state = GameState::MENU;
     view.setSize(sf::Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT));
+    maxLevelsCleared = 0;
+    freshStart = false;
+    showingStat = false;
 }
 
 void Game::Run()
@@ -58,7 +61,7 @@ void Game::ManageMenu(Transition& transition, MusicManager& sounds)
 
 void Game::ManageMainMenu(const Menu& menu, Transition& transition, MusicManager& sounds)
 {
-    MainMenu mainMenu;
+    MainMenu mainMenu(maxLevelsCleared);
 
     while (transition.isTransitioning)
     {
@@ -70,6 +73,32 @@ void Game::ManageMainMenu(const Menu& menu, Transition& transition, MusicManager
         window.draw(transition);
         window.display();
         sounds.FadeOut();
+    }
+
+    if (showingStat)
+    {
+        StatScreen stats(previousRecord, currentLevel);
+
+        window.clear(sf::Color(0xC6, 0xC2, 0xA5));
+        window.draw(menu);
+        window.draw(mainMenu);
+        window.draw(stats);
+        window.display();
+        while (showingStat)
+        {
+            window.pollEvent(event);
+            if (event.type = sf::Event::KeyPressed)
+            {
+                switch (event.key.code)
+                {
+                case sf::Keyboard::Return:
+                case sf::Keyboard::Space:
+                case sf::Keyboard::Escape:
+                    sounds.pressSound.play();
+                    showingStat = false;
+                }
+            }
+        }
     }
 
     while (window.isOpen())
@@ -133,6 +162,10 @@ void Game::ManageSelectionMenu(const Menu& menu, Transition& transition, MusicMa
 void Game::ManageGame(Screens& screens, MusicManager& sounds)
 {
     int levelStatus;
+    if (currentLevel == 0)
+    {
+        freshStart = true;
+    }
     while (window.isOpen())
     {
         levelStatus = loadLevel(window, view, event, clock, screens, sounds, currentLevel);
@@ -140,12 +173,19 @@ void Game::ManageGame(Screens& screens, MusicManager& sounds)
         {
         case 1: // level completed
             currentLevel++;
-            if (currentLevel < 15) // if level exists
+            if (currentLevel < 17) // if level exists
             {
                 break;
             }
         case 2: // level failed
         case 3: // exited manually
+            if (freshStart && currentLevel > maxLevelsCleared)
+            {
+                previousRecord = maxLevelsCleared;
+                maxLevelsCleared = currentLevel;
+                showingStat = true;
+                freshStart = false;
+            }
             state = GameState::MENU;
             return;
         default:

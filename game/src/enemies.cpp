@@ -70,42 +70,6 @@ namespace
         vertices.append(sf::Vertex(sf::Vector2f(21.6f, -12.5f), sf::Color(0x50, 0x4E, 0x48)));
         vertices.append(sf::Vertex(sf::Vector2f(25.f, 0.f), sf::Color(0x50, 0x4E, 0x48)));
     }
-
-    const std::vector<float> n_lastShot = {
-        {1.6f}, {1.4f}, {1.2f}, {1.f}, {0.8f}, {0.6f}, {0.4f}, {0.2f}, {0.f},
-        {1.5f}, {1.3f}, {1.1f}, {0.9f}, {0.7f}, {0.5f}, {0.3f}, {0.1f}
-    };
-    struct EnemyLevelData
-    {
-        sf::Vector2f position;
-        float rotation;
-    };
-    const std::vector<std::vector<EnemyLevelData>> n_enemyLevelData = {
-        {
-            {{500.f, 270.f}, -90.f}, {{430.f, 270.f}, -70.f}, {{570.f, 270.f}, -110.f}, {{390.f, 340.f}, -65.f},
-            {{610.f, 340.f}, -115.f}, {{320.f, 400.f}, -60.f}, {{680.f, 400.f}, -120.f}
-        },
-        {
-            {{500.f, 370.f}, 90.f}, {{430.f, 300.f}, 80.f}, {{570.f, 300.f}, 100.f}, {{360.f, 370.f}, 60.f},
-            {{640.f, 370.f}, 120.f}, {{280.f, 410.f}, 45.f}, {{720.f, 410.f}, 135.f}, {{230.f, 490.f}, 30.f},
-            {{770.f, 490.f}, 150.f}, {{160.f, 580.f}, 10.f}, {{840.f, 580.f}, 170.f}
-        },
-        {
-            {{500.f, 240.f}, 90.f}, {{400.f, 190.f}, 70.f}, {{600.f, 190.f}, 110.f}, {{320.f, 235.f}, 50.f},
-            {{680.f, 235.f}, 130.f}, {{230.f, 185.f}, 45.f}, {{770.f, 185.f}, 135.f}
-        },
-        {
-            {{385.f, 250.f}, -55.f}, {{615.f, 250.f}, -125.f}, {{285.f, 250.f}, -40.f}, {{715.f, 250.f}, -140.f},
-            {{335.f, 345.f}, -50.f}, {{665.f, 345.f}, -130.f}, {{165.f, 345.f}, -40.f}, {{835.f, 345.f}, -140.f},
-            {{440.f, 425.f}, -80.f}, {{560.f, 425.f}, -100.f}, {{205.f, 425.f}, -45.f}, {{795.f, 425.f}, -135.f},
-            {{335.f, 495.f}, -85.f}, {{665.f, 495.f}, -95.f}
-        },
-        {
-            {{500.f, 675.f}, -90.f}, {{125.f, 400.f}, 30.f}, {{875.f, 400.f}, 150.f}, {{325.f, 290.f}, 60.f},
-            {{675.f, 290.f}, 120.f}, {{355.f, 240.f}, 70.f}, {{645.f, 240.f}, 110.f}, {{450.f, 150.f}, 90.f},
-            {{550.f, 150.f}, 90.f}
-        }
-    };
 }
 
 OrangeBullet::OrangeBullet()
@@ -239,7 +203,7 @@ sf::FloatRect BallEnemy::GetBounds()
     return getTransform().transformRect(enemy.getBounds());
 }
 
-ShieldedBallWithSmallEnemies::ShieldedBallWithSmallEnemies(float delay, int level, int number)
+ShieldedBallWithSmallEnemies::ShieldedBallWithSmallEnemies(float delay, int number)
 {
     health = 10;
     numberOfSmallEnemies = number;
@@ -255,14 +219,14 @@ ShieldedBallWithSmallEnemies::ShieldedBallWithSmallEnemies(float delay, int leve
 
     constructBallEnemy(enemy);
 
-    for (int i = 0; i < number; ++i)
-    {
-        SmallEnemy smallEnemy(i, n_lastShot[i]);
-        smallEnemy.position = n_enemyLevelData[level][i].position;
-        smallEnemy.setPosition(smallEnemy.position);
-        smallEnemy.setRotation(n_enemyLevelData[level][i].rotation);
-        smallEnemies.push_back(smallEnemy);
-    }
+    // for (int i = 0; i < number; ++i)
+    // {
+    //     SmallEnemy smallEnemy(i, n_lastShot[i]);
+    //     smallEnemy.position = n_enemyLevelData[level][i].position;
+    //     smallEnemy.setPosition(smallEnemy.position);
+    //     smallEnemy.setRotation(n_enemyLevelData[level][i].rotation);
+    //     smallEnemies.push_back(smallEnemy);
+    // }
 }
 
 void ShieldedBallWithSmallEnemies::UpdateSmallEnemies(const float& deltaTime, const sf::Vector2f& playerPosition)
@@ -469,7 +433,7 @@ sf::FloatRect AdditionalEnemy::GetBounds()
     return getTransform().transformRect(enemy.getBounds());
 }
 
-SmallEnemy::SmallEnemy(int num, float lastShot)
+SmallEnemy::SmallEnemy(int num, float lastShot, char shield)
 {
     health = 3;
     id = num;
@@ -477,6 +441,14 @@ SmallEnemy::SmallEnemy(int num, float lastShot)
     shootingDelay = 1.5f;
     timeSinceLastShot = lastShot;
     isAnimatingExplode = false;
+    if (shield == 't')
+    {
+        shielded = true;
+    }
+    else
+    {
+        shielded = false;
+    }
 
     enemy.setPrimitiveType(sf::TriangleStrip);
     enemy.append(sf::Vertex(sf::Vector2f(-15.f, 15.f), sf::Color(0x75, 0x6C, 0x5C)));
@@ -484,11 +456,11 @@ SmallEnemy::SmallEnemy(int num, float lastShot)
     enemy.append(sf::Vertex(sf::Vector2f(15.f, 15.f), sf::Color(0x75, 0x6C, 0x5C)));
     enemy.append(sf::Vertex(sf::Vector2f(15.f, -15.f), sf::Color(0x75, 0x6C, 0x5C)));
     enemy.append(sf::Vertex(sf::Vector2f(30.f, 0.f), sf::Color(0x75, 0x6C, 0x5C)));
-}
 
-sf::FloatRect SmallEnemy::GetBounds()
-{
-    return getTransform().transformRect(enemy.getBounds());
+    enemyFront.setPrimitiveType(sf::Triangles);
+    enemyFront.append(sf::Vertex(sf::Vector2f(15.f, -15.f), sf::Color(0xEC, 0xE8, 0xE1)));
+    enemyFront.append(sf::Vertex(sf::Vector2f(30.f, 0.f), sf::Color(0xEC, 0xE8, 0xE1)));
+    enemyFront.append(sf::Vertex(sf::Vector2f(15.f, 15.f), sf::Color(0xEC, 0xE8, 0xE1)));
 }
 
 void SmallEnemy::GotHit(float& delay)
@@ -512,4 +484,19 @@ void SmallEnemy::GotHit(float& delay)
             }
         }
     }
+}
+
+void SmallEnemy::GotHitInShield()
+{
+    enemySounds.shieldHit.play();
+}
+
+sf::FloatRect SmallEnemy::GetBounds()
+{
+    return getTransform().transformRect(enemy.getBounds());
+}
+
+sf::FloatRect SmallEnemy::GetFrontBounds()
+{
+    return getTransform().transformRect(enemyFront.getBounds());
 }

@@ -83,7 +83,7 @@ Menu::Menu()
     confirm.setFillColor(sf::Color(0x50, 0x4E, 0x48));
 }
 
-MainMenu::MainMenu()
+MainMenu::MainMenu(int record)
 {
     toSelection = false;
 
@@ -116,6 +116,12 @@ MainMenu::MainMenu()
 
     selectedItemIndex = 0;
     selectedItem.setPosition(menuPositions[selectedItemIndex]);
+
+    statistics.setFont(font);
+    statistics.setString("Total stages cleared: " + std::to_string(record));
+    statistics.setCharacterSize(22);
+    statistics.setPosition(sf::Vector2f(726.f, 78.f));
+    statistics.setFillColor(sf::Color(0x50, 0x4E, 0x48));
 
     background.setPrimitiveType(sf::Quads);
 
@@ -164,7 +170,7 @@ MainMenu::MainMenu()
 MainMenuSelectedItem::MainMenuSelectedItem()
 {
     background.setPrimitiveType(sf::Quads);
-
+    // top line
     background.append(sf::Vertex(sf::Vector2f(-29.f, -7.f), sf::Color(0x50, 0x4E, 0x48)));
     background.append(sf::Vertex(sf::Vector2f(306.f, -7.f), sf::Color(0x50, 0x4E, 0x48)));
     background.append(sf::Vertex(sf::Vector2f(306.f, -5.f), sf::Color(0x50, 0x4E, 0x48)));
@@ -174,12 +180,12 @@ MainMenuSelectedItem::MainMenuSelectedItem()
     background.append(sf::Vertex(sf::Vector2f(308.f, 0.f), sf::Color(0x7C, 0x7B, 0x69, 0x80)));
     background.append(sf::Vertex(sf::Vector2f(308.f, 32.f), sf::Color(0x7C, 0x7B, 0x69, 0x80)));
     background.append(sf::Vertex(sf::Vector2f(-27.f, 32.f), sf::Color(0x7C, 0x7B, 0x69, 0x80)));
-
+    // button
     background.append(sf::Vertex(sf::Vector2f(-29.f, -2.f), sf::Color(0x50, 0x4E, 0x48)));
     background.append(sf::Vertex(sf::Vector2f(306.f, -2.f), sf::Color(0x50, 0x4E, 0x48)));
     background.append(sf::Vertex(sf::Vector2f(306.f, 30.f), sf::Color(0x50, 0x4E, 0x48)));
     background.append(sf::Vertex(sf::Vector2f(-29.f, 30.f), sf::Color(0x50, 0x4E, 0x48)));
-
+    // bottom line
     background.append(sf::Vertex(sf::Vector2f(-29.f, 33.f), sf::Color(0x50, 0x4E, 0x48)));
     background.append(sf::Vertex(sf::Vector2f(306.f, 33.f), sf::Color(0x50, 0x4E, 0x48)));
     background.append(sf::Vertex(sf::Vector2f(306.f, 35.f), sf::Color(0x50, 0x4E, 0x48)));
@@ -609,13 +615,15 @@ void Selection::PollEvents(sf::RenderWindow& window, sf::Event& event, bool& isT
                     break;
                 case 15:
                 {
-                    std::cout << "Level 16\n";
+                    level = 15;
+                    isTransitioning = true;
                     sounds.pressSound.play();
                 }
                     break;
                 case 16:
                 {
-                    std::cout << "Level 17\n";
+                    level = 16;
+                    isTransitioning = true;
                     sounds.pressSound.play();
                 }
                     break;
@@ -989,4 +997,78 @@ void Failed::Reset()
     {
         background[i].color = sf::Color(0, 0, 0, 0);
     }
+}
+
+StatScreen::StatScreen(int previousRecord, int newRecord)
+{
+    if (!font.loadFromFile("game/fonts/arial.ttf"))
+    {
+        std::cout << "Couldn't load font \"arial\".";
+    }
+    background.setPrimitiveType(sf::Quads);
+    // overlay
+    background.append(sf::Vertex(sf::Vector2f(0.f, 0.f), sf::Color(0, 0, 0, 0x33)));
+    background.append(sf::Vertex(sf::Vector2f(1000.f, 0.f), sf::Color(0, 0, 0, 0x33)));
+    background.append(sf::Vertex(sf::Vector2f(1000.f, 700.f), sf::Color(0, 0, 0, 0x33)));
+    background.append(sf::Vertex(sf::Vector2f(0.f, 700.f), sf::Color(0, 0, 0, 0x33)));
+    // window top line
+    background.append(sf::Vertex(sf::Vector2f(300.f, 265.f), sf::Color(0x50, 0x4E, 0x48)));
+    background.append(sf::Vertex(sf::Vector2f(700.f, 265.f), sf::Color(0x50, 0x4E, 0x48)));
+    background.append(sf::Vertex(sf::Vector2f(700.f, 297.f), sf::Color(0x50, 0x4E, 0x48)));
+    background.append(sf::Vertex(sf::Vector2f(300.f, 297.f), sf::Color(0x50, 0x4E, 0x48)));
+    // top line square
+    background.append(sf::Vertex(sf::Vector2f(308.f, 273.f), sf::Color(0xD9, 0xD5, 0xB3)));
+    background.append(sf::Vertex(sf::Vector2f(324.f, 273.f), sf::Color(0xD9, 0xD5, 0xB3)));
+    background.append(sf::Vertex(sf::Vector2f(324.f, 289.f), sf::Color(0xD9, 0xD5, 0xB3)));
+    background.append(sf::Vertex(sf::Vector2f(308.f, 289.f), sf::Color(0xD9, 0xD5, 0xB3)));
+    // window
+    background.append(sf::Vertex(sf::Vector2f(300.f, 297.f), sf::Color(0xD9, 0xD5, 0xB3)));
+    background.append(sf::Vertex(sf::Vector2f(700.f, 297.f), sf::Color(0xD9, 0xD5, 0xB3)));
+    background.append(sf::Vertex(sf::Vector2f(700.f, 435.f), sf::Color(0xD9, 0xD5, 0xB3)));
+    background.append(sf::Vertex(sf::Vector2f(300.f, 435.f), sf::Color(0xD9, 0xD5, 0xB3)));
+    // button shadow
+    background.append(sf::Vertex(sf::Vector2f(455.f, 385.f), sf::Color(0x7C, 0x7B, 0x69, 0x80)));
+    background.append(sf::Vertex(sf::Vector2f(549.f, 385.f), sf::Color(0x7C, 0x7B, 0x69, 0x80)));
+    background.append(sf::Vertex(sf::Vector2f(549.f, 417.f), sf::Color(0x7C, 0x7B, 0x69, 0x80)));
+    background.append(sf::Vertex(sf::Vector2f(455.f, 417.f), sf::Color(0x7C, 0x7B, 0x69, 0x80)));
+    // button
+    background.append(sf::Vertex(sf::Vector2f(453.f, 383.f), sf::Color(0x50, 0x4E, 0x48)));
+    background.append(sf::Vertex(sf::Vector2f(547.f, 383.f), sf::Color(0x50, 0x4E, 0x48)));
+    background.append(sf::Vertex(sf::Vector2f(547.f, 415.f), sf::Color(0x50, 0x4E, 0x48)));
+    background.append(sf::Vertex(sf::Vector2f(453.f, 415.f), sf::Color(0x50, 0x4E, 0x48)));
+    // button square
+    background.append(sf::Vertex(sf::Vector2f(461.f, 391.f), sf::Color(0xD9, 0xD5, 0xB3)));
+    background.append(sf::Vertex(sf::Vector2f(477.f, 391.f), sf::Color(0xD9, 0xD5, 0xB3)));
+    background.append(sf::Vertex(sf::Vector2f(477.f, 407.f), sf::Color(0xD9, 0xD5, 0xB3)));
+    background.append(sf::Vertex(sf::Vector2f(461.f, 407.f), sf::Color(0xD9, 0xD5, 0xB3)));
+
+    result.setFont(font);
+    result.setString("R E S U L T");
+    result.setCharacterSize(22);
+    result.setPosition(sf::Vector2f(329.f, 267.f));
+    result.setFillColor(sf::Color(0xD9, 0xD5, 0xB3));
+
+    title.setFont(font);
+    title.setString("- Total stages cleared -");
+    title.setCharacterSize(22);
+    title.setPosition(sf::Vector2f(385.f, 307.f));
+    title.setFillColor(sf::Color(0x50, 0x4E, 0x48));
+
+    record.setFont(font);
+    record.setString("NEW RECORD");
+    record.setCharacterSize(12);
+    record.setPosition(sf::Vector2f(411.f, 348.f));
+    record.setFillColor(sf::Color(0xC7, 0x65, 0x4A));
+
+    levels.setFont(font);
+    levels.setString(std::to_string(previousRecord) + " > " + std::to_string(newRecord));
+    levels.setCharacterSize(30);
+    levels.setPosition(sf::Vector2f(505.f, 337.f));
+    levels.setFillColor(sf::Color(0xC7, 0x65, 0x4A));
+
+    button.setFont(font);
+    button.setString("OK");
+    button.setCharacterSize(22);
+    button.setPosition(sf::Vector2f(482.f, 385.f));
+    button.setFillColor(sf::Color(0xD9, 0xD5, 0xB3));
 }

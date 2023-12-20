@@ -261,7 +261,7 @@ private:
 class SmallEnemy : public sf::Drawable, public sf::Transformable
 {
 public:
-    SmallEnemy(int num, float lastShot);
+    SmallEnemy(int num, float lastShot, char shield);
 
     void Move(std::vector<SmallEnemy>& enemies, const float& deltaTime, const sf::Vector2f& playerPosition,
               std::vector<OrangeBullet>& bullets, int& number);
@@ -269,7 +269,9 @@ public:
                            std::vector<OrangeBullet>& bullets, int& number, const std::vector<sf::FloatRect>& obstacles);
     void Shoot(std::vector<OrangeBullet>& orangeBullets, const float& deltaTime);
     void GotHit(float& delay);
+    void GotHitInShield();
     sf::FloatRect GetBounds();
+    sf::FloatRect GetFrontBounds();
 
 public:
     int id;
@@ -284,6 +286,10 @@ private:
         if (!isAnimatingExplode)
         {
             target.draw(enemy, states);
+            if (shielded)
+            {
+                target.draw(enemyFront, states);
+            }
         }
         else
         {
@@ -293,6 +299,7 @@ private:
     }
 
     sf::VertexArray enemy;
+    sf::VertexArray enemyFront;
     int health;
     sf::Vector2f delta;
     float angleRad;
@@ -305,12 +312,13 @@ private:
     float shootingDelay;
     float timeSinceLastShot;
     int currentFrame;
+    bool shielded;
 };
 
 class ShieldedBallWithSmallEnemies : public sf::Drawable, public sf::Transformable
 {
 public:
-    ShieldedBallWithSmallEnemies(float delay, int level, int number);
+    ShieldedBallWithSmallEnemies(float delay, int number);
 
     void FollowSlowly(const float& deltaTime, const sf::Vector2f& playerPosition);
     void FollowSlowlyWithObstacles(const float& deltaTime, const sf::Vector2f& playerPosition,
@@ -326,6 +334,7 @@ public:
     void ShootFiveBulletsBothColors(const float& deltaTime);
     void RotatingShootingTypeOne(const float& deltaTime);
     void RotatingShootingTypeTwo(const float& deltaTime);
+    void ConstantAngleShooting(const float& deltaTime);
     void UpdateAllBullets(const float& deltaTime);
     void GotHit();
     void UpdateShield();

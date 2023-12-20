@@ -51,7 +51,7 @@ private:
 class MainMenu : public sf::Drawable
 {
 public:
-    MainMenu();
+    MainMenu(int record);
 
     void PollEvents(sf::RenderWindow& window, sf::Event& event, bool& isTransitioning, int& level, MusicManager& sounds);
     void MoveUp(MusicManager& sounds);
@@ -65,6 +65,7 @@ private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
     {
         target.draw(background, states);
+        target.draw(statistics, states);
         target.draw(selectedItem, states);
         for (int i = 0; i < MAX_MAIN_MENU_ITEMS; ++i)
         {
@@ -75,6 +76,7 @@ private:
     int selectedItemIndex;
     sf::Font font;
     sf::Text menuItem[MAX_MAIN_MENU_ITEMS];
+    sf::Text statistics;
     sf::VertexArray background;
     MainMenuSelectedItem selectedItem;
 
@@ -251,4 +253,29 @@ struct Screens
     Pause pause;
     Complete complete;
     Failed failed;
+};
+
+class StatScreen : public sf::Drawable
+{
+public:
+    StatScreen(int previousRecord, int newRecord);
+
+private:
+    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
+    {
+        target.draw(background, states);
+        target.draw(result, states);
+        target.draw(title, states);
+        target.draw(record, states);
+        target.draw(levels, states);
+        target.draw(button, states);
+    }
+
+    sf::Font font;
+    sf::Text result;
+    sf::Text title;
+    sf::Text record;
+    sf::Text levels;
+    sf::Text button;
+    sf::VertexArray background;
 };
