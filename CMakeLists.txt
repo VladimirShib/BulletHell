@@ -19,6 +19,7 @@ ${CMAKE_CURRENT_SOURCE_DIR}/game/src/levels.hpp
 ${CMAKE_CURRENT_SOURCE_DIR}/game/src/levels.cpp
 ${CMAKE_CURRENT_SOURCE_DIR}/game/src/maps.hpp
 ${CMAKE_CURRENT_SOURCE_DIR}/game/src/maps.cpp
+${CMAKE_CURRENT_SOURCE_DIR}/game/src/rectangles.hpp
 ${CMAKE_CURRENT_SOURCE_DIR}/game/src/player.hpp
 ${CMAKE_CURRENT_SOURCE_DIR}/game/src/player.cpp
 ${CMAKE_CURRENT_SOURCE_DIR}/game/src/enemies.hpp

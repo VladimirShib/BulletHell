@@ -1,6 +1,7 @@
 #pragma once
 
 #include "headers.hpp"
+#include "rectangles.hpp"
 
 namespace
 {
@@ -92,11 +93,11 @@ class Player : public sf::Drawable, public sf::Transformable
 {
 public:
     // Define the shapes for the player
-    Player(float left, float top, float size);
+    Player(float left, float top, float width, float height);
 
     void Update(sf::RenderWindow& window, sf::View& view, const float& deltaTime);
     void UpdateWithObstacles(sf::RenderWindow& window, sf::View& view, const float& deltaTime,
-                            const std::vector<sf::FloatRect>& obstacles);
+                            const std::vector<Obstacle>& obstacles);
     void UpdateBullets(const float& deltaTime);
     void Fire();
     void GotHit();
@@ -114,7 +115,7 @@ public:
     float angleRad;
     float angleDeg;
     std::vector<Bullet> bullets;
-    sf::FloatRect playingField;
+    Field playingField;
 
 private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const

@@ -218,27 +218,19 @@ ShieldedBallWithSmallEnemies::ShieldedBallWithSmallEnemies(float delay, int numb
     isAnimatingShieldExplode = false;
 
     constructBallEnemy(enemy);
-
-    // for (int i = 0; i < number; ++i)
-    // {
-    //     SmallEnemy smallEnemy(i, n_lastShot[i]);
-    //     smallEnemy.position = n_enemyLevelData[level][i].position;
-    //     smallEnemy.setPosition(smallEnemy.position);
-    //     smallEnemy.setRotation(n_enemyLevelData[level][i].rotation);
-    //     smallEnemies.push_back(smallEnemy);
-    // }
 }
 
-void ShieldedBallWithSmallEnemies::UpdateSmallEnemies(const float& deltaTime, const sf::Vector2f& playerPosition)
+void ShieldedBallWithSmallEnemies::UpdateSmallEnemies(const float& deltaTime, const sf::Vector2f& playerPosition,
+                                                      const Field& playingField)
 {
     for (SmallEnemy& enemy : smallEnemies)
     {
-        enemy.Move(smallEnemies, deltaTime, playerPosition, orangeBullets, numberOfSmallEnemies);
+        enemy.Move(smallEnemies, deltaTime, playerPosition, playingField, orangeBullets, numberOfSmallEnemies);
     }
 }
 
 void ShieldedBallWithSmallEnemies::UpdateSmallEnemiesWithObstacles(const float& deltaTime, const sf::Vector2f& playerPosition,
-                                                                   const std::vector<sf::FloatRect>& obstacles)
+                                                                   const std::vector<Obstacle>& obstacles)
 {
     for (SmallEnemy& enemy : smallEnemies)
     {
@@ -345,11 +337,10 @@ sf::FloatRect ShieldedBallWithSmallEnemies::GetBounds()
     return getTransform().transformRect(enemy.getBounds());
 }
 
-AdditionalEnemy::AdditionalEnemy(float delay)
+AdditionalEnemy::AdditionalEnemy()
 {
     health = 10;
     isOrange = true;
-    shootingDelay = delay;
     timeSinceLastShot = 2.f;
     isShielded = true;
     isAlive = true;

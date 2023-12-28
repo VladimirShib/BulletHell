@@ -301,23 +301,32 @@ Selection::Selection()
     menuPositions[6] = sf::Vector2f(114.f, 440.f);
     menuPositions[7] = sf::Vector2f(114.f, 492.f);
 
-    menuPositions[8] = sf::Vector2f(284.f, 128.f);
-    menuPositions[9] = sf::Vector2f(284.f, 180.f);
-    menuPositions[10] = sf::Vector2f(284.f, 232.f);
-    menuPositions[11] = sf::Vector2f(284.f, 284.f);
-    menuPositions[12] = sf::Vector2f(284.f, 336.f);
-    menuPositions[13] = sf::Vector2f(284.f, 388.f);
-    menuPositions[14] = sf::Vector2f(284.f, 440.f);
-    menuPositions[15] = sf::Vector2f(284.f, 492.f);
+    menuPositions[8] = sf::Vector2f(329.f, 128.f);
+    menuPositions[9] = sf::Vector2f(329.f, 180.f);
+    menuPositions[10] = sf::Vector2f(329.f, 232.f);
+    menuPositions[11] = sf::Vector2f(329.f, 284.f);
+    menuPositions[12] = sf::Vector2f(329.f, 336.f);
+    menuPositions[13] = sf::Vector2f(329.f, 388.f);
+    menuPositions[14] = sf::Vector2f(329.f, 440.f);
+    menuPositions[15] = sf::Vector2f(329.f, 492.f);
 
-    menuPositions[16] = sf::Vector2f(454.f, 128.f);
-    menuPositions[17] = sf::Vector2f(454.f, 180.f);
-    menuPositions[18] = sf::Vector2f(454.f, 232.f);
-    menuPositions[19] = sf::Vector2f(454.f, 284.f);
-    menuPositions[20] = sf::Vector2f(454.f, 336.f);
-    menuPositions[21] = sf::Vector2f(454.f, 388.f);
-    menuPositions[22] = sf::Vector2f(454.f, 440.f);
-    menuPositions[23] = sf::Vector2f(454.f, 492.f);
+    menuPositions[16] = sf::Vector2f(544.f, 128.f);
+    menuPositions[17] = sf::Vector2f(544.f, 180.f);
+    menuPositions[18] = sf::Vector2f(544.f, 232.f);
+    menuPositions[19] = sf::Vector2f(544.f, 284.f);
+    menuPositions[20] = sf::Vector2f(544.f, 336.f);
+    menuPositions[21] = sf::Vector2f(544.f, 388.f);
+    menuPositions[22] = sf::Vector2f(544.f, 440.f);
+    menuPositions[23] = sf::Vector2f(544.f, 492.f);
+
+    menuPositions[24] = sf::Vector2f(759.f, 128.f);
+    menuPositions[25] = sf::Vector2f(759.f, 180.f);
+    menuPositions[26] = sf::Vector2f(759.f, 232.f);
+    menuPositions[27] = sf::Vector2f(759.f, 284.f);
+    menuPositions[28] = sf::Vector2f(759.f, 336.f);
+    menuPositions[29] = sf::Vector2f(759.f, 388.f);
+    menuPositions[30] = sf::Vector2f(759.f, 440.f);
+    menuPositions[31] = sf::Vector2f(759.f, 492.f);
 
     menuItem[0].setFont(font);
     menuItem[0].setString("Level 1");
@@ -341,32 +350,41 @@ Selection::Selection()
 
     // menu items bg
     const std::vector<sf::Vector2f> itemPoints = {
-        {85.f, 126.f}, {235.f, 126.f}, {235.f, 158.f}, {85.f, 158.f}, // first
-        {85.f, 178.f}, {235.f, 178.f}, {235.f, 210.f}, {85.f, 210.f}, // second...
-        {85.f, 230.f}, {235.f, 230.f}, {235.f, 262.f}, {85.f, 262.f},
-        {85.f, 282.f}, {235.f, 282.f}, {235.f, 314.f}, {85.f, 314.f},
-        {85.f, 334.f}, {235.f, 334.f}, {235.f, 366.f}, {85.f, 366.f},
-        {85.f, 386.f}, {235.f, 386.f}, {235.f, 418.f}, {85.f, 418.f},
-        {85.f, 438.f}, {235.f, 438.f}, {235.f, 470.f}, {85.f, 470.f},
-        {85.f, 490.f}, {235.f, 490.f}, {235.f, 522.f}, {85.f, 522.f},
+        {85.f, 126.f}, {270.f, 126.f}, {270.f, 158.f}, {85.f, 158.f}, // first
+        {85.f, 178.f}, {270.f, 178.f}, {270.f, 210.f}, {85.f, 210.f}, // second...
+        {85.f, 230.f}, {270.f, 230.f}, {270.f, 262.f}, {85.f, 262.f},
+        {85.f, 282.f}, {270.f, 282.f}, {270.f, 314.f}, {85.f, 314.f},
+        {85.f, 334.f}, {270.f, 334.f}, {270.f, 366.f}, {85.f, 366.f},
+        {85.f, 386.f}, {270.f, 386.f}, {270.f, 418.f}, {85.f, 418.f},
+        {85.f, 438.f}, {270.f, 438.f}, {270.f, 470.f}, {85.f, 470.f},
+        {85.f, 490.f}, {270.f, 490.f}, {270.f, 522.f}, {85.f, 522.f},
 
-        {255.f, 126.f}, {405.f, 126.f}, {405.f, 158.f}, {255.f, 158.f}, // 9-th
-        {255.f, 178.f}, {405.f, 178.f}, {405.f, 210.f}, {255.f, 210.f}, // 10-th...
-        {255.f, 230.f}, {405.f, 230.f}, {405.f, 262.f}, {255.f, 262.f},
-        {255.f, 282.f}, {405.f, 282.f}, {405.f, 314.f}, {255.f, 314.f},
-        {255.f, 334.f}, {405.f, 334.f}, {405.f, 366.f}, {255.f, 366.f},
-        {255.f, 386.f}, {405.f, 386.f}, {405.f, 418.f}, {255.f, 418.f},
-        {255.f, 438.f}, {405.f, 438.f}, {405.f, 470.f}, {255.f, 470.f},
-        {255.f, 490.f}, {405.f, 490.f}, {405.f, 522.f}, {255.f, 522.f},
+        {300.f, 126.f}, {485.f, 126.f}, {485.f, 158.f}, {300.f, 158.f}, // 9-th
+        {300.f, 178.f}, {485.f, 178.f}, {485.f, 210.f}, {300.f, 210.f}, // 10-th...
+        {300.f, 230.f}, {485.f, 230.f}, {485.f, 262.f}, {300.f, 262.f},
+        {300.f, 282.f}, {485.f, 282.f}, {485.f, 314.f}, {300.f, 314.f},
+        {300.f, 334.f}, {485.f, 334.f}, {485.f, 366.f}, {300.f, 366.f},
+        {300.f, 386.f}, {485.f, 386.f}, {485.f, 418.f}, {300.f, 418.f},
+        {300.f, 438.f}, {485.f, 438.f}, {485.f, 470.f}, {300.f, 470.f},
+        {300.f, 490.f}, {485.f, 490.f}, {485.f, 522.f}, {300.f, 522.f},
 
-        {425.f, 126.f}, {575.f, 126.f}, {575.f, 158.f}, {425.f, 158.f}, // 17-th
-        {425.f, 178.f}, {575.f, 178.f}, {575.f, 210.f}, {425.f, 210.f}, // 18-th...
-        {425.f, 230.f}, {575.f, 230.f}, {575.f, 262.f}, {425.f, 262.f},
-        {425.f, 282.f}, {575.f, 282.f}, {575.f, 314.f}, {425.f, 314.f},
-        {425.f, 334.f}, {575.f, 334.f}, {575.f, 366.f}, {425.f, 366.f},
-        {425.f, 386.f}, {575.f, 386.f}, {575.f, 418.f}, {425.f, 418.f},
-        {425.f, 438.f}, {575.f, 438.f}, {575.f, 470.f}, {425.f, 470.f},
-        {425.f, 490.f}, {575.f, 490.f}, {575.f, 522.f}, {425.f, 522.f}
+        {515.f, 126.f}, {700.f, 126.f}, {700.f, 158.f}, {515.f, 158.f}, // 17-th
+        {515.f, 178.f}, {700.f, 178.f}, {700.f, 210.f}, {515.f, 210.f}, // 18-th...
+        {515.f, 230.f}, {700.f, 230.f}, {700.f, 262.f}, {515.f, 262.f},
+        {515.f, 282.f}, {700.f, 282.f}, {700.f, 314.f}, {515.f, 314.f},
+        {515.f, 334.f}, {700.f, 334.f}, {700.f, 366.f}, {515.f, 366.f},
+        {515.f, 386.f}, {700.f, 386.f}, {700.f, 418.f}, {515.f, 418.f},
+        {515.f, 438.f}, {700.f, 438.f}, {700.f, 470.f}, {515.f, 470.f},
+        {515.f, 490.f}, {700.f, 490.f}, {700.f, 522.f}, {515.f, 522.f},
+
+        {730.f, 126.f}, {915.f, 126.f}, {915.f, 158.f}, {730.f, 158.f}, // 25-th
+        {730.f, 178.f}, {915.f, 178.f}, {915.f, 210.f}, {730.f, 210.f}, // 26-th...
+        {730.f, 230.f}, {915.f, 230.f}, {915.f, 262.f}, {730.f, 262.f},
+        {730.f, 282.f}, {915.f, 282.f}, {915.f, 314.f}, {730.f, 314.f},
+        {730.f, 334.f}, {915.f, 334.f}, {915.f, 366.f}, {730.f, 366.f},
+        {730.f, 386.f}, {915.f, 386.f}, {915.f, 418.f}, {730.f, 418.f},
+        {730.f, 438.f}, {915.f, 438.f}, {915.f, 470.f}, {730.f, 470.f},
+        {730.f, 490.f}, {915.f, 490.f}, {915.f, 522.f}, {730.f, 522.f}
     };
     for (auto& point : itemPoints)
     {
@@ -384,23 +402,32 @@ Selection::Selection()
         {93.f, 446.f}, {109.f, 446.f}, {109.f, 462.f}, {93.f, 462.f},
         {93.f, 498.f}, {109.f, 498.f}, {109.f, 514.f}, {93.f, 514.f},
 
-        {263.f, 134.f}, {279.f, 134.f}, {279.f, 150.f}, {263.f, 150.f}, // 9-th
-        {263.f, 186.f}, {279.f, 186.f}, {279.f, 202.f}, {263.f, 202.f}, // 10-th...
-        {263.f, 238.f}, {279.f, 238.f}, {279.f, 254.f}, {263.f, 254.f},
-        {263.f, 290.f}, {279.f, 290.f}, {279.f, 306.f}, {263.f, 306.f},
-        {263.f, 342.f}, {279.f, 342.f}, {279.f, 358.f}, {263.f, 358.f},
-        {263.f, 394.f}, {279.f, 394.f}, {279.f, 410.f}, {263.f, 410.f},
-        {263.f, 446.f}, {279.f, 446.f}, {279.f, 462.f}, {263.f, 462.f},
-        {263.f, 498.f}, {279.f, 498.f}, {279.f, 514.f}, {263.f, 514.f},
+        {308.f, 134.f}, {324.f, 134.f}, {324.f, 150.f}, {308.f, 150.f}, // 9-th
+        {308.f, 186.f}, {324.f, 186.f}, {324.f, 202.f}, {308.f, 202.f}, // 10-th...
+        {308.f, 238.f}, {324.f, 238.f}, {324.f, 254.f}, {308.f, 254.f},
+        {308.f, 290.f}, {324.f, 290.f}, {324.f, 306.f}, {308.f, 306.f},
+        {308.f, 342.f}, {324.f, 342.f}, {324.f, 358.f}, {308.f, 358.f},
+        {308.f, 394.f}, {324.f, 394.f}, {324.f, 410.f}, {308.f, 410.f},
+        {308.f, 446.f}, {324.f, 446.f}, {324.f, 462.f}, {308.f, 462.f},
+        {308.f, 498.f}, {324.f, 498.f}, {324.f, 514.f}, {308.f, 514.f},
 
-        {433.f, 134.f}, {449.f, 134.f}, {449.f, 150.f}, {433.f, 150.f}, // 17-th
-        {433.f, 186.f}, {449.f, 186.f}, {449.f, 202.f}, {433.f, 202.f}, // 18-th...
-        {433.f, 238.f}, {449.f, 238.f}, {449.f, 254.f}, {433.f, 254.f},
-        {433.f, 290.f}, {449.f, 290.f}, {449.f, 306.f}, {433.f, 306.f},
-        {433.f, 342.f}, {449.f, 342.f}, {449.f, 358.f}, {433.f, 358.f},
-        {433.f, 394.f}, {449.f, 394.f}, {449.f, 410.f}, {433.f, 410.f},
-        {433.f, 446.f}, {449.f, 446.f}, {449.f, 462.f}, {433.f, 462.f},
-        {433.f, 498.f}, {449.f, 498.f}, {449.f, 514.f}, {433.f, 514.f}
+        {523.f, 134.f}, {539.f, 134.f}, {539.f, 150.f}, {523.f, 150.f}, // 17-th
+        {523.f, 186.f}, {539.f, 186.f}, {539.f, 202.f}, {523.f, 202.f}, // 18-th...
+        {523.f, 238.f}, {539.f, 238.f}, {539.f, 254.f}, {523.f, 254.f},
+        {523.f, 290.f}, {539.f, 290.f}, {539.f, 306.f}, {523.f, 306.f},
+        {523.f, 342.f}, {539.f, 342.f}, {539.f, 358.f}, {523.f, 358.f},
+        {523.f, 394.f}, {539.f, 394.f}, {539.f, 410.f}, {523.f, 410.f},
+        {523.f, 446.f}, {539.f, 446.f}, {539.f, 462.f}, {523.f, 462.f},
+        {523.f, 498.f}, {539.f, 498.f}, {539.f, 514.f}, {523.f, 514.f},
+
+        {738.f, 134.f}, {754.f, 134.f}, {754.f, 150.f}, {738.f, 150.f}, // 25-th
+        {738.f, 186.f}, {754.f, 186.f}, {754.f, 202.f}, {738.f, 202.f}, // 26-th...
+        {738.f, 238.f}, {754.f, 238.f}, {754.f, 254.f}, {738.f, 254.f},
+        {738.f, 290.f}, {754.f, 290.f}, {754.f, 306.f}, {738.f, 306.f},
+        {738.f, 342.f}, {754.f, 342.f}, {754.f, 358.f}, {738.f, 358.f},
+        {738.f, 394.f}, {754.f, 394.f}, {754.f, 410.f}, {738.f, 410.f},
+        {738.f, 446.f}, {754.f, 446.f}, {754.f, 462.f}, {738.f, 462.f},
+        {738.f, 498.f}, {754.f, 498.f}, {754.f, 514.f}, {738.f, 514.f}
     };
     for (auto& point : squarePoints)
     {
@@ -448,23 +475,23 @@ SelectionMenuSelectedItem::SelectionMenuSelectedItem()
     background.setPrimitiveType(sf::Quads);
 
     background.append(sf::Vertex(sf::Vector2f(-29.f, -7.f), sf::Color(0x50, 0x4E, 0x48)));
-    background.append(sf::Vertex(sf::Vector2f(121.f, -7.f), sf::Color(0x50, 0x4E, 0x48)));
-    background.append(sf::Vertex(sf::Vector2f(121.f, -5.f), sf::Color(0x50, 0x4E, 0x48)));
+    background.append(sf::Vertex(sf::Vector2f(156.f, -7.f), sf::Color(0x50, 0x4E, 0x48)));
+    background.append(sf::Vertex(sf::Vector2f(156.f, -5.f), sf::Color(0x50, 0x4E, 0x48)));
     background.append(sf::Vertex(sf::Vector2f(-29.f, -5.f), sf::Color(0x50, 0x4E, 0x48)));
     // shadow
     background.append(sf::Vertex(sf::Vector2f(-27.f, 0.f), sf::Color(0x7C, 0x7B, 0x69, 0x80)));
-    background.append(sf::Vertex(sf::Vector2f(123.f, 0.f), sf::Color(0x7C, 0x7B, 0x69, 0x80)));
-    background.append(sf::Vertex(sf::Vector2f(123.f, 32.f), sf::Color(0x7C, 0x7B, 0x69, 0x80)));
+    background.append(sf::Vertex(sf::Vector2f(158.f, 0.f), sf::Color(0x7C, 0x7B, 0x69, 0x80)));
+    background.append(sf::Vertex(sf::Vector2f(158.f, 32.f), sf::Color(0x7C, 0x7B, 0x69, 0x80)));
     background.append(sf::Vertex(sf::Vector2f(-27.f, 32.f), sf::Color(0x7C, 0x7B, 0x69, 0x80)));
 
     background.append(sf::Vertex(sf::Vector2f(-29.f, -2.f), sf::Color(0x50, 0x4E, 0x48)));
-    background.append(sf::Vertex(sf::Vector2f(121.f, -2.f), sf::Color(0x50, 0x4E, 0x48)));
-    background.append(sf::Vertex(sf::Vector2f(121.f, 30.f), sf::Color(0x50, 0x4E, 0x48)));
+    background.append(sf::Vertex(sf::Vector2f(156.f, -2.f), sf::Color(0x50, 0x4E, 0x48)));
+    background.append(sf::Vertex(sf::Vector2f(156.f, 30.f), sf::Color(0x50, 0x4E, 0x48)));
     background.append(sf::Vertex(sf::Vector2f(-29.f, 30.f), sf::Color(0x50, 0x4E, 0x48)));
 
     background.append(sf::Vertex(sf::Vector2f(-29.f, 33.f), sf::Color(0x50, 0x4E, 0x48)));
-    background.append(sf::Vertex(sf::Vector2f(121.f, 33.f), sf::Color(0x50, 0x4E, 0x48)));
-    background.append(sf::Vertex(sf::Vector2f(121.f, 35.f), sf::Color(0x50, 0x4E, 0x48)));
+    background.append(sf::Vertex(sf::Vector2f(156.f, 33.f), sf::Color(0x50, 0x4E, 0x48)));
+    background.append(sf::Vertex(sf::Vector2f(156.f, 35.f), sf::Color(0x50, 0x4E, 0x48)));
     background.append(sf::Vertex(sf::Vector2f(-29.f, 35.f), sf::Color(0x50, 0x4E, 0x48)));
     // little square
     background.append(sf::Vertex(sf::Vector2f(-21.f, 6.f), sf::Color(0xD9, 0xD5, 0xB3)));
@@ -650,25 +677,76 @@ void Selection::PollEvents(sf::RenderWindow& window, sf::Event& event, bool& isT
                     break;
                 case 20:
                 {
-                    std::cout << "Level 21\n";
+                    level = 20;
+                    isTransitioning = true;
                     sounds.pressSound.play();
                 }
                     break;
                 case 21:
                 {
-                    std::cout << "Level 22\n";
+                    level = 21;
+                    isTransitioning = true;
                     sounds.pressSound.play();
                 }
                     break;
                 case 22:
                 {
-                    std::cout << "Level 23\n";
+                    level = 22;
+                    isTransitioning = true;
                     sounds.pressSound.play();
                 }
                     break;
                 case 23:
                 {
                     std::cout << "Level 24\n";
+                    sounds.pressSound.play();
+                }
+                    break;
+                case 24:
+                {
+                    std::cout << "Level 25\n";
+                    sounds.pressSound.play();
+                }
+                    break;
+                case 25:
+                {
+                    std::cout << "Level 26\n";
+                    sounds.pressSound.play();
+                }
+                    break;
+                case 26:
+                {
+                    std::cout << "Level 27\n";
+                    sounds.pressSound.play();
+                }
+                    break;
+                case 27:
+                {
+                    std::cout << "Level 28\n";
+                    sounds.pressSound.play();
+                }
+                    break;
+                case 28:
+                {
+                    std::cout << "Level 29\n";
+                    sounds.pressSound.play();
+                }
+                    break;
+                case 29:
+                {
+                    std::cout << "Level 30\n";
+                    sounds.pressSound.play();
+                }
+                    break;
+                case 30:
+                {
+                    std::cout << "Level 31\n";
+                    sounds.pressSound.play();
+                }
+                    break;
+                case 31:
+                {
+                    std::cout << "Level 32\n";
                     sounds.pressSound.play();
                 }
                     break;
@@ -732,7 +810,7 @@ void Selection::MoveLeft(MusicManager& sounds)
 
 void Selection::MoveRight(MusicManager& sounds)
 {
-    if (selectedItemIndex < 16)
+    if (selectedItemIndex < 24)
     {
         menuItem[selectedItemIndex].setFillColor(sf::Color(0x50, 0x4E, 0x48));
         selectedItemIndex += 8;

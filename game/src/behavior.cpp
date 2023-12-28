@@ -83,17 +83,17 @@ void handleOverlapping(sf::Vector2f& possiblePos, const sf::Vector2f& currentPos
 }
 
 void handleObstacle(sf::Vector2f& possiblePos, const sf::Vector2f& currentPos,
-                    const float& bounds, const sf::FloatRect& obstacle)
+                    const float& bounds, const Obstacle& obstacle)
 {
     if (possiblePos.x + bounds > obstacle.left &&
-        possiblePos.x - bounds < obstacle.left + obstacle.width &&
+        possiblePos.x - bounds < obstacle.right &&
         possiblePos.y + bounds > obstacle.top &&
-        possiblePos.y - bounds < obstacle.top + obstacle.height)
+        possiblePos.y - bounds < obstacle.bottom)
     {
         if (possiblePos.x + bounds > obstacle.left &&
-            possiblePos.x - bounds < obstacle.left + obstacle.width &&
+            possiblePos.x - bounds < obstacle.right &&
             currentPos.y + bounds > obstacle.top &&
-            currentPos.y - bounds < obstacle.top + obstacle.height)
+            currentPos.y - bounds < obstacle.bottom)
         {
             possiblePos.x = currentPos.x;
         }
@@ -845,7 +845,7 @@ void ShieldedBallWithSmallEnemies::FollowSlowly(const float& deltaTime, const sf
 }
 
 void ShieldedBallWithSmallEnemies::FollowSlowlyWithObstacles(const float& deltaTime, const sf::Vector2f& playerPosition,
-                                                             const std::vector<sf::FloatRect>& obstacles)
+                                                             const std::vector<Obstacle>& obstacles)
 {
     if (isAnimatingExplode)
     {
@@ -879,7 +879,7 @@ void ShieldedBallWithSmallEnemies::FollowSlowlyWithObstacles(const float& deltaT
 }
 
 void ShieldedBallWithSmallEnemies::FollowSlowlyWithObstaclesAndAdd(const float& deltaTime, const sf::Vector2f& playerPosition,
-                                                                   const std::vector<sf::FloatRect>& obstacles, const sf::Vector2f& secondEnemyPos)
+                                                                   const std::vector<Obstacle>& obstacles, const sf::Vector2f& secondEnemyPos)
 {
     if (isAnimatingExplode)
     {
@@ -1356,7 +1356,41 @@ void ShieldedBallWithSmallEnemies::ConstantAngleShooting(const float& deltaTime)
     }
 }
 
-void AdditionalEnemy::FollowSlowlyWithObstacles(const float& deltaTime, const sf::Vector2f& playerPosition, const std::vector<sf::FloatRect>& obstacles,
+void AdditionalEnemy::FollowSlowly(const float& deltaTime, const sf::Vector2f& playerPosition,
+                                   std::vector<SmallEnemy>& smallEnemies)
+{
+    if (isAnimatingExplode)
+    {
+        currentFrame++;
+        if (currentFrame == 30)
+        {
+            health--;
+        }
+        return;
+    }
+    delta = playerPosition - enemyPosition;
+    n_vectorLength = std::sqrt(delta.x * delta.x + delta.y * delta.y);
+    if (n_vectorLength > 45.f)
+    {
+        n_direction.x = delta.x / n_vectorLength;
+        n_direction.y = delta.y / n_vectorLength;
+        n_distance = 50.f * deltaTime; // speed
+        possiblePos = enemyPosition;
+        possiblePos += n_direction * n_distance;
+        for (SmallEnemy& enemy : smallEnemies) // axis-aligned bounding boxes (AABB) algorithm
+        {
+            if (boxesOverlap(possiblePos, enemy.position, 60.f))
+            {
+                enemy.position -= (enemyPosition - enemy.position) * 0.05f; // push distance
+                enemy.setPosition(enemy.position);
+            }
+        }
+        enemyPosition = possiblePos;
+        this->setPosition(enemyPosition);
+    }
+}
+
+void AdditionalEnemy::FollowSlowlyWithObstacles(const float& deltaTime, const sf::Vector2f& playerPosition, const std::vector<Obstacle>& obstacles,
                                                 const sf::Vector2f& firstEnemyPos, std::vector<SmallEnemy>& smallEnemies)
 {
     if (isAnimatingExplode)
@@ -1397,12 +1431,8 @@ void AdditionalEnemy::FollowSlowlyWithObstacles(const float& deltaTime, const sf
 void AdditionalEnemy::RotatingShootingTypeOne(const float& deltaTime, const float& delay, std::vector<OrangeBullet>& orangeBullets,
                                               std::vector<PurpleBullet>& purpleBullets)
 {
-    if (shootingDelay != delay)
-    {
-        shootingDelay = delay;
-    }
     timeSinceLastShot += deltaTime;
-    if (timeSinceLastShot > shootingDelay)
+    if (timeSinceLastShot > delay)
     {
         OrangeBullet bullet1;
         bullet1.position = enemyPosition;
@@ -1443,8 +1473,83 @@ void AdditionalEnemy::RotatingShootingTypeOne(const float& deltaTime, const floa
     shootingAngle += 0.5f * float(M_PI) / 180.f;
 }
 
+void AdditionalEnemy::ConstantAngleShooting(const float& deltaTime, const float& delay, std::vector<OrangeBullet>& orangeBullets,
+                                            std::vector<PurpleBullet>& purpleBullets)
+{
+    timeSinceLastShot += deltaTime;
+    if (timeSinceLastShot > delay)
+    {
+        if (isOrange)
+        {
+            OrangeBullet bullet1;
+            bullet1.position = enemyPosition;
+            bullet1.velocity.x = std::cos(shootingAngle) * bullet1.speed;
+            bullet1.velocity.y = std::sin(shootingAngle) * bullet1.speed;
+            bullet1.setPosition(bullet1.position);
+
+            OrangeBullet bullet2;
+            bullet2.position = enemyPosition;
+            bullet2.velocity.x = std::cos(n_left1OffsetAngle) * bullet2.speed;
+            bullet2.velocity.y = std::sin(n_left1OffsetAngle) * bullet2.speed;
+            bullet2.setPosition(bullet2.position);
+
+            OrangeBullet bullet3;
+            bullet3.position = enemyPosition;
+            bullet3.velocity.x = std::cos(n_right1OffsetAngle) * bullet3.speed;
+            bullet3.velocity.y = std::sin(n_right1OffsetAngle) * bullet3.speed;
+            bullet3.setPosition(bullet3.position);
+
+            OrangeBullet bullet4;
+            bullet4.position = enemyPosition;
+            bullet4.velocity.x = std::cos(n_backOffsetAngle) * bullet4.speed;
+            bullet4.velocity.y = std::sin(n_backOffsetAngle) * bullet4.speed;
+            bullet4.setPosition(bullet4.position);
+
+            orangeBullets.push_back(bullet1);
+            orangeBullets.push_back(bullet2);
+            orangeBullets.push_back(bullet3);
+            orangeBullets.push_back(bullet4);
+        }
+        else
+        {
+            PurpleBullet bullet1;
+            bullet1.position = enemyPosition;
+            bullet1.velocity.x = std::cos(shootingAngle) * bullet1.speed;
+            bullet1.velocity.y = std::sin(shootingAngle) * bullet1.speed;
+            bullet1.setPosition(bullet1.position);
+
+            PurpleBullet bullet2;
+            bullet2.position = enemyPosition;
+            bullet2.velocity.x = std::cos(n_left1OffsetAngle) * bullet2.speed;
+            bullet2.velocity.y = std::sin(n_left1OffsetAngle) * bullet2.speed;
+            bullet2.setPosition(bullet2.position);
+
+            PurpleBullet bullet3;
+            bullet3.position = enemyPosition;
+            bullet3.velocity.x = std::cos(n_right1OffsetAngle) * bullet3.speed;
+            bullet3.velocity.y = std::sin(n_right1OffsetAngle) * bullet3.speed;
+            bullet3.setPosition(bullet3.position);
+
+            PurpleBullet bullet4;
+            bullet4.position = enemyPosition;
+            bullet4.velocity.x = std::cos(n_backOffsetAngle) * bullet4.speed;
+            bullet4.velocity.y = std::sin(n_backOffsetAngle) * bullet4.speed;
+            bullet4.setPosition(bullet4.position);
+
+            purpleBullets.push_back(bullet1);
+            purpleBullets.push_back(bullet2);
+            purpleBullets.push_back(bullet3);
+            purpleBullets.push_back(bullet4);
+        }
+        timeSinceLastShot = 0.f;
+        isOrange = !isOrange;
+
+        enemySounds.shoot.play();
+    }
+}
+
 void SmallEnemy::Move(std::vector<SmallEnemy>& enemies, const float& deltaTime, const sf::Vector2f& playerPosition,
-                      std::vector<OrangeBullet>& bullets, int& number)
+                      const Field& playingField, std::vector<OrangeBullet>& bullets, int& number)
 {
     if (isAnimatingExplode)
     {
@@ -1505,8 +1610,8 @@ void SmallEnemy::Move(std::vector<SmallEnemy>& enemies, const float& deltaTime, 
                 }
             }
         }
-        if (possiblePos.x > 65.f && possiblePos.x < 935.f
-            && possiblePos.y > -85.f && possiblePos.y < 785.f)
+        if (possiblePos.x - 15.f > playingField.left && possiblePos.x + 15.f < playingField.right
+            && possiblePos.y - 15.f > playingField.top && possiblePos.y + 15.f < playingField.bottom)
         {
             position = possiblePos;
             this->setPosition(position);
@@ -1515,7 +1620,7 @@ void SmallEnemy::Move(std::vector<SmallEnemy>& enemies, const float& deltaTime, 
 }
 
 void SmallEnemy::MoveWithObstacles(std::vector<SmallEnemy>& enemies, const float& deltaTime, const sf::Vector2f& playerPosition,
-                                   std::vector<OrangeBullet>& bullets, int& number, const std::vector<sf::FloatRect>& obstacles)
+                                   std::vector<OrangeBullet>& bullets, int& number, const std::vector<Obstacle>& obstacles)
 {
     if (isAnimatingExplode)
     {

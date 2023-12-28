@@ -53,7 +53,7 @@ sf::FloatRect Bullet::GetBounds()
     return getTransform().transformRect(bullet.getBounds());
 }
 
-Player::Player(float left, float top, float size)
+Player::Player(float left, float top, float width, float height)
 {
     health = 3;
     lastGotHit = 1.f;
@@ -64,9 +64,9 @@ Player::Player(float left, float top, float size)
     isAnimatingExplode = false;
 
     playingField.left = left;
+    playingField.right = left + width;
     playingField.top = top;
-    playingField.width = size;
-    playingField.height = size;
+    playingField.bottom = top + height;
 
     vertices[0].position = sf::Vector2f(-16.f, -1.f);
     vertices[0].color = sf::Color(0xFF, 0xFC, 0xD9);
@@ -146,14 +146,14 @@ void Player::Update(sf::RenderWindow& window, sf::View& view, const float& delta
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
     {
-        if (playerPosition.y + 20.f < playingField.top + playingField.height)
+        if (playerPosition.y + 20.f < playingField.bottom)
         {
             movement.y = 5.f;
         }
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
     {
-        if (playerPosition.x + 20.f < playingField.left + playingField.width)
+        if (playerPosition.x + 20.f < playingField.right)
         {
             movement.x = 5.f;
         }
@@ -183,7 +183,7 @@ void Player::Update(sf::RenderWindow& window, sf::View& view, const float& delta
 }
 
 void Player::UpdateWithObstacles(sf::RenderWindow& window, sf::View& view, const float& deltaTime,
-                                const std::vector<sf::FloatRect>& obstacles)
+                                const std::vector<Obstacle>& obstacles)
 {
     if (isAnimatingExplode)
     {
@@ -212,14 +212,14 @@ void Player::UpdateWithObstacles(sf::RenderWindow& window, sf::View& view, const
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
     {
-        if (playerPosition.y + 20.f < playingField.top + playingField.height)
+        if (playerPosition.y + 20.f < playingField.bottom)
         {
             movement.y = 5.f;
         }
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
     {
-        if (playerPosition.x + 20.f < playingField.left + playingField.width)
+        if (playerPosition.x + 20.f < playingField.right)
         {
             movement.x = 5.f;
         }
@@ -232,6 +232,10 @@ void Player::UpdateWithObstacles(sf::RenderWindow& window, sf::View& view, const
             if (obstacle.contains(playerPosition.x + movement.x, playerPosition.y))
             {
                 movement.x = 0.f;
+                if (obstacle.type == 'r')
+                {
+                    this->GotHit();
+                }
                 break;
             }
         }
@@ -243,6 +247,10 @@ void Player::UpdateWithObstacles(sf::RenderWindow& window, sf::View& view, const
             if (obstacle.contains(playerPosition.x, playerPosition.y + movement.y))
             {
                 movement.y = 0.f;
+                if (obstacle.type == 'r')
+                {
+                    this->GotHit();
+                }
                 break;
             }
         }

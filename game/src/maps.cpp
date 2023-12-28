@@ -85,7 +85,7 @@ namespace
     };
 }
 
-Level0::Level0() : player(275.f, 125.f, 450.f), enemy(0.5f)
+Level0::Level0() : player(275.f, 125.f, 450.f, 450.f), enemy(0.5f)
 // passing playing field parameters to player constructor and shooting delay to enemy constructor
 {
     player.playerPosition = sf::Vector2f(500.f, 515.f);
@@ -124,7 +124,7 @@ void Level0::Update(sf::RenderWindow& window, sf::View& view, sf::Clock& clock)
     }
 }
 
-Level1::Level1() : player(275.f, 125.f, 450.f), enemy(1.f)
+Level1::Level1() : player(275.f, 125.f, 450.f, 450.f), enemy(1.f)
 {
     player.playerPosition = sf::Vector2f(500.f, 515.f);
     player.setPosition(player.playerPosition);
@@ -162,7 +162,7 @@ void Level1::Update(sf::RenderWindow& window, sf::View& view, sf::Clock& clock)
     }
 }
 
-Level2::Level2() : player(275.f, 125.f, 450.f), enemy(0.6f)
+Level2::Level2() : player(275.f, 125.f, 450.f, 450.f), enemy(0.6f)
 {
     player.playerPosition = sf::Vector2f(500.f, 515.f);
     player.setPosition(player.playerPosition);
@@ -200,7 +200,7 @@ void Level2::Update(sf::RenderWindow& window, sf::View& view, sf::Clock& clock)
     }
 }
 
-Level3::Level3() : player(275.f, 125.f, 450.f), enemy(1.f)
+Level3::Level3() : player(275.f, 125.f, 450.f, 450.f), enemy(1.f)
 {
     player.playerPosition = sf::Vector2f(500.f, 515.f);
     player.setPosition(player.playerPosition);
@@ -236,7 +236,7 @@ void Level3::Update(sf::RenderWindow& window, sf::View& view, sf::Clock& clock)
     }
 }
 
-Level4::Level4() : player(275.f, 125.f, 450.f), enemy(1.f)
+Level4::Level4() : player(275.f, 125.f, 450.f, 450.f), enemy(1.f)
 {
     player.playerPosition = sf::Vector2f(500.f, 515.f);
     player.setPosition(player.playerPosition);
@@ -272,7 +272,7 @@ void Level4::Update(sf::RenderWindow& window, sf::View& view, sf::Clock& clock)
     }
 }
 
-Level5::Level5() : player(275.f, 125.f, 450.f), enemy(0.1f)
+Level5::Level5() : player(275.f, 125.f, 450.f, 450.f), enemy(0.1f)
 {
     player.playerPosition = sf::Vector2f(500.f, 515.f);
     player.setPosition(player.playerPosition);
@@ -308,7 +308,7 @@ void Level5::Update(sf::RenderWindow& window, sf::View& view, sf::Clock& clock)
     }
 }
 
-Level6::Level6() : player(275.f, 125.f, 450.f), enemy(0.1f)
+Level6::Level6() : player(275.f, 125.f, 450.f, 450.f), enemy(0.1f)
 {
     player.playerPosition = sf::Vector2f(500.f, 515.f);
     player.setPosition(player.playerPosition);
@@ -346,7 +346,7 @@ void Level6::Update(sf::RenderWindow& window, sf::View& view, sf::Clock& clock)
     }
 }
 
-Level7::Level7() : player(275.f, 125.f, 450.f), enemy(1.f)
+Level7::Level7() : player(275.f, 125.f, 450.f, 450.f), enemy(1.f)
 {
     player.playerPosition = sf::Vector2f(500.f, 515.f);
     player.setPosition(player.playerPosition);
@@ -384,7 +384,7 @@ void Level7::Update(sf::RenderWindow& window, sf::View& view, sf::Clock& clock)
     }
 }
 
-Level8::Level8() : player(275.f, 125.f, 450.f), enemy(1.f)
+Level8::Level8() : player(275.f, 125.f, 450.f, 450.f), enemy(1.f)
 {
     player.playerPosition = sf::Vector2f(500.f, 515.f);
     player.setPosition(player.playerPosition);
@@ -420,7 +420,7 @@ void Level8::Update(sf::RenderWindow& window, sf::View& view, sf::Clock& clock)
     }
 }
 
-Level9::Level9() : player(275.f, 125.f, 450.f), enemy(1.f)
+Level9::Level9() : player(275.f, 125.f, 450.f, 450.f), enemy(1.f)
 {
     player.playerPosition = sf::Vector2f(500.f, 515.f);
     player.setPosition(player.playerPosition);
@@ -456,7 +456,7 @@ void Level9::Update(sf::RenderWindow& window, sf::View& view, sf::Clock& clock)
     }
 }
 
-Level10::Level10() : player(50.f, -100.f, 900.f), enemy(0.5f, 7) // shooting delay and number of small enemies
+Level10::Level10() : player(50.f, -100.f, 900.f, 900.f), enemy(0.5f, 7) // shooting delay and number of small enemies
 {
     player.playerPosition = sf::Vector2f(500.f, 100.f);
     player.setPosition(player.playerPosition);
@@ -489,7 +489,7 @@ void Level10::Update(sf::RenderWindow& window, sf::View& view, sf::Clock& clock)
     enemy.FollowSlowly(deltaTime, player.playerPosition);
     if (enemy.numberOfSmallEnemies > 0)
     {
-        enemy.UpdateSmallEnemies(deltaTime, player.playerPosition);
+        enemy.UpdateSmallEnemies(deltaTime, player.playerPosition, player.playingField);
     }
     if (!enemy.isAnimatingExplode)
     {
@@ -510,7 +510,7 @@ void Level10::Update(sf::RenderWindow& window, sf::View& view, sf::Clock& clock)
     }
 }
 
-Level11::Level11() : player(50.f, -100.f, 900.f), enemy(1.f, 11)
+Level11::Level11() : player(50.f, -100.f, 900.f, 900.f), enemy(1.f, 11)
 {
     player.playerPosition = sf::Vector2f(500.f, 600.f);
     player.setPosition(player.playerPosition);
@@ -544,7 +544,7 @@ void Level11::Update(sf::RenderWindow& window, sf::View& view, sf::Clock& clock)
     enemy.FollowSlowly(deltaTime, player.playerPosition);
     if (enemy.numberOfSmallEnemies > 0)
     {
-        enemy.UpdateSmallEnemies(deltaTime, player.playerPosition);
+        enemy.UpdateSmallEnemies(deltaTime, player.playerPosition, player.playingField);
     }
     if (!enemy.isAnimatingExplode)
     {
@@ -565,7 +565,7 @@ void Level11::Update(sf::RenderWindow& window, sf::View& view, sf::Clock& clock)
     }
 }
 
-Level12::Level12() : player(50.f, -100.f, 900.f), enemy(0.68f, 7), secondEnemy(0.68f)
+Level12::Level12() : player(50.f, -100.f, 900.f, 900.f), enemy(0.68f, 7)
 {
     player.playerPosition = sf::Vector2f(500.f, 450.f);
     player.setPosition(player.playerPosition);
@@ -604,22 +604,22 @@ Level12::Level12() : player(50.f, -100.f, 900.f), enemy(0.68f, 7), secondEnemy(0
     }; // obstacles
     for (auto& point : points)
     {
-        map.append(sf::Vertex(point, sf::Color(0xEC, 0xE8, 0xE1)));
+        map.append(sf::Vertex(point, sf::Color(0xEC, 0xE8, 0xE1))); // white
     }
 
-    playerObstacles.push_back(sf::FloatRect(50.f, 305.f, 70.f, 90.f));
-    playerObstacles.push_back(sf::FloatRect(180.f, 305.f, 90.f, 90.f));
-    playerObstacles.push_back(sf::FloatRect(330.f, 305.f, 90.f, 90.f));
-    playerObstacles.push_back(sf::FloatRect(580.f, 305.f, 90.f, 90.f));
-    playerObstacles.push_back(sf::FloatRect(730.f, 305.f, 90.f, 90.f));
-    playerObstacles.push_back(sf::FloatRect(880.f, 305.f, 70.f, 90.f));
+    playerObstacles.push_back(Obstacle(50.f, 305.f, 70.f, 90.f, 'w'));
+    playerObstacles.push_back(Obstacle(180.f, 305.f, 90.f, 90.f, 'w'));
+    playerObstacles.push_back(Obstacle(330.f, 305.f, 90.f, 90.f, 'w'));
+    playerObstacles.push_back(Obstacle(580.f, 305.f, 90.f, 90.f, 'w'));
+    playerObstacles.push_back(Obstacle(730.f, 305.f, 90.f, 90.f, 'w'));
+    playerObstacles.push_back(Obstacle(880.f, 305.f, 70.f, 90.f, 'w'));
 
-    obstacles.push_back(sf::FloatRect(50.f, 325.f, 50.f, 50.f));
-    obstacles.push_back(sf::FloatRect(200.f, 325.f, 50.f, 50.f));
-    obstacles.push_back(sf::FloatRect(350.f, 325.f, 50.f, 50.f));
-    obstacles.push_back(sf::FloatRect(600.f, 325.f, 50.f, 50.f));
-    obstacles.push_back(sf::FloatRect(750.f, 325.f, 50.f, 50.f));
-    obstacles.push_back(sf::FloatRect(900.f, 325.f, 50.f, 50.f));
+    obstacles.push_back(Obstacle(50.f, 325.f, 50.f, 50.f, 'w'));
+    obstacles.push_back(Obstacle(200.f, 325.f, 50.f, 50.f, 'w'));
+    obstacles.push_back(Obstacle(350.f, 325.f, 50.f, 50.f, 'w'));
+    obstacles.push_back(Obstacle(600.f, 325.f, 50.f, 50.f, 'w'));
+    obstacles.push_back(Obstacle(750.f, 325.f, 50.f, 50.f, 'w'));
+    obstacles.push_back(Obstacle(900.f, 325.f, 50.f, 50.f, 'w'));
 }
 
 void Level12::Update(sf::RenderWindow& window, sf::View& view, sf::Clock& clock)
@@ -666,7 +666,7 @@ void Level12::Update(sf::RenderWindow& window, sf::View& view, sf::Clock& clock)
     }
 }
 
-Level13::Level13() : player(50.f, -100.f, 900.f), enemy(1.1f, 14)
+Level13::Level13() : player(50.f, -100.f, 900.f, 900.f), enemy(1.1f, 14)
 {
     player.playerPosition = sf::Vector2f(500.f, 100.f);
     player.setPosition(player.playerPosition);
@@ -701,7 +701,7 @@ void Level13::Update(sf::RenderWindow& window, sf::View& view, sf::Clock& clock)
     enemy.FollowSlowly(deltaTime, player.playerPosition);
     if (enemy.numberOfSmallEnemies > 0)
     {
-        enemy.UpdateSmallEnemies(deltaTime, player.playerPosition);
+        enemy.UpdateSmallEnemies(deltaTime, player.playerPosition, player.playingField);
     }
     if (!enemy.isAnimatingExplode)
     {
@@ -722,7 +722,7 @@ void Level13::Update(sf::RenderWindow& window, sf::View& view, sf::Clock& clock)
     }
 }
 
-Level14::Level14() : player(50.f, -100.f, 900.f), enemy(0.8f, 9)
+Level14::Level14() : player(50.f, -100.f, 900.f, 900.f), enemy(0.8f, 9)
 {
     player.playerPosition = sf::Vector2f(500.f, 575.f);
     player.setPosition(player.playerPosition);
@@ -764,13 +764,13 @@ Level14::Level14() : player(50.f, -100.f, 900.f), enemy(0.8f, 9)
         map.append(sf::Vertex(point, sf::Color(0xEC, 0xE8, 0xE1)));
     }
 
-    playerObstacles.push_back(sf::FloatRect(398.4f, 580.f, 203.2f, 90.f));
-    playerObstacles.push_back(sf::FloatRect(180.f, 298.4f, 90.f, 203.2f));
-    playerObstacles.push_back(sf::FloatRect(730.f, 298.4f, 90.f, 203.2f));
+    playerObstacles.push_back(Obstacle(398.4f, 580.f, 203.2f, 90.f, 'w'));
+    playerObstacles.push_back(Obstacle(180.f, 298.4f, 90.f, 203.2f, 'w'));
+    playerObstacles.push_back(Obstacle(730.f, 298.4f, 90.f, 203.2f, 'w'));
 
-    obstacles.push_back(sf::FloatRect(418.4f, 600.f, 163.2f, 50.f));
-    obstacles.push_back(sf::FloatRect(200.f, 318.4f, 50.f, 163.2f));
-    obstacles.push_back(sf::FloatRect(750.f, 318.4f, 50.f, 163.2f));
+    obstacles.push_back(Obstacle(418.4f, 600.f, 163.2f, 50.f, 'w'));
+    obstacles.push_back(Obstacle(200.f, 318.4f, 50.f, 163.2f, 'w'));
+    obstacles.push_back(Obstacle(750.f, 318.4f, 50.f, 163.2f, 'w'));
 }
 
 void Level14::Update(sf::RenderWindow& window, sf::View& view, sf::Clock& clock)
@@ -801,7 +801,7 @@ void Level14::Update(sf::RenderWindow& window, sf::View& view, sf::Clock& clock)
     }
 }
 
-Level15::Level15() : player(50.f, -100.f, 900.f), enemy(0.76f, 8)
+Level15::Level15() : player(50.f, -100.f, 900.f, 900.f), enemy(0.76f, 8)
 {
     player.playerPosition = sf::Vector2f(500.f, 445.f);
     player.setPosition(player.playerPosition);
@@ -847,21 +847,21 @@ Level15::Level15() : player(50.f, -100.f, 900.f), enemy(0.76f, 8)
         map.append(sf::Vertex(point, sf::Color(0xEC, 0xE8, 0xE1)));
     }
 
-    playerObstacles.push_back(sf::FloatRect(217.5f, 37.5f, 90.f, 90.f));
-    playerObstacles.push_back(sf::FloatRect(455.f, 37.5f, 90.f, 90.f));
-    playerObstacles.push_back(sf::FloatRect(692.5f, 37.5f, 90.f, 90.f));
-    playerObstacles.push_back(sf::FloatRect(217.5f, 305.f, 90.f, 90.f));
-    playerObstacles.push_back(sf::FloatRect(692.5f, 305.f, 90.f, 90.f));
-    playerObstacles.push_back(sf::FloatRect(217.5f, 542.5f, 90.f, 90.f));
-    playerObstacles.push_back(sf::FloatRect(692.5f, 542.5f, 90.f, 90.f));
+    playerObstacles.push_back(Obstacle(217.5f, 37.5f, 90.f, 90.f, 'w'));
+    playerObstacles.push_back(Obstacle(455.f, 37.5f, 90.f, 90.f, 'w'));
+    playerObstacles.push_back(Obstacle(692.5f, 37.5f, 90.f, 90.f, 'w'));
+    playerObstacles.push_back(Obstacle(217.5f, 305.f, 90.f, 90.f, 'w'));
+    playerObstacles.push_back(Obstacle(692.5f, 305.f, 90.f, 90.f, 'w'));
+    playerObstacles.push_back(Obstacle(217.5f, 542.5f, 90.f, 90.f, 'w'));
+    playerObstacles.push_back(Obstacle(692.5f, 542.5f, 90.f, 90.f, 'w'));
 
-    obstacles.push_back(sf::FloatRect(237.5f, 87.5f, 50.f, 50.f));
-    obstacles.push_back(sf::FloatRect(475.f, 87.5f, 50.f, 50.f));
-    obstacles.push_back(sf::FloatRect(712.5f, 87.5f, 50.f, 50.f));
-    obstacles.push_back(sf::FloatRect(237.5f, 325.f, 50.f, 50.f));
-    obstacles.push_back(sf::FloatRect(712.5f, 325.f, 50.f, 50.f));
-    obstacles.push_back(sf::FloatRect(237.5f, 562.5f, 50.f, 50.f));
-    obstacles.push_back(sf::FloatRect(712.5f, 562.5f, 50.f, 50.f));
+    obstacles.push_back(Obstacle(237.5f, 87.5f, 50.f, 50.f, 'w'));
+    obstacles.push_back(Obstacle(475.f, 87.5f, 50.f, 50.f, 'w'));
+    obstacles.push_back(Obstacle(712.5f, 87.5f, 50.f, 50.f, 'w'));
+    obstacles.push_back(Obstacle(237.5f, 325.f, 50.f, 50.f, 'w'));
+    obstacles.push_back(Obstacle(712.5f, 325.f, 50.f, 50.f, 'w'));
+    obstacles.push_back(Obstacle(237.5f, 562.5f, 50.f, 50.f, 'w'));
+    obstacles.push_back(Obstacle(712.5f, 562.5f, 50.f, 50.f, 'w'));
 }
 
 void Level15::Update(sf::RenderWindow& window, sf::View& view, sf::Clock& clock)
@@ -892,7 +892,7 @@ void Level15::Update(sf::RenderWindow& window, sf::View& view, sf::Clock& clock)
     }
 }
 
-Level16::Level16() : player(50.f, -100.f, 900.f), enemy(1.f, 11)
+Level16::Level16() : player(50.f, -100.f, 900.f, 900.f), enemy(1.f, 11)
 {
     player.playerPosition = sf::Vector2f(500.f, 100.f);
     player.setPosition(player.playerPosition);
@@ -927,7 +927,7 @@ void Level16::Update(sf::RenderWindow& window, sf::View& view, sf::Clock& clock)
     enemy.FollowSlowly(deltaTime, player.playerPosition);
     if (enemy.numberOfSmallEnemies > 0)
     {
-        enemy.UpdateSmallEnemies(deltaTime, player.playerPosition);
+        enemy.UpdateSmallEnemies(deltaTime, player.playerPosition, player.playingField);
     }
     if (!enemy.isAnimatingExplode)
     {
@@ -948,7 +948,7 @@ void Level16::Update(sf::RenderWindow& window, sf::View& view, sf::Clock& clock)
     }
 }
 
-Level17::Level17() : player(50.f, -100.f, 900.f), enemy(0.76f, 8)
+Level17::Level17() : player(50.f, -100.f, 900.f, 900.f), enemy(0.76f, 8)
 {
     player.playerPosition = sf::Vector2f(500.f, 600.f);
     player.setPosition(player.playerPosition);
@@ -982,7 +982,7 @@ void Level17::Update(sf::RenderWindow& window, sf::View& view, sf::Clock& clock)
     enemy.FollowSlowly(deltaTime, player.playerPosition);
     if (enemy.numberOfSmallEnemies > 0)
     {
-        enemy.UpdateSmallEnemies(deltaTime, player.playerPosition);
+        enemy.UpdateSmallEnemies(deltaTime, player.playerPosition, player.playingField);
     }
     if (!enemy.isAnimatingExplode)
     {
@@ -1003,7 +1003,7 @@ void Level17::Update(sf::RenderWindow& window, sf::View& view, sf::Clock& clock)
     }
 }
 
-Level18::Level18() : player(50.f, -100.f, 900.f), enemy(0.76f, 8)
+Level18::Level18() : player(50.f, -100.f, 900.f, 900.f), enemy(0.76f, 8)
 {
     player.playerPosition = sf::Vector2f(500.f, 600.f);
     player.setPosition(player.playerPosition);
@@ -1036,7 +1036,7 @@ void Level18::Update(sf::RenderWindow& window, sf::View& view, sf::Clock& clock)
     enemy.FollowSlowly(deltaTime, player.playerPosition);
     if (enemy.numberOfSmallEnemies > 0)
     {
-        enemy.UpdateSmallEnemies(deltaTime, player.playerPosition);
+        enemy.UpdateSmallEnemies(deltaTime, player.playerPosition, player.playingField);
     }
     if (!enemy.isAnimatingExplode)
     {
@@ -1057,7 +1057,7 @@ void Level18::Update(sf::RenderWindow& window, sf::View& view, sf::Clock& clock)
     }
 }
 
-Level19::Level19() : player(50.f, -100.f, 900.f), enemy(0.92f, 10)
+Level19::Level19() : player(50.f, -100.f, 900.f, 900.f), enemy(0.92f, 10)
 {
     player.playerPosition = sf::Vector2f(500.f, 600.f);
     player.setPosition(player.playerPosition);
@@ -1109,15 +1109,15 @@ Level19::Level19() : player(50.f, -100.f, 900.f), enemy(0.92f, 10)
         map.append(sf::Vertex(point, sf::Color(0xC6, 0xC2, 0xA5)));
     }
 
-    playerObstacles.push_back(sf::FloatRect(180.f, 30.f, 203.2f, 203.2f));
-    playerObstacles.push_back(sf::FloatRect(616.8f, 30.f, 203.2f, 203.2f));
-    playerObstacles.push_back(sf::FloatRect(180.f, 466.8f, 203.2f, 203.2f));
-    playerObstacles.push_back(sf::FloatRect(616.8f, 466.8f, 203.2f, 203.2f));
+    playerObstacles.push_back(Obstacle(180.f, 30.f, 203.2f, 203.2f, 'w'));
+    playerObstacles.push_back(Obstacle(616.8f, 30.f, 203.2f, 203.2f, 'w'));
+    playerObstacles.push_back(Obstacle(180.f, 466.8f, 203.2f, 203.2f, 'w'));
+    playerObstacles.push_back(Obstacle(616.8f, 466.8f, 203.2f, 203.2f, 'w'));
 
-    obstacles.push_back(sf::FloatRect(200.f, 50.f, 163.2f, 163.2f));
-    obstacles.push_back(sf::FloatRect(636.8f, 50.f, 163.2f, 163.2f));
-    obstacles.push_back(sf::FloatRect(200.f, 486.8f, 163.2f, 163.2f));
-    obstacles.push_back(sf::FloatRect(636.8f, 486.8f, 163.2f, 163.2f));
+    obstacles.push_back(Obstacle(200.f, 50.f, 163.2f, 163.2f, 'w'));
+    obstacles.push_back(Obstacle(636.8f, 50.f, 163.2f, 163.2f, 'w'));
+    obstacles.push_back(Obstacle(200.f, 486.8f, 163.2f, 163.2f, 'w'));
+    obstacles.push_back(Obstacle(636.8f, 486.8f, 163.2f, 163.2f, 'w'));
 }
 
 void Level19::Update(sf::RenderWindow& window, sf::View& view, sf::Clock& clock)
@@ -1185,6 +1185,361 @@ void Level19::Update(sf::RenderWindow& window, sf::View& view, sf::Clock& clock)
         smallEnemy.currentFrame = 0;
         enemy.smallEnemies.push_back(smallEnemy);
 
+        wave++;
+    }
+
+    if (player.health <= 0)
+    {
+        levelStatus = 2;
+    }
+    if (enemy.health <= 0)
+    {
+        levelStatus = 1;
+    }
+}
+
+Level20::Level20() : player(50.f, -100.f, 900.f, 900.f), enemy(1.f, 11)
+{
+    player.playerPosition = sf::Vector2f(500.f, 600.f);
+    player.setPosition(player.playerPosition);
+    player.setRotation(-90.f);
+    enemy.enemyPosition = sf::Vector2f(500.f, 350.f);
+    enemy.setPosition(enemy.enemyPosition);
+    enemy.shootingAngle = 0.f;
+    levelStatus = 0;
+    clearColor = DARK_COLOR;
+
+    const std::vector<EnemyLevelData> enemyLevelData = {
+        {{300.f, 500.f}, 30.f}, {{150.f, 425.f}, 30.f}, {{350.f, 350.f}, 60.f}, {{200.f, 150.f}, 60.f},
+        {{640.f, 490.f}, 135.f}, {{750.f, 470.f}, 150.f}, {{650.f, 350.f}, 120.f}, {{825.f, 200.f}, 135.f},
+        {{850.f, 750.f}, -155.f}, {{725.f, 0.f}, 110.f}, {{275.f, 0.f}, 70.f}
+    };
+    for (int i = 0; i < 11; ++i)
+    {
+        SmallEnemy smallEnemy(i, n_lastShot[i], 'f');
+        smallEnemy.position = enemyLevelData[i].position;
+        smallEnemy.setPosition(smallEnemy.position);
+        smallEnemy.setRotation(enemyLevelData[i].rotation);
+        enemy.smallEnemies.push_back(smallEnemy);
+    }
+
+    initLargeLevelMap(map, stars);
+    const std::vector<sf::Vector2f> points = {
+        {370.f, 650.f}, {420.f, 650.f}, {420.f, 700.f}, {370.f, 700.f},
+        {200.f, 475.f}, {250.f, 475.f}, {250.f, 525.f}, {200.f, 525.f},
+        {370.f, 150.f}, {420.f, 150.f}, {420.f, 200.f}, {370.f, 200.f},
+        {150.f, 50.f}, {200.f, 50.f}, {200.f, 100.f}, {150.f, 100.f},
+        {800.f, 375.f}, {850.f, 375.f}, {850.f, 425.f}, {800.f, 425.f},
+        {700.f, 100.f}, {750.f, 100.f}, {750.f, 150.f}, {700.f, 150.f}
+    };
+    for (auto& point : points)
+    {
+        map.append(sf::Vertex(point, sf::Color(0xEF, 0x71, 0x56))); // red
+    }
+
+    playerObstacles.push_back(Obstacle(350.f, 630.f, 90.f, 90.f, 'r'));
+    playerObstacles.push_back(Obstacle(180.f, 455.f, 90.f, 90.f, 'r'));
+    playerObstacles.push_back(Obstacle(350.f, 130.f, 90.f, 90.f, 'r'));
+    playerObstacles.push_back(Obstacle(130.f, 30.f, 90.f, 90.f, 'r'));
+    playerObstacles.push_back(Obstacle(780.f, 355.f, 90.f, 90.f, 'r'));
+    playerObstacles.push_back(Obstacle(680.f, 80.f, 90.f, 90.f, 'r'));
+
+    obstacles.push_back(Obstacle(370.f, 650.f, 50.f, 50.f, 'r'));
+    obstacles.push_back(Obstacle(200.f, 475.f, 50.f, 50.f, 'r'));
+    obstacles.push_back(Obstacle(370.f, 150.f, 50.f, 50.f, 'r'));
+    obstacles.push_back(Obstacle(150.f, 50.f, 50.f, 50.f, 'r'));
+    obstacles.push_back(Obstacle(800.f, 375.f, 50.f, 50.f, 'r'));
+    obstacles.push_back(Obstacle(700.f, 100.f, 50.f, 50.f, 'r'));
+}
+
+void Level20::Update(sf::RenderWindow& window, sf::View& view, sf::Clock& clock)
+{
+    deltaTime = clock.restart().asSeconds();
+    player.UpdateWithObstacles(window, view, deltaTime, playerObstacles);
+    enemy.FollowSlowlyWithObstacles(deltaTime, player.playerPosition, obstacles);
+    if (enemy.numberOfSmallEnemies > 0)
+    {
+        enemy.UpdateSmallEnemiesWithObstacles(deltaTime, player.playerPosition, obstacles);
+    }
+    if (!enemy.isAnimatingExplode)
+    {
+        enemy.AnimateHit();
+        enemy.RotatingShootingTypeTwo(deltaTime);
+        enemy.UpdateAllBullets(deltaTime);
+    }
+    CheckCollision();
+    enemy.UpdateShield();
+
+    if (player.health <= 0)
+    {
+        levelStatus = 2;
+    }
+    if (enemy.health <= 0)
+    {
+        levelStatus = 1;
+    }
+}
+
+Level21::Level21() : player(50.f, -100.f, 900.f, 900.f), enemy(0.68f, 12)
+{
+    player.playerPosition = sf::Vector2f(500.f, 500.f);
+    player.setPosition(player.playerPosition);
+    player.setRotation(-90.f);
+    enemy.enemyPosition = sf::Vector2f(140.f, -10.f);
+    enemy.setPosition(enemy.enemyPosition);
+    enemy.shootingAngle = 0.f;
+    secondEnemy.enemyPosition = sf::Vector2f(860.f, 710.f);
+    secondEnemy.setPosition(secondEnemy.enemyPosition);
+    secondEnemy.shootingAngle = 0.f;
+    levelStatus = 0;
+    enemy.otherEnemy = true;
+    clearColor = DARK_COLOR;
+    wave = 1;
+
+    const std::vector<EnemyLevelData> enemyLevelData = {
+        {{500.f, 150.f}, 90.f}, {{450.f, 200.f}, 90.f}, {{550.f, 200.f}, 90.f}, {{295.f, 300.f}, 45.f},
+        {{705.f, 300.f}, 135.f}, {{295.f, 400.f}, 25.f}, {{705.f, 400.f}, 155.f}
+    };
+    for (int i = 0; i < 7; ++i)
+    {
+        SmallEnemy smallEnemy(i, n_lastShot[i], 'f');
+        smallEnemy.position = enemyLevelData[i].position;
+        smallEnemy.setPosition(smallEnemy.position);
+        smallEnemy.setRotation(enemyLevelData[i].rotation);
+        enemy.smallEnemies.push_back(smallEnemy);
+    }
+
+    initLargeLevelMap(map, stars);
+}
+
+void Level21::Update(sf::RenderWindow& window, sf::View& view, sf::Clock& clock)
+{
+    deltaTime = clock.restart().asSeconds();
+    player.Update(window, view, deltaTime);
+    if (wave == 2)
+    {
+        enemy.FollowSlowly(deltaTime, player.playerPosition);
+        secondEnemy.FollowSlowly(deltaTime, player.playerPosition, enemy.smallEnemies);
+    }
+    if (enemy.numberOfSmallEnemies > 0)
+    {
+        enemy.UpdateSmallEnemies(deltaTime, player.playerPosition, player.playingField);
+    }
+    if (!secondEnemy.isAnimatingExplode)
+    {
+        secondEnemy.AnimateHit();
+        secondEnemy.ConstantAngleShooting(deltaTime, enemy.shootingDelay, enemy.orangeBullets, enemy.purpleBullets);
+    }
+    if (!enemy.isAnimatingExplode)
+    {
+        enemy.AnimateHit();
+        enemy.ConstantAngleShooting(deltaTime);
+    }
+    if (!enemy.isAnimatingExplode || !secondEnemy.isAnimatingExplode)
+    {
+        enemy.UpdateAllBullets(deltaTime);
+    }
+    else
+    {
+        enemy.orangeBullets.clear();
+        enemy.purpleBullets.clear();
+    }
+    CheckCollision();
+    enemy.UpdateShield();
+    secondEnemy.UpdateShield(enemy.numberOfSmallEnemies);
+    enemy.CheckOtherEnemy(secondEnemy.isAlive);
+
+    if (enemy.smallEnemies.size() == 0 && wave == 1)
+    {
+        const std::vector<EnemyLevelData> enemyLevelData = {
+            {{500.f, 150.f}, 90.f}, {{300.f, 250.f}, 45.f}, {{700.f, 250.f}, 135.f}, {{350.f, 550.f}, -45.f},
+            {{650.f, 550.f}, -135.f}
+        };
+        for (int i = 0; i < 5; ++i)
+        {
+            SmallEnemy smallEnemy(i, n_lastShot[i], 'f');
+            smallEnemy.position = enemyLevelData[i].position;
+            smallEnemy.setPosition(smallEnemy.position);
+            smallEnemy.setRotation(enemyLevelData[i].rotation);
+            smallEnemy.spawned = true;
+            smallEnemy.currentFrame = 0;
+            enemy.smallEnemies.push_back(smallEnemy);
+        }
+        wave++;
+    }
+
+    if (player.health <= 0)
+    {
+        levelStatus = 2;
+    }
+    if (enemy.health <= 0 && secondEnemy.health <= 0)
+    {
+        levelStatus = 1;
+    }
+}
+
+Level22::Level22() : player(298.6f, 148.6f, 402.8f, 402.8f), enemy(1.f, 21)
+{
+    player.playerPosition = sf::Vector2f(500.f, 500.f);
+    player.setPosition(player.playerPosition);
+    player.setRotation(-90.f);
+    enemy.enemyPosition = sf::Vector2f(500.f, 200.f);
+    enemy.setPosition(enemy.enemyPosition);
+    levelStatus = 0;
+    clearColor = DARK_COLOR;
+    wave = 1;
+
+    const std::vector<EnemyLevelData> enemyLevelData = {
+        {{420.f, 200.f}, 80.f}, {{580.f, 200.f}, 100.f}, {{360.f, 260.f}, 65.f}, {{640.f, 260.f}, 115.f},
+        {{500.f, 280.f}, 90.f}, {{440.f, 320.f}, 75.f}, {{560.f, 320.f}, 105.f}
+    };
+    for (int i = 0; i < 7; ++i)
+    {
+        SmallEnemy smallEnemy(i, n_lastShot[i], 'f');
+        smallEnemy.position = enemyLevelData[i].position;
+        smallEnemy.setPosition(smallEnemy.position);
+        smallEnemy.setRotation(enemyLevelData[i].rotation);
+        enemy.smallEnemies.push_back(smallEnemy);
+    }
+
+    initLargeLevelMap(map, stars);
+
+    firstWall.setPrimitiveType(sf::Quads);
+    secondWall.setPrimitiveType(sf::Quads);
+    firstWall.append(sf::Vertex(sf::Vector2f(248.6f, 98.6f), sf::Color(0xEC, 0xE8, 0xE1)));
+    firstWall.append(sf::Vertex(sf::Vector2f(751.4f, 98.6f), sf::Color(0xEC, 0xE8, 0xE1)));
+    firstWall.append(sf::Vertex(sf::Vector2f(751.4f, 601.4f), sf::Color(0xEC, 0xE8, 0xE1)));
+    firstWall.append(sf::Vertex(sf::Vector2f(248.6f, 601.4f), sf::Color(0xEC, 0xE8, 0xE1)));
+    firstWall.append(sf::Vertex(sf::Vector2f(298.6f, 148.6f), sf::Color(0xC6, 0xC2, 0xA5)));
+    firstWall.append(sf::Vertex(sf::Vector2f(701.4f, 148.6f), sf::Color(0xC6, 0xC2, 0xA5)));
+    firstWall.append(sf::Vertex(sf::Vector2f(701.4f, 551.4f), sf::Color(0xC6, 0xC2, 0xA5)));
+    firstWall.append(sf::Vertex(sf::Vector2f(298.6f, 551.4f), sf::Color(0xC6, 0xC2, 0xA5)));
+    const std::vector<sf::Vector2f> lines1 = {
+        {248.6f, 148.6f}, {751.4f, 148.6f}, {751.4f, 155.2f}, {248.6f, 155.2f}, // horizontal
+        {248.6f, 205.2f}, {751.4f, 205.2f}, {751.4f, 211.8f}, {248.6f, 211.8f},
+        {248.6f, 261.8f}, {751.4f, 261.8f}, {751.4f, 268.4f}, {248.6f, 268.4f},
+        {248.6f, 318.4f}, {751.4f, 318.4f}, {751.4f, 325.f}, {248.6f, 325.f},
+        {248.6f, 375.f}, {751.4f, 375.f}, {751.4f, 381.6f}, {248.6f, 381.6f},
+        {248.6f, 431.6f}, {751.4f, 431.6f}, {751.4f, 438.2f}, {248.6f, 438.2f},
+        {248.6f, 488.2f}, {751.4f, 488.2f}, {751.4f, 494.8f}, {248.6f, 494.8f},
+        {248.6f, 544.8f}, {751.4f, 544.8f}, {751.4f, 551.4f}, {248.6f, 551.4f},
+        {298.6f, 98.6f}, {305.2f, 98.6f}, {305.2f, 601.4f}, {298.6f, 601.4f}, // vertical
+        {355.2f, 98.6f}, {361.8f, 98.6f}, {361.8f, 601.4f}, {355.2f, 601.4f},
+        {411.8f, 98.6f}, {418.4f, 98.6f}, {418.4f, 601.4f}, {411.8f, 601.4f},
+        {468.4f, 98.6f}, {475.f, 98.6f}, {475.f, 601.4f}, {468.4f, 601.4f},
+        {525.f, 98.6f}, {531.6f, 98.6f}, {531.6f, 601.4f}, {525.f, 601.4f},
+        {581.6f, 98.6f}, {588.2f, 98.6f}, {588.2f, 601.4f}, {581.6f, 601.4f},
+        {638.2f, 98.6f}, {644.8f, 98.6f}, {644.8f, 601.4f}, {638.2f, 601.4f},
+        {694.8f, 98.6f}, {701.4f, 98.6f}, {701.4f, 601.4f}, {694.8f, 601.4f}
+    };
+    for (auto& point : lines1)
+    {
+        firstWall.append(sf::Vertex(point, sf::Color(0xC6, 0xC2, 0xA5)));
+    }
+
+    secondWall.append(sf::Vertex(sf::Vector2f(135.4f, -14.6f), sf::Color(0xEC, 0xE8, 0xE1)));
+    secondWall.append(sf::Vertex(sf::Vector2f(864.6f, -14.6f), sf::Color(0xEC, 0xE8, 0xE1)));
+    secondWall.append(sf::Vertex(sf::Vector2f(864.6f, 714.6f), sf::Color(0xEC, 0xE8, 0xE1)));
+    secondWall.append(sf::Vertex(sf::Vector2f(135.4f, 714.6f), sf::Color(0xEC, 0xE8, 0xE1)));
+    secondWall.append(sf::Vertex(sf::Vector2f(185.4f, 35.4f), sf::Color(0xC6, 0xC2, 0xA5)));
+    secondWall.append(sf::Vertex(sf::Vector2f(814.6f, 35.4f), sf::Color(0xC6, 0xC2, 0xA5)));
+    secondWall.append(sf::Vertex(sf::Vector2f(814.6f, 664.6f), sf::Color(0xC6, 0xC2, 0xA5)));
+    secondWall.append(sf::Vertex(sf::Vector2f(185.4f, 664.6f), sf::Color(0xC6, 0xC2, 0xA5)));
+    const std::vector<sf::Vector2f> lines2 = {
+        {135.4f, 35.4f}, {864.6f, 35.4f}, {864.6f, 42.f}, {135.4f, 42.f}, // horizontal
+        {135.4f, 92.f}, {864.6f, 92.f}, {864.6f, 98.6f}, {135.4f, 98.6f},
+        {135.4f, 148.6f}, {864.6f, 148.6f}, {864.6f, 155.2f}, {135.4f, 155.2f},
+        {135.4f, 205.2f}, {864.6f, 205.2f}, {864.6f, 211.8f}, {135.4f, 211.8f},
+        {135.4f, 261.8f}, {864.6f, 261.8f}, {864.6f, 268.4f}, {135.4f, 268.4f},
+        {135.4f, 318.4f}, {864.6f, 318.4f}, {864.6f, 325.f}, {135.4f, 325.f},
+        {135.4f, 375.f}, {864.6f, 375.f}, {864.6f, 381.6f}, {135.4f, 381.6f},
+        {135.4f, 431.6f}, {864.6f, 431.6f}, {864.6f, 438.2f}, {135.4f, 438.2f},
+        {135.4f, 488.2f}, {864.6f, 488.2f}, {864.6f, 494.8f}, {135.4f, 494.8f},
+        {135.4f, 544.8f}, {864.6f, 544.8f}, {864.6f, 551.4f}, {135.4f, 551.4f},
+        {135.4f, 601.4f}, {864.6f, 601.4f}, {864.6f, 608.f}, {135.4f, 608.f},
+        {135.4f, 658.f}, {864.6f, 658.f}, {864.6f, 664.6f}, {135.4f, 664.6f},
+        {185.4f, -14.6f}, {192.f, -14.6f}, {192.f, 714.6f}, {185.4f, 714.6f}, // vertical
+        {242.f, -14.6f}, {248.6f, -14.6f}, {248.6f, 714.6f}, {242.f, 714.6f},
+        {298.6f, -14.6f}, {305.2f, -14.6f}, {305.2f, 714.6f}, {298.6f, 714.6f},
+        {355.2f, -14.6f}, {361.8f, -14.6f}, {361.8f, 714.6f}, {355.2f, 714.6f},
+        {411.8f, -14.6f}, {418.4f, -14.6f}, {418.4f, 714.6f}, {411.8f, 714.6f},
+        {468.4f, -14.6f}, {475.f, -14.6f}, {475.f, 714.6f}, {468.4f, 714.6f},
+        {525.f, -14.6f}, {531.6f, -14.6f}, {531.6f, 714.6f}, {525.f, 714.6f},
+        {581.6f, -14.6f}, {588.2f, -14.6f}, {588.2f, 714.6f}, {581.6f, 714.6f},
+        {638.2f, -14.6f}, {644.8f, -14.6f}, {644.8f, 714.6f}, {638.2f, 714.6f},
+        {694.8f, -14.6f}, {701.4f, -14.6f}, {701.4f, 714.6f}, {694.8f, 714.6f},
+        {751.4f, -14.6f}, {758.f, -14.6f}, {758.f, 714.6f}, {751.4f, 714.6f},
+        {808.f, -14.6f}, {814.6f, -14.6f}, {814.6f, 714.6f}, {808.f, 714.6f}
+    };
+    for (auto& point : lines2)
+    {
+        secondWall.append(sf::Vertex(point, sf::Color(0xC6, 0xC2, 0xA5)));
+    }
+}
+
+void Level22::Update(sf::RenderWindow& window, sf::View& view, sf::Clock& clock)
+{
+    deltaTime = clock.restart().asSeconds();
+    player.Update(window, view, deltaTime);
+    enemy.FollowSlowly(deltaTime, player.playerPosition);
+    if (enemy.numberOfSmallEnemies > 0)
+    {
+        enemy.UpdateSmallEnemies(deltaTime, player.playerPosition, player.playingField);
+    }
+    if (!enemy.isAnimatingExplode)
+    {
+        enemy.AnimateHit();
+        enemy.ShootOneBulletBothColors(deltaTime);
+        enemy.UpdateAllBullets(deltaTime);
+    }
+    CheckCollision();
+    enemy.UpdateShield();
+
+    if (enemy.smallEnemies.size() == 0 && wave == 1)
+    {
+        player.playingField.left = 185.4f;
+        player.playingField.right = 814.6f;
+        player.playingField.top = 35.4f;
+        player.playingField.bottom = 664.6f;
+
+        const std::vector<EnemyLevelData> enemyLevelData = {
+            {{235.f, 85.f}, 45.f}, {{765.f, 85.f}, 135.f}, {{235.f, 350.f}, 0.f}, {{765.f, 350.f}, 180.f},
+            {{235.f, 615.f}, -45.f}, {{765.f, 615.f}, -135.f}
+        };
+        for (int i = 0; i < 6; ++i)
+        {
+            SmallEnemy smallEnemy(i, n_lastShot[i], 'f');
+            smallEnemy.position = enemyLevelData[i].position;
+            smallEnemy.setPosition(smallEnemy.position);
+            smallEnemy.setRotation(enemyLevelData[i].rotation);
+            smallEnemy.spawned = true;
+            smallEnemy.currentFrame = 0;
+            enemy.smallEnemies.push_back(smallEnemy);
+        }
+        wave++;
+    }
+
+    if (enemy.smallEnemies.size() == 0 && wave == 2)
+    {
+        player.playingField.left = 50.f;
+        player.playingField.right = 950.f;
+        player.playingField.top = -100.f;
+        player.playingField.bottom = 800.f;
+
+        const std::vector<EnemyLevelData> enemyLevelData = {
+            {{150.f, 0.f}, 45.f}, {{850.f, 0.f}, 135.f}, {{150.f, 700.f}, -45.f}, {{850.f, 700.f}, -135.f},
+            {{500.f, 0.f}, 90.f}, {{150.f, 350.f}, 0.f}, {{850.f, 350.f}, 180.f}, {{500.f, 700.f}, -90.f}
+        };
+        for (int i = 0; i < 8; ++i)
+        {
+            SmallEnemy smallEnemy(i, n_lastShot[i], 'f');
+            smallEnemy.position = enemyLevelData[i].position;
+            smallEnemy.setPosition(smallEnemy.position);
+            smallEnemy.setRotation(enemyLevelData[i].rotation);
+            smallEnemy.spawned = true;
+            smallEnemy.currentFrame = 0;
+            enemy.smallEnemies.push_back(smallEnemy);
+        }
         wave++;
     }
 

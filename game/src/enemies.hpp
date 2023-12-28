@@ -1,6 +1,7 @@
 #pragma once
 
 #include "headers.hpp"
+#include "rectangles.hpp"
 
 namespace
 {
@@ -287,9 +288,9 @@ public:
     SmallEnemy(int num, float lastShot, char shield);
 
     void Move(std::vector<SmallEnemy>& enemies, const float& deltaTime, const sf::Vector2f& playerPosition,
-              std::vector<OrangeBullet>& bullets, int& number);
+              const Field& playingField, std::vector<OrangeBullet>& bullets, int& number);
     void MoveWithObstacles(std::vector<SmallEnemy>& enemies, const float& deltaTime, const sf::Vector2f& playerPosition,
-                           std::vector<OrangeBullet>& bullets, int& number, const std::vector<sf::FloatRect>& obstacles);
+                           std::vector<OrangeBullet>& bullets, int& number, const std::vector<Obstacle>& obstacles);
     void Shoot(std::vector<OrangeBullet>& orangeBullets, const float& deltaTime);
     void GotHit(float& delay);
     void GotHitInShield();
@@ -351,12 +352,13 @@ public:
 
     void FollowSlowly(const float& deltaTime, const sf::Vector2f& playerPosition);
     void FollowSlowlyWithObstacles(const float& deltaTime, const sf::Vector2f& playerPosition,
-                                   const std::vector<sf::FloatRect>& obstacles);
+                                   const std::vector<Obstacle>& obstacles);
     void FollowSlowlyWithObstaclesAndAdd(const float& deltaTime, const sf::Vector2f& playerPosition,
-                                         const std::vector<sf::FloatRect>& obstacles, const sf::Vector2f& secondEnemyPos);
-    void UpdateSmallEnemies(const float& deltaTime, const sf::Vector2f& playerPosition);
+                                         const std::vector<Obstacle>& obstacles, const sf::Vector2f& secondEnemyPos);
+    void UpdateSmallEnemies(const float& deltaTime, const sf::Vector2f& playerPosition,
+                            const Field& playingField);
     void UpdateSmallEnemiesWithObstacles(const float& deltaTime, const sf::Vector2f& playerPosition,
-                                         const std::vector<sf::FloatRect>& obstacles);
+                                         const std::vector<Obstacle>& obstacles);
     void AnimateHit();
     void ShootOneBulletBothColors(const float& deltaTime);
     void ShootThreePurpleBullets(const float& deltaTime);
@@ -446,12 +448,15 @@ private:
 class AdditionalEnemy : public sf::Drawable, public sf::Transformable
 {
 public:
-    AdditionalEnemy(float delay);
+    AdditionalEnemy();
 
-    void FollowSlowlyWithObstacles(const float& deltaTime, const sf::Vector2f& playerPosition, const std::vector<sf::FloatRect>& obstacles,
+    void FollowSlowly(const float& deltaTime, const sf::Vector2f& playerPosition, std::vector<SmallEnemy>& smallEnemies);
+    void FollowSlowlyWithObstacles(const float& deltaTime, const sf::Vector2f& playerPosition, const std::vector<Obstacle>& obstacles,
                                    const sf::Vector2f& firstEnemyPos, std::vector<SmallEnemy>& smallEnemies);
     void RotatingShootingTypeOne(const float& deltaTime, const float& delay, std::vector<OrangeBullet>& orangeBullets,
                                  std::vector<PurpleBullet>& purpleBullets);
+    void ConstantAngleShooting(const float& deltaTime, const float& delay, std::vector<OrangeBullet>& orangeBullets,
+                               std::vector<PurpleBullet>& purpleBullets);
     void AnimateHit();
     void GotHit();
     void UpdateShield(const int& numberOfSmallEnemies);
@@ -460,7 +465,6 @@ public:
 public:
     int health;
     sf::Vector2f enemyPosition;
-    float shootingDelay;
     float shootingAngle;
     bool isAnimatingExplode;
     bool isAlive;

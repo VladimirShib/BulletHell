@@ -4,7 +4,7 @@
 #include "sound.hpp"
 
 constexpr int MAX_MAIN_MENU_ITEMS = 3;
-constexpr int MAX_SELECTION_MENU_ITEMS = 24;
+constexpr int MAX_SELECTION_MENU_ITEMS = 32;
 
 class Menu : public sf::Drawable
 {

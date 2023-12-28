@@ -266,7 +266,7 @@ void checkPlayerBulletsWithAdd(Player& player, EnemyType& enemy)
 }
 
 template <typename EnemyType>
-void checkAllBulletsWithObstacles(Player& player, EnemyType& enemy, const std::vector<sf::FloatRect>& obstacles)
+void checkAllBulletsWithObstacles(Player& player, EnemyType& enemy, const std::vector<Obstacle>& obstacles)
 {
     for (const auto& obstacle : obstacles)
     {
@@ -566,6 +566,46 @@ void Level19::CheckCollision()
     checkPurpleBullets(player, n_playerBounds, enemy);
 
     checkAllBulletsWithObstacles(player, enemy, obstacles);
+
+    eraseSmallEnemies(enemy);
+    erasePlayerAndPurpleBullets(player, enemy);
+    eraseOrangeBullets(enemy);
+}
+
+void Level20::CheckCollision()
+{
+    n_playerBounds = player.GetBounds();
+    checkPlayerBulletsWithOrangeAndSmall(player, enemy);
+    checkOrangeBullets(player, n_playerBounds, enemy);
+    checkPurpleBullets(player, n_playerBounds, enemy);
+
+    checkAllBulletsWithObstacles(player, enemy, obstacles);
+
+    eraseSmallEnemies(enemy);
+    erasePlayerAndPurpleBullets(player, enemy);
+    eraseOrangeBullets(enemy);
+}
+
+void Level21::CheckCollision()
+{
+    n_playerBounds = player.GetBounds();
+    checkPlayerBulletsWithOrangeAndSmall(player, enemy);
+    checkOrangeBullets(player, n_playerBounds, enemy);
+    checkPurpleBullets(player, n_playerBounds, enemy);
+
+    checkPlayerBulletsWithAdd(player, secondEnemy);
+
+    eraseSmallEnemies(enemy);
+    erasePlayerAndPurpleBullets(player, enemy);
+    eraseOrangeBullets(enemy);
+}
+
+void Level22::CheckCollision()
+{
+    n_playerBounds = player.GetBounds();
+    checkPlayerBulletsWithOrangeAndSmall(player, enemy);
+    checkOrangeBullets(player, n_playerBounds, enemy);
+    checkPurpleBullets(player, n_playerBounds, enemy);
 
     eraseSmallEnemies(enemy);
     erasePlayerAndPurpleBullets(player, enemy);

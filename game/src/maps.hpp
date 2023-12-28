@@ -3,6 +3,7 @@
 #include "headers.hpp"
 #include "player.hpp"
 #include "enemies.hpp"
+#include "rectangles.hpp"
 
 class Level0 : public sf::Drawable
 {
@@ -409,8 +410,8 @@ public:
     Player player;
     ShieldedBallWithSmallEnemies enemy;
     AdditionalEnemy secondEnemy;
-    std::vector<sf::FloatRect> playerObstacles;
-    std::vector<sf::FloatRect> obstacles;
+    std::vector<Obstacle> playerObstacles;
+    std::vector<Obstacle> obstacles;
     float deltaTime;
     int levelStatus;
     sf::Color clearColor;
@@ -494,8 +495,8 @@ public:
 public:
     Player player;
     ShieldedBallWithSmallEnemies enemy;
-    std::vector<sf::FloatRect> playerObstacles;
-    std::vector<sf::FloatRect> obstacles;
+    std::vector<Obstacle> playerObstacles;
+    std::vector<Obstacle> obstacles;
     float deltaTime;
     int levelStatus;
     sf::Color clearColor;
@@ -530,8 +531,8 @@ public:
 public:
     Player player;
     ShieldedBallWithSmallEnemies enemy;
-    std::vector<sf::FloatRect> playerObstacles;
-    std::vector<sf::FloatRect> obstacles;
+    std::vector<Obstacle> playerObstacles;
+    std::vector<Obstacle> obstacles;
     float deltaTime;
     int levelStatus;
     sf::Color clearColor;
@@ -668,8 +669,8 @@ public:
 public:
     Player player;
     ShieldedBallWithSmallEnemies enemy;
-    std::vector<sf::FloatRect> playerObstacles;
-    std::vector<sf::FloatRect> obstacles;
+    std::vector<Obstacle> playerObstacles;
+    std::vector<Obstacle> obstacles;
     float deltaTime;
     float elapsedTime;
     int levelStatus;
@@ -692,5 +693,139 @@ private:
 
     sf::VertexArray map;
     sf::VertexArray stars;
+    int wave;
+};
+
+class Level20 : public sf::Drawable
+{
+public:
+    Level20();
+
+    void Update(sf::RenderWindow& window, sf::View& view, sf::Clock& clock);
+    void CheckCollision();
+
+public:
+    Player player;
+    ShieldedBallWithSmallEnemies enemy;
+    std::vector<Obstacle> playerObstacles;
+    std::vector<Obstacle> obstacles;
+    float deltaTime;
+    int levelStatus;
+    sf::Color clearColor;
+
+private:
+    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
+    {
+        target.draw(map, states);
+        target.draw(stars, states);
+        if (enemy.health > 0)
+        {
+            target.draw(enemy, states);
+        }
+        if (player.health > 0)
+        {
+            target.draw(player, states);
+        }
+    }
+
+    sf::VertexArray map;
+    sf::VertexArray stars;
+};
+
+class Level21 : public sf::Drawable
+{
+public:
+    Level21();
+
+    void Update(sf::RenderWindow& window, sf::View& view, sf::Clock& clock);
+    void CheckCollision();
+
+public:
+    Player player;
+    ShieldedBallWithSmallEnemies enemy;
+    AdditionalEnemy secondEnemy;
+    std::vector<Obstacle> playerObstacles;
+    std::vector<Obstacle> obstacles;
+    float deltaTime;
+    int levelStatus;
+    sf::Color clearColor;
+
+private:
+    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
+    {
+        target.draw(map, states);
+        target.draw(stars, states);
+        if (enemy.health > 0)
+        {
+            target.draw(enemy, states);
+        }
+        else if (secondEnemy.health > 0)
+        {
+            for (const OrangeBullet& bullet : enemy.orangeBullets)
+            {
+                target.draw(bullet);
+            }
+            for (const PurpleBullet& bullet : enemy.purpleBullets)
+            {
+                target.draw(bullet);
+            }
+        }
+        if (secondEnemy.health > 0)
+        {
+            target.draw(secondEnemy, states);
+        }
+        if (player.health > 0)
+        {
+            target.draw(player, states);
+        }
+    }
+
+    sf::VertexArray map;
+    sf::VertexArray stars;
+    int wave;
+};
+
+class Level22 : public sf::Drawable
+{
+public:
+    Level22();
+
+    void Update(sf::RenderWindow& window, sf::View& view, sf::Clock& clock);
+    void CheckCollision();
+
+public:
+    Player player;
+    ShieldedBallWithSmallEnemies enemy;
+    float deltaTime;
+    int levelStatus;
+    sf::Color clearColor;
+
+private:
+    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
+    {
+        target.draw(map, states);
+        target.draw(stars, states);
+        if (wave == 1)
+        {
+            target.draw(firstWall, states);
+        }
+        if (wave == 2)
+        {
+            target.draw(secondWall, states);
+        }
+        if (enemy.health > 0)
+        {
+            target.draw(enemy, states);
+        }
+        if (player.health > 0)
+        {
+            target.draw(player, states);
+        }
+    }
+
+    sf::VertexArray map;
+    sf::VertexArray stars;
+    sf::VertexArray firstWall;
+    sf::VertexArray secondWall;
     int wave;
 };
