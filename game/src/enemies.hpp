@@ -367,6 +367,7 @@ public:
     void RotatingShootingTypeTwo(const float& deltaTime);
     void RotatingShootingTypeThree(const float& deltaTime);
     void ConstantAngleShooting(const float& deltaTime);
+    void ChaoticShooting(const float& deltaTime);
     void UpdateAllBullets(const float& deltaTime);
     void GotHit();
     void UpdateShield();

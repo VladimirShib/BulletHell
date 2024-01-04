@@ -266,9 +266,9 @@ void checkPlayerBulletsWithAdd(Player& player, EnemyType& enemy)
 }
 
 template <typename EnemyType>
-void checkAllBulletsWithObstacles(Player& player, EnemyType& enemy, const std::vector<Obstacle>& obstacles)
+void checkAllBulletsWithObstacles(Player& player, EnemyType& enemy, std::vector<Obstacle>& obstacles)
 {
-    for (const auto& obstacle : obstacles)
+    for (auto& obstacle : obstacles)
     {
         for (auto& playerBullet : player.bullets)
         {
@@ -276,6 +276,10 @@ void checkAllBulletsWithObstacles(Player& player, EnemyType& enemy, const std::v
             {
                 playerBullet.hit = true;
                 sounds.playerBulletWall.play();
+                if (obstacle.type == 'b')
+                {
+                    obstacle.GotHit();
+                }
             }
         }
         for (auto& orangeBullet : enemy.orangeBullets)
@@ -337,6 +341,27 @@ void eraseSmallEnemies(EnemyType& enemy)
         return isToBeRemoved(smallEnemy);
     });
     enemy.smallEnemies.erase(newEndEnemies, enemy.smallEnemies.end());
+}
+
+void eraseObstacles(std::vector<Obstacle>& obstacles, std::vector<Obstacle>& playerObstacles)
+{
+    for (int i = 0; i < obstacles.size(); ++i)
+    {
+        if (obstacles[i].hit)
+        {
+            playerObstacles[i].hit = true;
+        }
+    }
+    auto newEnd = std::remove_if(obstacles.begin(), obstacles.end(), [&](const Obstacle& obstacle)
+    {
+        return isToBeRemoved(obstacle);
+    });
+    obstacles.erase(newEnd, obstacles.end());
+    auto newEnd2 = std::remove_if(playerObstacles.begin(), playerObstacles.end(), [&](const Obstacle& obstacle)
+    {
+        return isToBeRemoved(obstacle);
+    });
+    playerObstacles.erase(newEnd2, playerObstacles.end());
 }
 
 void Level0::CheckCollision()
@@ -601,6 +626,61 @@ void Level21::CheckCollision()
 }
 
 void Level22::CheckCollision()
+{
+    n_playerBounds = player.GetBounds();
+    checkPlayerBulletsWithOrangeAndSmall(player, enemy);
+    checkOrangeBullets(player, n_playerBounds, enemy);
+    checkPurpleBullets(player, n_playerBounds, enemy);
+
+    eraseSmallEnemies(enemy);
+    erasePlayerAndPurpleBullets(player, enemy);
+    eraseOrangeBullets(enemy);
+}
+
+void Level23::CheckCollision()
+{
+    n_playerBounds = player.GetBounds();
+    checkPlayerBulletsWithOrangeAndSmall(player, enemy);
+    checkOrangeBullets(player, n_playerBounds, enemy);
+    checkPurpleBullets(player, n_playerBounds, enemy);
+
+    checkAllBulletsWithObstacles(player, enemy, obstacles);
+
+    eraseSmallEnemies(enemy);
+    erasePlayerAndPurpleBullets(player, enemy);
+    eraseOrangeBullets(enemy);
+}
+
+void Level24::CheckCollision()
+{
+    n_playerBounds = player.GetBounds();
+    checkPlayerBulletsWithOrangeAndSmall(player, enemy);
+    checkOrangeBullets(player, n_playerBounds, enemy);
+    checkPurpleBullets(player, n_playerBounds, enemy);
+
+    checkAllBulletsWithObstacles(player, enemy, obstacles);
+    eraseObstacles(obstacles, playerObstacles);
+
+    eraseSmallEnemies(enemy);
+    erasePlayerAndPurpleBullets(player, enemy);
+    eraseOrangeBullets(enemy);
+}
+
+void Level25::CheckCollision()
+{
+    n_playerBounds = player.GetBounds();
+    checkPlayerBulletsWithOrangeAndSmallShielded(player, enemy);
+    checkOrangeBullets(player, n_playerBounds, enemy);
+    checkPurpleBullets(player, n_playerBounds, enemy);
+
+    checkAllBulletsWithObstacles(player, enemy, obstacles);
+
+    eraseSmallEnemies(enemy);
+    erasePlayerAndPurpleBullets(player, enemy);
+    eraseOrangeBullets(enemy);
+}
+
+void Level26::CheckCollision()
 {
     n_playerBounds = player.GetBounds();
     checkPlayerBulletsWithOrangeAndSmall(player, enemy);

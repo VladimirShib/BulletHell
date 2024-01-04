@@ -173,7 +173,7 @@ void Game::ManageGame(Screens& screens, MusicManager& sounds)
         {
         case 1: // level completed
             currentLevel++;
-            if (currentLevel < 23) // if level exists
+            if (currentLevel < 27) // if level exists
             {
                 break;
             }

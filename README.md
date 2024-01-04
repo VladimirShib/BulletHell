@@ -23,7 +23,7 @@ W, A, S, D to move, mouse to rotate the ship (the ship is always pointing in the
 
 - *Enemies*
 
-There are different types of enemies: some move in set paths and shoot randomly in all directions, others can chase the player and shoot homing projectiles. Not always are all enemies present on the game field initially - they may appear after certain events (destruction of other enemies or obstacles).
+There are only two types of enemies, but they have a variety of behavior patterns that change from level to level. Not always are all enemies present on the game field initially - they may appear after certain events (destruction of other enemies or obstacles).
 
 - *Damage*
 
@@ -56,7 +56,7 @@ W, A, S, D для передвижения, мышь для вращения к�
 
 - *Противники*
 
-Существуют разные типы противников: одни двигаются по конкретным траекториям и беспорядочно стреляют во все стороны, другие могут преследовать игрока и стрелять самонаводящимися снарядами. Не всегда все противники присутствуют на игровом поле изначально - они могут появляться после определенных событий (уничтожение других противников либо препятствий).
+Противников только два типа, но у них разнообразные паттерны поведения, меняющиеся от уровня к уровню. Не всегда все противники присутствуют на игровом поле изначально - они могут появляться после определенных событий (уничтожение других противников либо препятствий).
 
 - *Урон*
 

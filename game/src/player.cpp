@@ -183,7 +183,7 @@ void Player::Update(sf::RenderWindow& window, sf::View& view, const float& delta
 }
 
 void Player::UpdateWithObstacles(sf::RenderWindow& window, sf::View& view, const float& deltaTime,
-                                const std::vector<Obstacle>& obstacles)
+                                 const std::vector<Obstacle>& obstacles)
 {
     if (isAnimatingExplode)
     {
