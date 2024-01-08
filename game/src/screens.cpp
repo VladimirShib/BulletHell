@@ -10,13 +10,13 @@ Menu::Menu()
     title.setFont(font);
     title.setString("YORHA GAME");
     title.setCharacterSize(40);
-    title.setPosition(sf::Vector2f(38.f, 60.f));
+    title.setPosition(sf::Vector2f(38.f, 48.f));
     title.setFillColor(sf::Color(0x50, 0x4E, 0x48));
 
     titleShadow.setFont(font);
     titleShadow.setString("YORHA GAME");
     titleShadow.setCharacterSize(40);
-    titleShadow.setPosition(sf::Vector2f(43.f, 65.f));
+    titleShadow.setPosition(sf::Vector2f(43.f, 53.f));
     titleShadow.setFillColor(sf::Color(0x7C, 0x7B, 0x69, 0x80));
 
     background.setPrimitiveType(sf::Quads);
@@ -120,7 +120,7 @@ MainMenu::MainMenu(int record)
     statistics.setFont(font);
     statistics.setString("Total stages cleared: " + std::to_string(record));
     statistics.setCharacterSize(22);
-    statistics.setPosition(sf::Vector2f(726.f, 78.f));
+    statistics.setPosition(sf::Vector2f(726.f, 66.f));
     statistics.setFillColor(sf::Color(0x50, 0x4E, 0x48));
 
     background.setPrimitiveType(sf::Quads);
@@ -726,31 +726,36 @@ void Selection::PollEvents(sf::RenderWindow& window, sf::Event& event, bool& isT
                     break;
                 case 27:
                 {
-                    std::cout << "Level 28\n";
+                    level = 27;
+                    isTransitioning = true;
                     sounds.pressSound.play();
                 }
                     break;
                 case 28:
                 {
-                    std::cout << "Level 29\n";
+                    level = 28;
+                    isTransitioning = true;
                     sounds.pressSound.play();
                 }
                     break;
                 case 29:
                 {
-                    std::cout << "Level 30\n";
+                    level = 29;
+                    isTransitioning = true;
                     sounds.pressSound.play();
                 }
                     break;
                 case 30:
                 {
-                    std::cout << "Level 31\n";
+                    level = 30;
+                    isTransitioning = true;
                     sounds.pressSound.play();
                 }
                     break;
                 case 31:
                 {
-                    std::cout << "Level 32\n";
+                    level = 31;
+                    isTransitioning = true;
                     sounds.pressSound.play();
                 }
                     break;

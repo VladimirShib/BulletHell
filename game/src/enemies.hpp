@@ -290,7 +290,8 @@ public:
     void Move(std::vector<SmallEnemy>& enemies, const float& deltaTime, const sf::Vector2f& playerPosition,
               const Field& playingField, std::vector<OrangeBullet>& bullets, int& number);
     void MoveWithObstacles(std::vector<SmallEnemy>& enemies, const float& deltaTime, const sf::Vector2f& playerPosition,
-                           std::vector<OrangeBullet>& bullets, int& number, const std::vector<Obstacle>& obstacles);
+                           const sf::Vector2f& enemyPosition, std::vector<OrangeBullet>& bullets, int& number,
+                           const std::vector<Obstacle>& obstacles);
     void Shoot(std::vector<OrangeBullet>& orangeBullets, const float& deltaTime);
     void GotHit(float& delay);
     void GotHitInShield();
@@ -305,6 +306,7 @@ public:
     bool spawned;
     bool shielded;
     int currentFrame;
+    int spawnFrame;
 
 private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -325,8 +327,8 @@ private:
         }
         if (spawned)
         {
-            enemyAnimations.spawnSprites[currentFrame].setPosition(position);
-            target.draw(enemyAnimations.spawnSprites[currentFrame]);
+            enemyAnimations.spawnSprites[spawnFrame].setPosition(position);
+            target.draw(enemyAnimations.spawnSprites[spawnFrame]);
         }
     }
 
@@ -355,6 +357,7 @@ public:
                                    const std::vector<Obstacle>& obstacles);
     void FollowSlowlyWithObstaclesAndAdd(const float& deltaTime, const sf::Vector2f& playerPosition,
                                          const std::vector<Obstacle>& obstacles, const sf::Vector2f& secondEnemyPos);
+    void Stay(const sf::Vector2f& playerPosition);
     void UpdateSmallEnemies(const float& deltaTime, const sf::Vector2f& playerPosition,
                             const Field& playingField);
     void UpdateSmallEnemiesWithObstacles(const float& deltaTime, const sf::Vector2f& playerPosition,
@@ -362,6 +365,7 @@ public:
     void AnimateHit();
     void ShootOneBulletBothColors(const float& deltaTime);
     void ShootThreePurpleBullets(const float& deltaTime);
+    void ShootThreeBulletsBothColors(const float& deltaTime);
     void ShootFiveBulletsBothColors(const float& deltaTime);
     void RotatingShootingTypeOne(const float& deltaTime);
     void RotatingShootingTypeTwo(const float& deltaTime);
@@ -436,7 +440,7 @@ private:
     sf::VertexArray enemy;
     bool isOrange;
     float timeSinceLastShot;
-    sf::Vector2f delta;
+    sf::Vector2f delta;    
     float angleRad;
     sf::Vector2f possiblePos;
     bool isShielded;

@@ -234,7 +234,7 @@ void ShieldedBallWithSmallEnemies::UpdateSmallEnemiesWithObstacles(const float& 
 {
     for (SmallEnemy& enemy : smallEnemies)
     {
-        enemy.MoveWithObstacles(smallEnemies, deltaTime, playerPosition, orangeBullets, numberOfSmallEnemies, obstacles);
+        enemy.MoveWithObstacles(smallEnemies, deltaTime, playerPosition, enemyPosition, orangeBullets, numberOfSmallEnemies, obstacles);
     }
 }
 

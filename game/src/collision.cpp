@@ -691,3 +691,75 @@ void Level26::CheckCollision()
     erasePlayerAndPurpleBullets(player, enemy);
     eraseOrangeBullets(enemy);
 }
+
+void Level27::CheckCollision()
+{
+    n_playerBounds = player.GetBounds();
+    checkPlayerBulletsWithOrangeAndSmallShielded(player, enemy);
+    checkOrangeBullets(player, n_playerBounds, enemy);
+    checkPurpleBullets(player, n_playerBounds, enemy);
+
+    checkAllBulletsWithObstacles(player, enemy, obstacles);
+    eraseObstacles(obstacles, playerObstacles);
+
+    eraseSmallEnemies(enemy);
+    erasePlayerAndPurpleBullets(player, enemy);
+    eraseOrangeBullets(enemy);
+}
+
+void Level28::CheckCollision()
+{
+    n_playerBounds = player.GetBounds();
+    checkPlayerBulletsWithOrangeAndSmall(player, enemy);
+    checkOrangeBullets(player, n_playerBounds, enemy);
+    checkPurpleBullets(player, n_playerBounds, enemy);
+
+    checkAllBulletsWithObstacles(player, enemy, obstacles);
+
+    eraseSmallEnemies(enemy);
+    erasePlayerAndPurpleBullets(player, enemy);
+    eraseOrangeBullets(enemy);
+}
+
+void Level29::CheckCollision()
+{
+    n_playerBounds = player.GetBounds();
+    checkPlayerBulletsWithOrangeAndSmall(player, enemy);
+    checkOrangeBullets(player, n_playerBounds, enemy);
+    checkPurpleBullets(player, n_playerBounds, enemy);
+
+    checkAllBulletsWithObstacles(player, enemy, obstacles);
+
+    eraseSmallEnemies(enemy);
+    erasePlayerAndPurpleBullets(player, enemy);
+    eraseOrangeBullets(enemy);
+}
+
+void Level30::CheckCollision()
+{
+    n_playerBounds = player.GetBounds();
+    checkPlayerBulletsWithOrangeAndSmall(player, enemy);
+    checkOrangeBullets(player, n_playerBounds, enemy);
+    checkPurpleBullets(player, n_playerBounds, enemy);
+
+    checkPlayerBulletsWithAdd(player, secondEnemy);
+    checkAllBulletsWithObstacles(player, enemy, obstacles);
+
+    eraseSmallEnemies(enemy);
+    erasePlayerAndPurpleBullets(player, enemy);
+    eraseOrangeBullets(enemy);
+}
+
+void Level31::CheckCollision()
+{
+    n_playerBounds = player.GetBounds();
+    checkPlayerBulletsWithOrangeAndSmall(player, enemy);
+    checkOrangeBullets(player, n_playerBounds, enemy);
+    checkPurpleBullets(player, n_playerBounds, enemy);
+
+    checkAllBulletsWithObstacles(player, enemy, obstacles);
+
+    eraseSmallEnemies(enemy);
+    erasePlayerAndPurpleBullets(player, enemy);
+    eraseOrangeBullets(enemy);
+}

@@ -292,6 +292,36 @@ int loadLevel(sf::RenderWindow& window, sf::View& view, sf::Event& event, sf::Cl
         playLevel(level26, window, view, event, clock, screens, sounds);
         return level26.levelStatus;
     }
+    case 27:
+    {
+        Level27 level27;
+        playLevel(level27, window, view, event, clock, screens, sounds);
+        return level27.levelStatus;
+    }
+    case 28:
+    {
+        Level28 level28;
+        playLevel(level28, window, view, event, clock, screens, sounds);
+        return level28.levelStatus;
+    }
+    case 29:
+    {
+        Level29 level29;
+        playLevel(level29, window, view, event, clock, screens, sounds);
+        return level29.levelStatus;
+    }
+    case 30:
+    {
+        Level30 level30;
+        playLevel(level30, window, view, event, clock, screens, sounds);
+        return level30.levelStatus;
+    }
+    case 31:
+    {
+        Level31 level31;
+        playLevel(level31, window, view, event, clock, screens, sounds);
+        return level31.levelStatus;
+    }
     default:
         std::cout << "Couldn't load level\n";
         return 3;
